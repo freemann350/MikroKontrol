@@ -10,14 +10,14 @@ var w = c.width = window.innerWidth,
       addedTime: 10,
       dieChance: .01,
       spawnChance: 1,
-      sparkChance: .1,
+      sparkChance: 0,
       sparkDist: 10,
       sparkSize: 2,
       
       color: 'hsl(hue,100%,light%)',
       baseLight: 50,
       addedLight: 10, // [50-10,50+10]
-      shadowToTimePropMult: 6,
+      shadowToTimePropMult: 1,
       baseLightInputMultiplier: .01,
       addedLightInputMultiplier: .02,
       
