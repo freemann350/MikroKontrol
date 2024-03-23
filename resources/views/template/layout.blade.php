@@ -17,7 +17,7 @@
   <!-- inject:css -->
   <link rel="stylesheet" href="{{ url('css/main/style.css') }}">
   <!-- endinject -->
-  <link rel="shortcut icon" href="images/favicon.png" />
+  <link rel="shortcut icon" href="{{ url('img/favicon.png') }}" />
 </head>
 <body>
   <div class="container-scroller"> 
@@ -30,10 +30,10 @@
           </button>
         </div>
         <div>
-          <a class="navbar-brand brand-logo" href="index.html">
+          <a class="navbar-brand brand-logo" href="{{ route ('dashboard') }}">
             <img src="https://static.wixstatic.com/media/fb3f0e_b6f3cb9e385a47ca8cc59124cce1bc16~mv2.png/v1/fill/w_560,h_160,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/Mikrotik%20Logo.png" alt="logo" style="padding-bottom: 10px;"/>
           </a>
-          <a class="navbar-brand brand-logo-mini" href="index.html">
+          <a class="navbar-brand brand-logo-mini" href="{{ route ('dashboard') }}">
             <img src="https://merch.mikrotik.com/cdn/shop/files/512.png?v=1657867177" alt="logo" />
           </a>
         </div>

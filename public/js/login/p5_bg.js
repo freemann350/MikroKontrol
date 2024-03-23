@@ -33,7 +33,7 @@ var w = c.width = window.innerWidth,
     dieY = h / 2 / opts.len,
     
     baseRad = Math.PI * 2 / 6;
-    
+
 ctx.fillStyle = 'black';
 ctx.fillRect( 0, 0, w, h );
 
