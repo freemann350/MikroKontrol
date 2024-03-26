@@ -107,17 +107,29 @@
             </a>
           </li>
           <li class="nav-item nav-category">Services</li>
-          <li class="nav-item {{ Route::currentRouteName() == 'DHCP.index' ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route ('DHCP.index') }}">
-              <i class="menu-icon mdi mdi-flag "></i>
+          <li class="nav-item {{ Route::currentRouteName() == 'Dhcp.servers'  || Route::currentRouteName() == 'Dhcp.clients' ? 'active' : '' }}">
+            <a class="nav-link" data-bs-toggle="collapse" href="#dhcp" aria-expanded="false" aria-controls="dhcp">
+              <i class="menu-icon mdi mdi-flag"></i>
               <span class="menu-title">DHCP</span>
             </a>
+            <div class="collapse" id="dhcp">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item {{ Route::currentRouteName() == 'Dhcp.servers' ? 'active' : '' }}"> <a class="nav-link" href="{{ route ('dhcp_servers') }}">Servers</a></li>
+                <li class="nav-item {{ Route::currentRouteName() == 'Dhcp.clients' ? 'active' : '' }}"> <a class="nav-link" href="{{ route ('dhcp_client') }}">Clients</a></li>
+              </ul>
+            </div>
           </li>
-          <li class="nav-item {{ Route::currentRouteName() == 'DNS.index' ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route ('DNS.index') }}">
+          <li class="nav-item {{ Route::currentRouteName() == 'Dns.server' || Route::currentRouteName() == 'Dns.records'? 'active' : '' }}">
+            <a class="nav-link" data-bs-toggle="collapse" data-bs-toggle="collapse" href="#dns" aria-expanded="false" aria-controls="dns">
               <i class="menu-icon mdi mdi-web"></i>
               <span class="menu-title">DNS</span>
             </a>
+            <div class="collapse" id="dns">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item {{ Route::currentRouteName() == 'Dns.server' ? 'active' : '' }}"> <a class="nav-link" href="{{ route ('dns_server') }}">Server</a></li>
+                <li class="nav-item {{ Route::currentRouteName() == 'Dns.records' ? 'active' : '' }}"> <a class="nav-link" href="{{ route ('dns_records') }}">Static Records</a></li>
+              </ul>
+            </div>
           </li>
           <li class="nav-item {{ Route::currentRouteName() == 'Wireguard.index' ? 'active' : '' }}">
             <a class="nav-link" href="{{ route ('Wireguard.index') }}">

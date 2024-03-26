@@ -4,9 +4,9 @@
 <div class="col-lg-12 grid-margin stretch-card">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Interfaces</h4>
+            <h4 class="card-title">Security Profiles</h4>
             <p class="card-description">
-            List of all interfaces on the device (physical/virtual)</code>
+            List of all security profiles for wireless interfaces on the device
             </p>
             <div class="table-responsive">
             <table class="table table-hover table-striped" style="text-align:center">
@@ -39,10 +39,13 @@
             </table>
             </div>
             <br>
-            <button onclick="location.reload();" type="button" class="btn btn-success btn-lg btn-block"><i class="mdi mdi-refresh"></i>Refresh info
+            <button onclick="location.reload();" type="button" class="btn btn-info btn-lg btn-block"><i class="mdi mdi-refresh"></i>Refresh info
             </button>
         </div>
     </div>
+</div>
+<div class="d-grid gap-2">
+  <a class="btn btn-success btn-lg btn-block" href="#"><i class="mdi mdi-plus-circle"></i> Add new security profile</a>
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function() {

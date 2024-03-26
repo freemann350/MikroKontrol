@@ -55,10 +55,15 @@ Route::controller(StaticRouteController::class)->group(function () {
 });
 
 Route::controller(DhcpController::class)->group(function () {
+    Route::get('/DHCP-Servers','servers')->name("dhcp_servers");
+    Route::get('/DHCP-Clients','client')->name("dhcp_client");
     Route::resource('/DHCP',DhcpController::class);
 });
 
 Route::controller(DnsController::class)->group(function () {
+    Route::get('/DNS-Server','server')->name("dns_server");
+    Route::get('/DNS-StaticRecords','records')->name("dns_records");
+    Route::post('/DNS-StaticRecords','addDnsRecord')->name("addDnsRecords");
     Route::resource('/DNS',DnsController::class);
 });
 

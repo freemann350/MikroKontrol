@@ -14,7 +14,6 @@ class InterfacesController extends Controller
         try {
             $client = new Client();
 
-            // GET NON WIRELESS INTERFACES
             $response = $client->get('http://192.168.88.1/rest/interface', [
                 'auth' => ['admin', '123456']
             ]);
@@ -23,7 +22,7 @@ class InterfacesController extends Controller
             usort($data, function ($a, $b) {
                 return $a['.id'] <=> $b['.id'];
             });
-            // GET WIRELESS INTERFACES
+            
             $response = $client->get('http://192.168.88.1/rest/interface/wireless', [
                 'auth' => ['admin', '123456']
             ]);

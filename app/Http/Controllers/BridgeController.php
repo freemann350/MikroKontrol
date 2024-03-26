@@ -14,7 +14,6 @@ class BridgeController extends Controller
         try {
             $client = new Client();
 
-            // GET NON WIRELESS INTERFACES
             $response = $client->get('http://192.168.88.1/rest/interface/bridge', [
                 'auth' => ['admin', '123456']
             ]);

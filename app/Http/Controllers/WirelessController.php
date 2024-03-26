@@ -13,7 +13,6 @@ class WirelessController extends Controller
         try {
             $client = new Client();
 
-            // GET NON WIRELESS INTERFACES
             $response = $client->get('http://192.168.88.1/rest/interface/wireless', [
                 'auth' => ['admin', '123456']
             ]);

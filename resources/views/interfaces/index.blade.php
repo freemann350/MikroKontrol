@@ -6,7 +6,7 @@
         <div class="card-body">
             <h4 class="card-title">Interfaces</h4>
             <p class="card-description">
-            List of all interfaces on the device (physical/virtual)</code>
+            List of all interfaces on the device (physical/virtual)
             </p>
             <div class="table-responsive">
             <table class="table table-hover table-striped"  style="text-align:center">
@@ -47,7 +47,7 @@
             </table>
             </div>
             <br>
-            <button onclick="location.reload();" type="button" class="btn btn-success btn-lg btn-block"><i class="mdi mdi-refresh"></i>Refresh info
+            <button onclick="location.reload();" type="button" class="btn btn-info btn-lg btn-block"><i class="mdi mdi-refresh"></i>Refresh info
             </button>
         </div>
     </div>
@@ -57,7 +57,7 @@
         <div class="card-body">
             <h4 class="card-title">Wireless Interfaces</h4>
             <p class="card-description">
-            List of all wireless interfaces on the device</code>
+            List of all wireless interfaces on the device
             </p>
             <div class="table-responsive">
             <table class="table table-hover table-striped"  style="text-align:center">
@@ -98,7 +98,7 @@
             </table>
             </div>
             <br>
-            <button onclick="location.reload();" type="button" class="btn btn-success btn-lg btn-block"><i class="mdi mdi-refresh"></i>Refresh info
+            <button onclick="location.reload();" type="button" class="btn btn-info btn-lg btn-block"><i class="mdi mdi-refresh"></i>Refresh info
             </button>
         </div>
     </div>
