@@ -15,15 +15,20 @@ class DhcpController extends Controller
             $client = new Client();
     
             $response = $client->get('http://192.168.88.1/rest/ip/dhcp-server', [
-                'auth' => ['admin', '123456']
+                'auth' => ['admin', '123456'],
+                'timeout' => 3
             ]);
     
             $data = json_decode($response->getBody(), true);
            
             return view('dhcp.servers', ['servers' => $data]);
-        } catch (RequestException $e) {
+        } catch (\Exception $e) {
             return abort(500);
         }
+    }
+
+    public function createDhcpServer(): View {
+        return view("dhcp.create_server");
     }
 
     public function client(): View
@@ -32,14 +37,19 @@ class DhcpController extends Controller
             $client = new Client();
     
             $response = $client->get('http://192.168.88.1/rest/ip/dhcp-client', [
-                'auth' => ['admin', '123456']
+                'auth' => ['admin', '123456'],
+                'timeout' => 3
             ]);
     
             $data = json_decode($response->getBody(), true);
 
             return view('dhcp.clients', ['clients' => $data]);
-        } catch (RequestException $e) {
+        } catch (\Exception $e) {
             return abort(500);
         }
+    }
+
+    public function createDhcpClient(): View {
+        return view("dhcp.create_client");
     }
 }

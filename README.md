@@ -17,4 +17,6 @@ Features:
     - Wireguard
     - More if time allows
 
-The app contains little to no JS, so it is extremely server-side, expect delays on endpoint communication
+Notes:
+- The app contains little to no JS, so it is extremely server-side, expect delays on endpoint communication
+- The configuration provided is very simple, if time allows, there will be a custom json box to allow a more advanced configuration of the endpoints

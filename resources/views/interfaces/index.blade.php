@@ -6,10 +6,10 @@
         <div class="card-body">
             <h4 class="card-title">Interfaces</h4>
             <p class="card-description">
-            List of all interfaces on the device (physical/virtual)
+                List of all interfaces on the device (physical/virtual)
             </p>
             <div class="table-responsive">
-            <table class="table table-hover table-striped"  style="text-align:center">
+            <table class="table table-hover table-striped"  style="text-align:center" id="dt">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -28,8 +28,8 @@
                     <td>{{ $interface['.id'] }}</td>
                     <td>{{ $interface['name'] }}</td>
                     <td>{{ $interface['type'] }}</td>
-                    <td>{{ $interface['mac-address'] }}</td>
-                    <td>{{ $interface['mtu'] }} ({{ $interface['actual-mtu'] }})</td>
+                    <td>{{ isset($interface['mac-address']) ? $interface['mac-address'] : "-" }}</td>
+                    <td>{{ $interface['mtu'] }} ({{ isset($interface['actual-mtu']) ? $interface['actual-mtu'] : "-" }})</td>
                     @if ($interface['running'] == "true")
                     <td class="text-success"> Connected <i class="ti-arrow-up"></i></td>
                     @else
@@ -57,10 +57,10 @@
         <div class="card-body">
             <h4 class="card-title">Wireless Interfaces</h4>
             <p class="card-description">
-            List of all wireless interfaces on the device
+                List of all wireless interfaces on the device
             </p>
             <div class="table-responsive">
-            <table class="table table-hover table-striped"  style="text-align:center">
+            <table class="table table-hover table-striped"  style="text-align:center" id="dt_wifi">
                 <thead>
                 <tr>
                     <th>#</th>

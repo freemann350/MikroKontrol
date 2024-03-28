@@ -9,7 +9,7 @@
             List of all IP addresses on the device
             </p>
             <div class="table-responsive">
-            <table class="table table-hover table-striped"  style="text-align:center">
+            <table class="table table-hover table-striped"  style="text-align:center" id="dt">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -45,6 +45,6 @@
     </div>
 </div>
 <div class="d-grid gap-2">
-  <a class="btn btn-success btn-lg btn-block" href="#"><i class="mdi mdi-plus-circle"></i> Add new address</a>
+  <a class="btn btn-success btn-lg btn-block" href="{{ route ('IPAddresses.create') }}"><i class="mdi mdi-plus-circle"></i> Add new address</a>
 </div>
 @endsection

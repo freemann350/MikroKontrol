@@ -55,16 +55,18 @@ Route::controller(StaticRouteController::class)->group(function () {
 });
 
 Route::controller(DhcpController::class)->group(function () {
-    Route::get('/DHCP-Servers','servers')->name("dhcp_servers");
-    Route::get('/DHCP-Clients','client')->name("dhcp_client");
+    Route::get('/DHCPServers','servers')->name("dhcp_servers");
+    Route::get('/DHCPServers/New','createDhcpServer')->name("createDhcpServer");
+    Route::get('/DHCPClients','client')->name("dhcp_client");
+    Route::get('/DHCPClients/New','createDhcpClient')->name("createDhcpClient");
     Route::resource('/DHCP',DhcpController::class);
 });
 
 Route::controller(DnsController::class)->group(function () {
-    Route::get('/DNS-Server','server')->name("dns_server");
-    Route::get('/DNS-StaticRecords','records')->name("dns_records");
-    Route::post('/DNS-StaticRecords','addDnsRecord')->name("addDnsRecords");
-    Route::resource('/DNS',DnsController::class);
+    Route::get('/DNSServer','server')->name("dns_server");
+    Route::get('/DNSServer/New','editDnsServer')->name("editDnsServer");
+    Route::get('/DNSStaticRecords','records')->name("dns_records");
+    Route::get('/DNSStaticRecords/New','createDnsRecord')->name("createDnsRecord");
 });
 
 Route::controller(WireguardController::class)->group(function () {

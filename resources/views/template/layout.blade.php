@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>MikroKontroller</title>
   <!-- plugins:css -->
+  <link href="https://cdn.datatables.net/v/bs5/dt-2.0.3/datatables.min.css" rel="stylesheet">
   <link rel="stylesheet" href="{{ url('vendors/feather/feather.css') }}">
   <link rel="stylesheet" href="{{ url('vendors/mdi/css/materialdesignicons.min.css') }}">
   <link rel="stylesheet" href="{{ url('vendors/ti-icons/css/themify-icons.css') }}">
@@ -179,6 +180,14 @@
   <script src="{{ url('js/main/off-canvas.js') }} "></script>
   <script src="{{ url('js/main/hoverable-collapse.js') }}"></script>
   <script src="{{ url('js/main/template.js') }}"></script>
+  <script src="https://cdn.datatables.net/v/bs5/dt-2.0.3/datatables.min.js"></script>
+  <script src="http://cdn.datatables.net/plug-ins/2.0.3/pagination/scrolling.js"></script>
+  <script>
+    let table = new DataTable('#dt');
+    @if (Route::currentRouteName() == 'Interfaces.index')
+    let table_2 = new DataTable('#dt_wifi');
+    @endif
+  </script>
   <!-- endinject -->
 </body>
 

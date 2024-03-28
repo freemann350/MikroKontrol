@@ -15,7 +15,8 @@ class InterfacesController extends Controller
             $client = new Client();
 
             $response = $client->get('http://192.168.88.1/rest/interface', [
-                'auth' => ['admin', '123456']
+                'auth' => ['admin', '123456'],
+                'timeout' => 3
             ]);
 
             $data = json_decode($response->getBody(), true);
@@ -24,7 +25,8 @@ class InterfacesController extends Controller
             });
             
             $response = $client->get('http://192.168.88.1/rest/interface/wireless', [
-                'auth' => ['admin', '123456']
+                'auth' => ['admin', '123456'],
+                'timeout' => 3
             ]);
 
             $data_wireless = json_decode($response->getBody(), true);
@@ -32,8 +34,8 @@ class InterfacesController extends Controller
                 return $a['.id'] <=> $b['.id'];
             });
             return view('interfaces.index', ['interfaces' => $data, 'wireless' => $data_wireless]);
-        } catch (RequestException $e) {
-            return response()->view('errors.500', [], 500);
+        } catch (\Exception $e) {
+            return abort(500);
         }
     }
 }

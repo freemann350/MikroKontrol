@@ -1,0 +1,1018 @@
+{
+	"info": {
+		"_postman_id": "e8c73e99-6903-4d5e-8887-668747de8e89",
+		"name": "MikroKontrol",
+		"description": "Postman File for MikroKontrol, a simple Laravel MikroTik SDN controller.\n\nGET, POST & PUT endpoints for MikroTik devices.\n\n---\n\nNote: MikroTik IDs are Hexadecimal.\n\n---\n\nVariables configured:\n\n- IP - Endpoint IP\n- PWD - Router Admin password",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31644809"
+	},
+	"item": [
+		{
+			"name": "Addresses",
+			"item": [
+				{
+					"name": "Addresses",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{PWD}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{IP}}/rest/ip/address",
+							"protocol": "http",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"rest",
+								"ip",
+								"address"
+							]
+						},
+						"description": "Returns all device addresses"
+					},
+					"response": [
+						{
+							"name": "Response Body",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{IP}}/rest/ip/address",
+									"protocol": "http",
+									"host": [
+										"{{IP}}"
+									],
+									"path": [
+										"rest",
+										"ip",
+										"address"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "max-age=31536000"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Length",
+									"value": "191"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 24 Mar 2024 16:22:15 GMT"
+								},
+								{
+									"key": "Expires",
+									"value": "Mon, 24 Mar 2025 16:22:15 GMT"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "sameorigin"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \".id\": \"*1\",\n        \"actual-interface\": \"bridge\",\n        \"address\": \"192.168.88.1/24\",\n        \"comment\": \"defconf\",\n        \"disabled\": \"false\",\n        \"dynamic\": \"false\",\n        \"interface\": \"bridge\",\n        \"invalid\": \"false\",\n        \"network\": \"192.168.88.0\"\n    }\n]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Static Routes",
+			"item": [
+				{
+					"name": "Static Routes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{IP}}/rest/ip/route",
+							"protocol": "http",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"rest",
+								"ip",
+								"route"
+							]
+						},
+						"description": "Returns device static routes"
+					},
+					"response": [
+						{
+							"name": "Response Body",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{IP}}/rest/ip/route",
+									"protocol": "http",
+									"host": [
+										"{{IP}}"
+									],
+									"path": [
+										"rest",
+										"ip",
+										"route"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "max-age=31536000"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Length",
+									"value": "322"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 24 Mar 2024 16:22:25 GMT"
+								},
+								{
+									"key": "Expires",
+									"value": "Mon, 24 Mar 2025 16:22:25 GMT"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "sameorigin"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \".id\": \"*201C300C\",\n        \"active\": \"true\",\n        \"connect\": \"true\",\n        \"distance\": \"0\",\n        \"dst-address\": \"192.168.88.0/24\",\n        \"dynamic\": \"true\",\n        \"ecmp\": \"false\",\n        \"gateway\": \"bridge\",\n        \"hw-offloaded\": \"false\",\n        \"immediate-gw\": \"bridge\",\n        \"inactive\": \"false\",\n        \"local-address\": \"192.168.88.1%bridge\",\n        \"routing-table\": \"main\",\n        \"scope\": \"10\",\n        \"suppress-hw-offload\": \"false\"\n    }\n]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "DNS",
+			"item": [
+				{
+					"name": "DNS Static Records",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{IP}}/rest/ip/dns/static",
+							"protocol": "http",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"rest",
+								"ip",
+								"dns",
+								"static"
+							]
+						},
+						"description": "Returns DNS Static Records (A,AAAA,CNAME,...)"
+					},
+					"response": [
+						{
+							"name": "Response Body",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{IP}}/rest/ip/dns/static",
+									"protocol": "http",
+									"host": [
+										"{{IP}}"
+									],
+									"path": [
+										"rest",
+										"ip",
+										"dns",
+										"static"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "max-age=31536000"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Length",
+									"value": "127"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 24 Mar 2024 16:23:17 GMT"
+								},
+								{
+									"key": "Expires",
+									"value": "Mon, 24 Mar 2025 16:23:17 GMT"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "sameorigin"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \".id\": \"*1\",\n        \"address\": \"192.168.88.1\",\n        \"comment\": \"defconf\",\n        \"disabled\": \"false\",\n        \"dynamic\": \"false\",\n        \"name\": \"router.lan\",\n        \"ttl\": \"1d\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "New DNS Record",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"asd\",\n    \"address\":\"12.12.12.12\",\n    \"type\":\"A\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{IP}}/rest/ip/dns/static",
+							"protocol": "http",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"rest",
+								"ip",
+								"dns",
+								"static"
+							]
+						},
+						"description": "Adds a new static DNS record"
+					},
+					"response": []
+				},
+				{
+					"name": "Update DNS Record",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"disabled\":\"false\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{IP}}/rest/ip/dns/static/*1",
+							"protocol": "http",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"rest",
+								"ip",
+								"dns",
+								"static",
+								"*1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DNS Server",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{IP}}/rest/ip/dns",
+							"protocol": "http",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"rest",
+								"ip",
+								"dns"
+							]
+						},
+						"description": "Returns DNS server configuration"
+					},
+					"response": [
+						{
+							"name": "Response Body",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{IP}}/rest/ip/dns",
+									"protocol": "http",
+									"host": [
+										"{{IP}}"
+									],
+									"path": [
+										"rest",
+										"ip",
+										"dns"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "max-age=31536000"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Length",
+									"value": "452"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 24 Mar 2024 16:23:04 GMT"
+								},
+								{
+									"key": "Expires",
+									"value": "Mon, 24 Mar 2025 16:23:04 GMT"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "sameorigin"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"address-list-extra-time\": \"0s\",\n    \"allow-remote-requests\": \"true\",\n    \"cache-max-ttl\": \"1w\",\n    \"cache-size\": \"2048\",\n    \"cache-used\": \"38\",\n    \"doh-max-concurrent-queries\": \"50\",\n    \"doh-max-server-connections\": \"5\",\n    \"doh-timeout\": \"5s\",\n    \"dynamic-servers\": \"\",\n    \"max-concurrent-queries\": \"100\",\n    \"max-concurrent-tcp-sessions\": \"20\",\n    \"max-udp-packet-size\": \"4096\",\n    \"query-server-timeout\": \"2s\",\n    \"query-total-timeout\": \"10s\",\n    \"servers\": \"\",\n    \"use-doh-server\": \"\",\n    \"verify-doh-cert\": \"false\",\n    \"vrf\": \"main\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete DNS Record",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://{{IP}}/rest/ip/dns/static/*B",
+							"protocol": "http",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"rest",
+								"ip",
+								"dns",
+								"static",
+								"*B"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "PUT required params:\n\n- Static DNS Record\n    \n    - name\n        \n    - address\n        \n    - type\n        \n    - (other info, depends on type. using only type A)"
+		},
+		{
+			"name": "Bridge",
+			"item": [
+				{
+					"name": "Bridge Interfaces",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{IP}}/rest/interface/bridge",
+							"protocol": "http",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"rest",
+								"interface",
+								"bridge"
+							]
+						},
+						"description": "Returns **bridge** interfaces"
+					},
+					"response": [
+						{
+							"name": "Response Body",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{IP}}/rest/interface/bridge",
+									"protocol": "http",
+									"host": [
+										"{{IP}}"
+									],
+									"path": [
+										"rest",
+										"interface",
+										"bridge"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "max-age=31536000"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Length",
+									"value": "524"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 24 Mar 2024 16:21:32 GMT"
+								},
+								{
+									"key": "Expires",
+									"value": "Mon, 24 Mar 2025 16:21:32 GMT"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "sameorigin"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \".id\": \"*9\",\n        \"actual-mtu\": \"1500\",\n        \"admin-mac\": \"C4:AD:34:9F:61:72\",\n        \"ageing-time\": \"5m\",\n        \"arp\": \"enabled\",\n        \"arp-timeout\": \"auto\",\n        \"auto-mac\": \"false\",\n        \"comment\": \"defconf\",\n        \"dhcp-snooping\": \"false\",\n        \"disabled\": \"false\",\n        \"fast-forward\": \"true\",\n        \"forward-delay\": \"15s\",\n        \"igmp-snooping\": \"false\",\n        \"l2mtu\": \"1598\",\n        \"mac-address\": \"C4:AD:34:9F:61:72\",\n        \"max-message-age\": \"20s\",\n        \"mtu\": \"auto\",\n        \"mvrp\": \"false\",\n        \"name\": \"bridge\",\n        \"port-cost-mode\": \"long\",\n        \"priority\": \"0x8000\",\n        \"protocol-mode\": \"rstp\",\n        \"running\": \"true\",\n        \"transmit-hold-count\": \"6\",\n        \"vlan-filtering\": \"false\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "New Bridge Interface",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"testing\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{IP}}/rest/interface/bridge",
+							"protocol": "http",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"rest",
+								"interface",
+								"bridge"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "PUT required params:\n\n- name"
+		},
+		{
+			"name": "Security Profiles",
+			"item": [
+				{
+					"name": "Security Profiles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{IP}}/rest/interface/wireless/security-profiles",
+							"protocol": "http",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"rest",
+								"interface",
+								"wireless",
+								"security-profiles"
+							]
+						},
+						"description": "Returns WiFi Security Profiles"
+					},
+					"response": [
+						{
+							"name": "Response Body",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{IP}}/rest/interface/wireless/security-profiles",
+									"protocol": "http",
+									"host": [
+										"{{IP}}"
+									],
+									"path": [
+										"rest",
+										"interface",
+										"wireless",
+										"security-profiles"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "max-age=31536000"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1005"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 24 Mar 2024 16:21:46 GMT"
+								},
+								{
+									"key": "Expires",
+									"value": "Mon, 24 Mar 2025 16:21:46 GMT"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "sameorigin"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \".id\": \"*0\",\n        \"authentication-types\": \"wpa2-psk\",\n        \"default\": \"true\",\n        \"disable-pmkid\": \"false\",\n        \"eap-methods\": \"passthrough\",\n        \"group-ciphers\": \"aes-ccm\",\n        \"group-key-update\": \"5m\",\n        \"interim-update\": \"0s\",\n        \"management-protection\": \"disabled\",\n        \"management-protection-key\": \"\",\n        \"mode\": \"dynamic-keys\",\n        \"mschapv2-password\": \"\",\n        \"mschapv2-username\": \"\",\n        \"name\": \"default\",\n        \"radius-called-format\": \"mac:ssid\",\n        \"radius-eap-accounting\": \"false\",\n        \"radius-mac-accounting\": \"false\",\n        \"radius-mac-authentication\": \"false\",\n        \"radius-mac-caching\": \"disabled\",\n        \"radius-mac-format\": \"XX:XX:XX:XX:XX:XX\",\n        \"radius-mac-mode\": \"as-username\",\n        \"static-algo-0\": \"none\",\n        \"static-algo-1\": \"none\",\n        \"static-algo-2\": \"none\",\n        \"static-algo-3\": \"none\",\n        \"static-key-0\": \"\",\n        \"static-key-1\": \"\",\n        \"static-key-2\": \"\",\n        \"static-key-3\": \"\",\n        \"static-sta-private-algo\": \"none\",\n        \"static-sta-private-key\": \"\",\n        \"static-transmit-key\": \"key-0\",\n        \"supplicant-identity\": \"MikroTik\",\n        \"tls-certificate\": \"none\",\n        \"tls-mode\": \"no-certificates\",\n        \"unicast-ciphers\": \"aes-ccm\",\n        \"wpa-pre-shared-key\": \"\",\n        \"wpa2-pre-shared-key\": \"mikrotik\"\n    }\n]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Wireless Interfaces",
+			"item": [
+				{
+					"name": "Wireless Interfaces",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{IP}}/rest/interface/wireless",
+							"protocol": "http",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"rest",
+								"interface",
+								"wireless"
+							]
+						},
+						"description": "Returns all wireless Interfaces"
+					},
+					"response": [
+						{
+							"name": "Response Body",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{IP}}/rest/interface/wireless",
+									"protocol": "http",
+									"host": [
+										"{{IP}}"
+									],
+									"path": [
+										"rest",
+										"interface",
+										"wireless"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "max-age=31536000"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Length",
+									"value": "4884"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 24 Mar 2024 16:21:59 GMT"
+								},
+								{
+									"key": "Expires",
+									"value": "Mon, 24 Mar 2025 16:21:59 GMT"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "sameorigin"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \".id\": \"*7\",\n        \"adaptive-noise-immunity\": \"none\",\n        \"allow-sharedkey\": \"false\",\n        \"ampdu-priorities\": \"0\",\n        \"amsdu-limit\": \"8192\",\n        \"amsdu-threshold\": \"8192\",\n        \"antenna-gain\": \"3\",\n        \"area\": \"\",\n        \"arp\": \"enabled\",\n        \"arp-timeout\": \"auto\",\n        \"band\": \"2ghz-b/g/n\",\n        \"basic-rates-a/g\": \"6Mbps\",\n        \"basic-rates-b\": \"1Mbps\",\n        \"bridge-mode\": \"enabled\",\n        \"channel-width\": \"20/40mhz-XX\",\n        \"compression\": \"false\",\n        \"country\": \"etsi\",\n        \"default-ap-tx-limit\": \"0\",\n        \"default-authentication\": \"true\",\n        \"default-client-tx-limit\": \"0\",\n        \"default-forwarding\": \"true\",\n        \"default-name\": \"wlan1\",\n        \"disable-running-check\": \"false\",\n        \"disabled\": \"false\",\n        \"disconnect-timeout\": \"3s\",\n        \"distance\": \"indoors\",\n        \"frame-lifetime\": \"0\",\n        \"frequency\": \"auto\",\n        \"frequency-mode\": \"regulatory-domain\",\n        \"frequency-offset\": \"0\",\n        \"guard-interval\": \"any\",\n        \"hide-ssid\": \"false\",\n        \"ht-basic-mcs\": \"mcs-0,mcs-1,mcs-2,mcs-3,mcs-4,mcs-5,mcs-6,mcs-7\",\n        \"ht-supported-mcs\": \"mcs-0,mcs-1,mcs-2,mcs-3,mcs-4,mcs-5,mcs-6,mcs-7,mcs-8,mcs-9,mcs-10,mcs-11,mcs-12,mcs-13,mcs-14,mcs-15,mcs-16,mcs-17,mcs-18,mcs-19,mcs-20,mcs-21,mcs-22,mcs-23\",\n        \"hw-fragmentation-threshold\": \"disabled\",\n        \"hw-protection-mode\": \"none\",\n        \"hw-protection-threshold\": \"0\",\n        \"hw-retries\": \"7\",\n        \"installation\": \"indoor\",\n        \"interface-type\": \"IPQ4019\",\n        \"interworking-profile\": \"disabled\",\n        \"keepalive-frames\": \"enabled\",\n        \"l2mtu\": \"1600\",\n        \"mac-address\": \"C4:AD:34:9F:61:76\",\n        \"max-station-count\": \"2007\",\n        \"mode\": \"ap-bridge\",\n        \"mtu\": \"1500\",\n        \"multicast-buffering\": \"enabled\",\n        \"multicast-helper\": \"default\",\n        \"name\": \"wlan1\",\n        \"nv2-cell-radius\": \"30\",\n        \"nv2-downlink-ratio\": \"50\",\n        \"nv2-mode\": \"dynamic-downlink\",\n        \"nv2-preshared-key\": \"\",\n        \"nv2-qos\": \"default\",\n        \"nv2-queue-count\": \"2\",\n        \"nv2-security\": \"disabled\",\n        \"nv2-sync-secret\": \"\",\n        \"on-fail-retry-time\": \"100ms\",\n        \"preamble-mode\": \"both\",\n        \"radio-name\": \"C4AD349F6176\",\n        \"rate-selection\": \"advanced\",\n        \"rate-set\": \"default\",\n        \"running\": \"false\",\n        \"rx-chains\": \"0,1\",\n        \"scan-list\": \"default\",\n        \"secondary-frequency\": \"\",\n        \"security-profile\": \"default\",\n        \"skip-dfs-channels\": \"disabled\",\n        \"ssid\": \"MikroTik-9F6176\",\n        \"station-bridge-clone-mac\": \"00:00:00:00:00:00\",\n        \"station-roaming\": \"disabled\",\n        \"supported-rates-a/g\": \"6Mbps,9Mbps,12Mbps,18Mbps,24Mbps,36Mbps,48Mbps,54Mbps\",\n        \"supported-rates-b\": \"1Mbps,2Mbps,5.5Mbps,11Mbps\",\n        \"tdma-period-size\": \"2\",\n        \"tx-chains\": \"0,1\",\n        \"tx-power-mode\": \"default\",\n        \"update-stats-interval\": \"disabled\",\n        \"vlan-id\": \"1\",\n        \"vlan-mode\": \"no-tag\",\n        \"wds-cost-range\": \"50-150\",\n        \"wds-default-bridge\": \"none\",\n        \"wds-default-cost\": \"100\",\n        \"wds-ignore-ssid\": \"false\",\n        \"wds-mode\": \"disabled\",\n        \"wireless-protocol\": \"802.11\",\n        \"wmm-support\": \"disabled\",\n        \"wps-mode\": \"push-button\"\n    },\n    {\n        \".id\": \"*8\",\n        \"adaptive-noise-immunity\": \"none\",\n        \"allow-sharedkey\": \"false\",\n        \"ampdu-priorities\": \"0\",\n        \"amsdu-limit\": \"8192\",\n        \"amsdu-threshold\": \"8192\",\n        \"antenna-gain\": \"3\",\n        \"area\": \"\",\n        \"arp\": \"enabled\",\n        \"arp-timeout\": \"auto\",\n        \"band\": \"5ghz-a/n/ac\",\n        \"basic-rates-a/g\": \"6Mbps\",\n        \"bridge-mode\": \"enabled\",\n        \"channel-width\": \"20/40/80mhz-XXXX\",\n        \"compression\": \"false\",\n        \"country\": \"etsi\",\n        \"default-ap-tx-limit\": \"0\",\n        \"default-authentication\": \"true\",\n        \"default-client-tx-limit\": \"0\",\n        \"default-forwarding\": \"true\",\n        \"default-name\": \"wlan2\",\n        \"disable-running-check\": \"false\",\n        \"disabled\": \"false\",\n        \"disconnect-timeout\": \"3s\",\n        \"distance\": \"indoors\",\n        \"frame-lifetime\": \"0\",\n        \"frequency\": \"auto\",\n        \"frequency-mode\": \"regulatory-domain\",\n        \"frequency-offset\": \"0\",\n        \"guard-interval\": \"any\",\n        \"hide-ssid\": \"false\",\n        \"ht-basic-mcs\": \"mcs-0,mcs-1,mcs-2,mcs-3,mcs-4,mcs-5,mcs-6,mcs-7\",\n        \"ht-supported-mcs\": \"mcs-0,mcs-1,mcs-2,mcs-3,mcs-4,mcs-5,mcs-6,mcs-7,mcs-8,mcs-9,mcs-10,mcs-11,mcs-12,mcs-13,mcs-14,mcs-15,mcs-16,mcs-17,mcs-18,mcs-19,mcs-20,mcs-21,mcs-22,mcs-23\",\n        \"hw-fragmentation-threshold\": \"disabled\",\n        \"hw-protection-mode\": \"none\",\n        \"hw-protection-threshold\": \"0\",\n        \"hw-retries\": \"7\",\n        \"installation\": \"indoor\",\n        \"interface-type\": \"IPQ4019\",\n        \"interworking-profile\": \"disabled\",\n        \"keepalive-frames\": \"enabled\",\n        \"l2mtu\": \"1600\",\n        \"mac-address\": \"C4:AD:34:9F:61:77\",\n        \"max-station-count\": \"2007\",\n        \"mode\": \"ap-bridge\",\n        \"mtu\": \"1500\",\n        \"multicast-buffering\": \"enabled\",\n        \"multicast-helper\": \"default\",\n        \"name\": \"wlan2\",\n        \"nv2-cell-radius\": \"30\",\n        \"nv2-downlink-ratio\": \"50\",\n        \"nv2-mode\": \"dynamic-downlink\",\n        \"nv2-preshared-key\": \"\",\n        \"nv2-qos\": \"default\",\n        \"nv2-queue-count\": \"2\",\n        \"nv2-security\": \"disabled\",\n        \"nv2-sync-secret\": \"\",\n        \"on-fail-retry-time\": \"100ms\",\n        \"preamble-mode\": \"both\",\n        \"radio-name\": \"C4AD349F6177\",\n        \"rate-selection\": \"advanced\",\n        \"rate-set\": \"default\",\n        \"running\": \"false\",\n        \"rx-chains\": \"0,1\",\n        \"scan-list\": \"default\",\n        \"secondary-frequency\": \"\",\n        \"security-profile\": \"default\",\n        \"skip-dfs-channels\": \"disabled\",\n        \"ssid\": \"MikroTik-9F6176\",\n        \"station-bridge-clone-mac\": \"00:00:00:00:00:00\",\n        \"station-roaming\": \"disabled\",\n        \"supported-rates-a/g\": \"6Mbps,9Mbps,12Mbps,18Mbps,24Mbps,36Mbps,48Mbps,54Mbps\",\n        \"tdma-period-size\": \"2\",\n        \"tx-chains\": \"0,1\",\n        \"tx-power-mode\": \"default\",\n        \"update-stats-interval\": \"disabled\",\n        \"vht-basic-mcs\": \"mcs0-7\",\n        \"vht-supported-mcs\": \"mcs0-9,mcs0-9,mcs0-9\",\n        \"vlan-id\": \"1\",\n        \"vlan-mode\": \"no-tag\",\n        \"wds-cost-range\": \"50-150\",\n        \"wds-default-bridge\": \"none\",\n        \"wds-default-cost\": \"100\",\n        \"wds-ignore-ssid\": \"false\",\n        \"wds-mode\": \"disabled\",\n        \"wireless-protocol\": \"802.11\",\n        \"wmm-support\": \"disabled\",\n        \"wps-mode\": \"push-button\"\n    }\n]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "DHCP",
+			"item": [
+				{
+					"name": "DHCP Server",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{IP}}/rest/ip/dhcp-server",
+							"protocol": "http",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"rest",
+								"ip",
+								"dhcp-server"
+							]
+						},
+						"description": "Returns DHCP server configuration"
+					},
+					"response": [
+						{
+							"name": "Response Body",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{IP}}/rest/ip/dhcp-server",
+									"protocol": "http",
+									"host": [
+										"{{IP}}"
+									],
+									"path": [
+										"rest",
+										"ip",
+										"dhcp-server"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "max-age=31536000"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Length",
+									"value": "214"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 24 Mar 2024 16:22:37 GMT"
+								},
+								{
+									"key": "Expires",
+									"value": "Mon, 24 Mar 2025 16:22:37 GMT"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "sameorigin"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \".id\": \"*1\",\n        \"address-pool\": \"default-dhcp\",\n        \"authoritative\": \"yes\",\n        \"disabled\": \"false\",\n        \"dynamic\": \"false\",\n        \"interface\": \"bridge\",\n        \"invalid\": \"false\",\n        \"lease-script\": \"\",\n        \"lease-time\": \"10m\",\n        \"name\": \"defconf\",\n        \"use-radius\": \"no\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "DHCP Client",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{IP}}/rest/ip/dhcp-client",
+							"protocol": "http",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"rest",
+								"ip",
+								"dhcp-client"
+							]
+						},
+						"description": "Returns DHCP Client configuration"
+					},
+					"response": [
+						{
+							"name": "Response Body",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://{{IP}}/rest/ip/dhcp-client",
+									"protocol": "http",
+									"host": [
+										"{{IP}}"
+									],
+									"path": [
+										"rest",
+										"ip",
+										"dhcp-client"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "max-age=31536000"
+								},
+								{
+									"key": "Connection",
+									"value": "Keep-Alive"
+								},
+								{
+									"key": "Content-Length",
+									"value": "243"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 24 Mar 2024 16:22:50 GMT"
+								},
+								{
+									"key": "Expires",
+									"value": "Mon, 24 Mar 2025 16:22:50 GMT"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "sameorigin"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \".id\": \"*1\",\n        \"add-default-route\": \"yes\",\n        \"comment\": \"defconf\",\n        \"default-route-distance\": \"1\",\n        \"dhcp-options\": \"hostname,clientid\",\n        \"disabled\": \"false\",\n        \"dynamic\": \"false\",\n        \"interface\": \"ether1\",\n        \"invalid\": \"true\",\n        \"use-peer-dns\": \"true\",\n        \"use-peer-ntp\": \"true\"\n    }\n]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Wireguard",
+			"item": [
+				{
+					"name": "Wireguard (ToDo)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{IP}}/rest/interface/wireguard",
+							"protocol": "http",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"rest",
+								"interface",
+								"wireguard"
+							]
+						},
+						"description": "Returns Wireguard configuration"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Interfaces",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{IP}}/rest/interface",
+					"protocol": "http",
+					"host": [
+						"{{IP}}"
+					],
+					"path": [
+						"rest",
+						"interface"
+					]
+				},
+				"description": "Returns all interfaces (Physical & virtual)"
+			},
+			"response": [
+				{
+					"name": "Response Body",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{IP}}/rest/interface",
+							"protocol": "http",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"rest",
+								"interface"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Cache-Control",
+							"value": "max-age=31536000"
+						},
+						{
+							"key": "Connection",
+							"value": "Keep-Alive"
+						},
+						{
+							"key": "Content-Length",
+							"value": "4132"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 24 Mar 2024 16:21:03 GMT"
+						},
+						{
+							"key": "Expires",
+							"value": "Mon, 24 Mar 2025 16:21:03 GMT"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "sameorigin"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \".id\": \"*2\",\n        \"actual-mtu\": \"1500\",\n        \"default-name\": \"ether1\",\n        \"disabled\": \"false\",\n        \"fp-rx-byte\": \"0\",\n        \"fp-rx-packet\": \"0\",\n        \"fp-tx-byte\": \"0\",\n        \"fp-tx-packet\": \"0\",\n        \"l2mtu\": \"1598\",\n        \"link-downs\": \"0\",\n        \"mac-address\": \"C4:AD:34:9F:61:71\",\n        \"max-l2mtu\": \"9214\",\n        \"mtu\": \"1500\",\n        \"name\": \"ether1\",\n        \"running\": \"false\",\n        \"rx-byte\": \"0\",\n        \"rx-drop\": \"0\",\n        \"rx-error\": \"0\",\n        \"rx-packet\": \"0\",\n        \"tx-byte\": \"0\",\n        \"tx-drop\": \"0\",\n        \"tx-error\": \"0\",\n        \"tx-packet\": \"0\",\n        \"tx-queue-drop\": \"0\",\n        \"type\": \"ether\"\n    },\n    {\n        \".id\": \"*3\",\n        \"actual-mtu\": \"1500\",\n        \"default-name\": \"ether2\",\n        \"disabled\": \"false\",\n        \"fp-rx-byte\": \"2935621\",\n        \"fp-rx-packet\": \"25851\",\n        \"fp-tx-byte\": \"0\",\n        \"fp-tx-packet\": \"0\",\n        \"l2mtu\": \"1598\",\n        \"last-link-down-time\": \"2024-03-24 15:51:18\",\n        \"last-link-up-time\": \"2024-03-24 15:51:24\",\n        \"link-downs\": \"6\",\n        \"mac-address\": \"C4:AD:34:9F:61:72\",\n        \"max-l2mtu\": \"9214\",\n        \"mtu\": \"1500\",\n        \"name\": \"ether2\",\n        \"running\": \"true\",\n        \"rx-byte\": \"3039025\",\n        \"rx-drop\": \"0\",\n        \"rx-error\": \"0\",\n        \"rx-packet\": \"25851\",\n        \"slave\": \"true\",\n        \"tx-byte\": \"36534608\",\n        \"tx-drop\": \"0\",\n        \"tx-error\": \"0\",\n        \"tx-packet\": \"41948\",\n        \"tx-queue-drop\": \"0\",\n        \"type\": \"ether\"\n    },\n    {\n        \".id\": \"*4\",\n        \"actual-mtu\": \"1500\",\n        \"default-name\": \"ether3\",\n        \"disabled\": \"false\",\n        \"fp-rx-byte\": \"0\",\n        \"fp-rx-packet\": \"0\",\n        \"fp-tx-byte\": \"0\",\n        \"fp-tx-packet\": \"0\",\n        \"l2mtu\": \"1598\",\n        \"link-downs\": \"0\",\n        \"mac-address\": \"C4:AD:34:9F:61:73\",\n        \"max-l2mtu\": \"9214\",\n        \"mtu\": \"1500\",\n        \"name\": \"ether3\",\n        \"running\": \"false\",\n        \"rx-byte\": \"0\",\n        \"rx-drop\": \"0\",\n        \"rx-error\": \"0\",\n        \"rx-packet\": \"0\",\n        \"slave\": \"true\",\n        \"tx-byte\": \"0\",\n        \"tx-drop\": \"0\",\n        \"tx-error\": \"0\",\n        \"tx-packet\": \"0\",\n        \"tx-queue-drop\": \"0\",\n        \"type\": \"ether\"\n    },\n    {\n        \".id\": \"*5\",\n        \"actual-mtu\": \"1500\",\n        \"default-name\": \"ether4\",\n        \"disabled\": \"false\",\n        \"fp-rx-byte\": \"0\",\n        \"fp-rx-packet\": \"0\",\n        \"fp-tx-byte\": \"0\",\n        \"fp-tx-packet\": \"0\",\n        \"l2mtu\": \"1598\",\n        \"link-downs\": \"0\",\n        \"mac-address\": \"C4:AD:34:9F:61:74\",\n        \"max-l2mtu\": \"9214\",\n        \"mtu\": \"1500\",\n        \"name\": \"ether4\",\n        \"running\": \"false\",\n        \"rx-byte\": \"0\",\n        \"rx-drop\": \"0\",\n        \"rx-error\": \"0\",\n        \"rx-packet\": \"0\",\n        \"slave\": \"true\",\n        \"tx-byte\": \"0\",\n        \"tx-drop\": \"0\",\n        \"tx-error\": \"0\",\n        \"tx-packet\": \"0\",\n        \"tx-queue-drop\": \"0\",\n        \"type\": \"ether\"\n    },\n    {\n        \".id\": \"*6\",\n        \"actual-mtu\": \"1500\",\n        \"default-name\": \"ether5\",\n        \"disabled\": \"false\",\n        \"fp-rx-byte\": \"0\",\n        \"fp-rx-packet\": \"0\",\n        \"fp-tx-byte\": \"0\",\n        \"fp-tx-packet\": \"0\",\n        \"l2mtu\": \"1598\",\n        \"link-downs\": \"0\",\n        \"mac-address\": \"C4:AD:34:9F:61:75\",\n        \"max-l2mtu\": \"9214\",\n        \"mtu\": \"1500\",\n        \"name\": \"ether5\",\n        \"running\": \"false\",\n        \"rx-byte\": \"0\",\n        \"rx-drop\": \"0\",\n        \"rx-error\": \"0\",\n        \"rx-packet\": \"0\",\n        \"slave\": \"true\",\n        \"tx-byte\": \"0\",\n        \"tx-drop\": \"0\",\n        \"tx-error\": \"0\",\n        \"tx-packet\": \"0\",\n        \"tx-queue-drop\": \"0\",\n        \"type\": \"ether\"\n    },\n    {\n        \".id\": \"*7\",\n        \"actual-mtu\": \"1500\",\n        \"default-name\": \"wlan1\",\n        \"disabled\": \"false\",\n        \"fp-rx-byte\": \"0\",\n        \"fp-rx-packet\": \"0\",\n        \"fp-tx-byte\": \"0\",\n        \"fp-tx-packet\": \"0\",\n        \"l2mtu\": \"1600\",\n        \"link-downs\": \"0\",\n        \"mac-address\": \"C4:AD:34:9F:61:76\",\n        \"max-l2mtu\": \"2290\",\n        \"mtu\": \"1500\",\n        \"name\": \"wlan1\",\n        \"running\": \"false\",\n        \"rx-byte\": \"0\",\n        \"rx-drop\": \"0\",\n        \"rx-error\": \"0\",\n        \"rx-packet\": \"0\",\n        \"slave\": \"true\",\n        \"tx-byte\": \"0\",\n        \"tx-drop\": \"0\",\n        \"tx-error\": \"0\",\n        \"tx-packet\": \"0\",\n        \"tx-queue-drop\": \"0\",\n        \"type\": \"wlan\"\n    },\n    {\n        \".id\": \"*8\",\n        \"actual-mtu\": \"1500\",\n        \"default-name\": \"wlan2\",\n        \"disabled\": \"false\",\n        \"fp-rx-byte\": \"0\",\n        \"fp-rx-packet\": \"0\",\n        \"fp-tx-byte\": \"0\",\n        \"fp-tx-packet\": \"0\",\n        \"l2mtu\": \"1600\",\n        \"link-downs\": \"0\",\n        \"mac-address\": \"C4:AD:34:9F:61:77\",\n        \"max-l2mtu\": \"2290\",\n        \"mtu\": \"1500\",\n        \"name\": \"wlan2\",\n        \"running\": \"false\",\n        \"rx-byte\": \"0\",\n        \"rx-drop\": \"0\",\n        \"rx-error\": \"0\",\n        \"rx-packet\": \"0\",\n        \"slave\": \"true\",\n        \"tx-byte\": \"0\",\n        \"tx-drop\": \"0\",\n        \"tx-error\": \"0\",\n        \"tx-packet\": \"0\",\n        \"tx-queue-drop\": \"0\",\n        \"type\": \"wlan\"\n    },\n    {\n        \".id\": \"*9\",\n        \"actual-mtu\": \"1500\",\n        \"comment\": \"defconf\",\n        \"disabled\": \"false\",\n        \"fp-rx-byte\": \"2880347\",\n        \"fp-rx-packet\": \"25472\",\n        \"fp-tx-byte\": \"0\",\n        \"fp-tx-packet\": \"0\",\n        \"l2mtu\": \"1598\",\n        \"last-link-up-time\": \"2024-03-24 12:01:04\",\n        \"link-downs\": \"0\",\n        \"mac-address\": \"C4:AD:34:9F:61:72\",\n        \"mtu\": \"auto\",\n        \"name\": \"bridge\",\n        \"running\": \"true\",\n        \"rx-byte\": \"2921668\",\n        \"rx-drop\": \"0\",\n        \"rx-error\": \"0\",\n        \"rx-packet\": \"25780\",\n        \"tx-byte\": \"35806535\",\n        \"tx-drop\": \"0\",\n        \"tx-error\": \"0\",\n        \"tx-packet\": \"34144\",\n        \"tx-queue-drop\": \"0\",\n        \"type\": \"bridge\"\n    },\n    {\n        \".id\": \"*1\",\n        \"actual-mtu\": \"65536\",\n        \"disabled\": \"false\",\n        \"fp-rx-byte\": \"0\",\n        \"fp-rx-packet\": \"0\",\n        \"fp-tx-byte\": \"0\",\n        \"fp-tx-packet\": \"0\",\n        \"last-link-up-time\": \"2024-03-24 12:01:04\",\n        \"link-downs\": \"0\",\n        \"mac-address\": \"00:00:00:00:00:00\",\n        \"mtu\": \"65536\",\n        \"name\": \"lo\",\n        \"running\": \"true\",\n        \"rx-byte\": \"0\",\n        \"rx-drop\": \"0\",\n        \"rx-error\": \"0\",\n        \"rx-packet\": \"0\",\n        \"tx-byte\": \"0\",\n        \"tx-drop\": \"0\",\n        \"tx-error\": \"0\",\n        \"tx-packet\": \"0\",\n        \"tx-queue-drop\": \"0\",\n        \"type\": \"loopback\"\n    }\n]"
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "{{PWD}}",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "admin",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "IP",
+			"value": "192.168.88.1",
+			"type": "string"
+		},
+		{
+			"key": "PWD",
+			"value": "123456",
+			"type": "string"
+		}
+	]
+}

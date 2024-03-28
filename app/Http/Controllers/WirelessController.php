@@ -14,7 +14,8 @@ class WirelessController extends Controller
             $client = new Client();
 
             $response = $client->get('http://192.168.88.1/rest/interface/wireless', [
-                'auth' => ['admin', '123456']
+                'auth' => ['admin', '123456'],
+                'timeout' => 3
             ]);
 
             $data = json_decode($response->getBody(), true);
@@ -22,8 +23,12 @@ class WirelessController extends Controller
                 return $a['.id'] <=> $b['.id'];
             });
             return view('wireless.index', ['wireless' => $data]);
-        } catch (RequestException $e) {
-            return response()->view('errors.500', [], 500);
+        } catch (\Exception $e) {
+            return abort(500);
         }
+    }
+
+    public function create(): View {
+        return view("wireless.create");
     }
 }
