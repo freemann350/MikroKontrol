@@ -17,8 +17,8 @@ class WirelessController extends Controller
                 'auth' => ['admin', '123456'],
                 'timeout' => 3
             ]);
-
             $data = json_decode($response->getBody(), true);
+
             usort($data, function ($a, $b) {
                 return $a['.id'] <=> $b['.id'];
             });

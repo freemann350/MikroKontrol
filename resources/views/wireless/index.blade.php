@@ -20,6 +20,7 @@
                     <th>Band (Actual)</th>
                     <th>Connection Status</th>
                     <th>Current Status</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -41,6 +42,11 @@
                     @else
                     <td><label class="badge badge-danger">Disabled</label></td>
                     @endif
+                    <td>
+                        <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-information-outline"></i></a>
+                        <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-pencil"></i></a>
+                        <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-trash-can-outline"></i></a>
+                    </td>
                 </tr>
                 @endforeach
                 </tbody>

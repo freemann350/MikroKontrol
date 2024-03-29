@@ -14,8 +14,10 @@
   <link rel="stylesheet" href="{{ url('vendors/typicons/typicons.css') }}">
   <link rel="stylesheet" href="{{ url('vendors/simple-line-icons/css/simple-line-icons.css') }}">
   <link rel="stylesheet" href="{{ url('vendors/css/vendor.bundle.base.css') }}">
+  <link rel="stylesheet" href="{{ url('css/main/toastr.css') }}">
   <!-- endinject -->
   <!-- inject:css -->
+  <link rel="stylesheet" href="{{ url('css/main/sweetalert2.min.css') }}">
   <link rel="stylesheet" href="{{ url('css/main/style.css') }}">
   <!-- endinject -->
   <link rel="shortcut icon" href="{{ url('img/favicon.png') }}" />
@@ -140,7 +142,7 @@
           </li>
           <li class="nav-item nav-category"></li>
           <li class="nav-item">
-            <a class="nav-link" href="{{ route ('login') }}">
+            <a class="nav-link" id="logout" href="#">
               <i class="menu-icon mdi  mdi-logout"></i>
               <span class="menu-title">Logout</span>
             </a>
@@ -181,11 +183,58 @@
   <script src="{{ url('js/main/hoverable-collapse.js') }}"></script>
   <script src="{{ url('js/main/template.js') }}"></script>
   <script src="https://cdn.datatables.net/v/bs5/dt-2.0.3/datatables.min.js"></script>
-  <script src="http://cdn.datatables.net/plug-ins/2.0.3/pagination/scrolling.js"></script>
+  <script src="{{ url('js/main/template.js') }}"></script>
+  <script src="{{ url('js/main/jquery.min.js') }}"></script>
+  <script src="{{ url('js/main/toastr.min.js') }}"></script>
+  <script src="{{ url('js/main/sweetalert2@11.js') }}"></script>
   <script>
     let table = new DataTable('#dt');
     @if (Route::currentRouteName() == 'Interfaces.index')
     let table_2 = new DataTable('#dt_wifi');
+    @endif
+  </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Get the link element
+        var logout = document.getElementById("logout");
+
+        // Add click event listener
+        logout.addEventListener("click", function(event) {
+            // Prevent default link behavior
+            event.preventDefault();
+
+            // Execute SweetAlert code
+            Swal.fire({
+                title: "Are you sure you want to leave?",
+                text: "There's more networking to be done",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                cancelButtonText: "No",
+                confirmButtonText: "Yes"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                  window.location.href = '{{ route('login') }}';
+                }
+            });
+        });
+    });
+
+    @if (Route::currentRouteName() == 'SecurityProfiles.index')
+      function sp_psk(psk) {
+        Swal.fire({
+            title: "Your SP password is:",
+            icon: "info",
+            html: `
+                <b><h3>
+                <small class="text-muted">${psk}</small>
+                </b></h3>
+            `,
+            focusConfirm: true,
+            cancelButtonAriaLabel: "Thumbs down"
+        });
+      }
     @endif
   </script>
   <!-- endinject -->

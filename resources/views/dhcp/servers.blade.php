@@ -20,6 +20,7 @@
                     <th>Authoritative</th>
                     <th>State</th>
                     <th>Current Status</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -32,15 +33,20 @@
                     <td>{{ $server['lease-time'] }}</td>
                     <td>{{ $server['authoritative'] }}</td>
                     @if ($server['invalid'] == "true")
-                    <td class="text-success"> <i class="mdi mdi-check-circle"></i> </td>
+                    <td><i class="mdi mdi-check-circle text-success">&nbsp;</i></td>
                     @else
-                    <td class="text-danger">  <i class="mdi mdi-close-circle"></i> </td>
+                    <td><i class="mdi mdi-close-circle text-danger">&nbsp;</i></td>
                     @endif
                     @if ($server['disabled']=="false")
                     <td><label class="badge badge-success">Enabled</label></td>
                     @else
                     <td><label class="badge badge-danger">Disabled</label></td>
                     @endif
+                    <td>
+                        <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-information-outline"></i></a>
+                        <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-pencil"></i></a>
+                        <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-trash-can-outline"></i></a>
+                    </td>
                 </tr>
                 @endforeach
                 </tbody>
