@@ -25,7 +25,7 @@ class IpAddressController extends Controller
             });
             return view('ip_addresses.index', ['addresses' => $data]);
         } catch (\Exception $e) {
-            return abort(500);
+            return view('ip_addresses.index', ['addresses' => null, 'conn_error' => $e->getMessage()]);
         }
     }
 

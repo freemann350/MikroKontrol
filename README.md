@@ -25,3 +25,15 @@ Modules used:
 Notes:
 - The app contains little to no JS (save for a few usability plugins), so it is extremely server-side, expect delays on endpoint communication
 - The configuration provided is very simple, if time allows, there will be a custom json text area to allow for a more advanced configuration of the endpoints
+
+
+**ToDO (by order):**
+
+- Item info 
+- PUTs/POSTs (new data)
+- PATCHes
+- DELETEs
+- Error treatment on all pages (check DNS Server (controller/view))
+- Login
+- Device addition and selection (Dashboard)
+- Custom request (JSON textarea on creation/updates)

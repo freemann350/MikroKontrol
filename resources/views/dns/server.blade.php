@@ -8,6 +8,7 @@
             <p class="card-description">
                 Shows all information of the router's DNS
             </p>
+            @if ($server != null)
             <div class="row">
                 <div class="col-md-6">
                     <address>
@@ -133,6 +134,10 @@
                 <a class="btn btn-success btn-lg btn-block" href="{{route('editDnsServer')}}"><i class="mdi mdi-pencil"></i> Edit router DNS</a>
                 <button onclick="location.reload();" type="button" class="btn btn-info btn-lg btn-block"><i class="mdi mdi-refresh"></i>Refresh info</button>
             </div>
+            @else
+            <p>Could not load info.</p>
+            <p>Error: <b>{{$conn_error}}</b></p>
+            @endif
         </div>
     </div>
 </div>

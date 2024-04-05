@@ -12,6 +12,7 @@ class CreateDevicesTable extends Migration
             $table->id();
             $table->string('device_name');
             $table->string('endpoint');
+            $table->string('timeout')->default('3');
             $table->enum('method', ['http', 'https']);
             $table->timestamps();
         });

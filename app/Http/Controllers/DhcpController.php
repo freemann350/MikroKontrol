@@ -23,7 +23,7 @@ class DhcpController extends Controller
            
             return view('dhcp.servers', ['servers' => $data]);
         } catch (\Exception $e) {
-            return abort(500);
+            return view('dhcp.servers', ['servers' => null, 'conn_error' => $e->getMessage()]);
         }
     }
 
@@ -45,7 +45,7 @@ class DhcpController extends Controller
 
             return view('dhcp.clients', ['clients' => $data]);
         } catch (\Exception $e) {
-            return abort(500);
+            return view('dhcp.clients', ['clients' => null, 'conn_error' => $e->getMessage()]);
         }
     }
 

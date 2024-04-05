@@ -45,7 +45,7 @@
     <label for="email">Email Address</label>
     <div class="sec-2">
       <ion-icon name="mail-outline"></ion-icon>
-      <input type="email" name="email" placeholder="Username@gmail.com"/>
+      <input type="email" name="email" placeholder="user@mail.org"/>
     </div>
   </div>
   <div class="password">

@@ -67,6 +67,7 @@ Route::controller(DnsController::class)->group(function () {
     Route::get('/DNSServer/New','editDnsServer')->name("editDnsServer");
     Route::get('/DNSStaticRecords','records')->name("dns_records");
     Route::get('/DNSStaticRecords/New','createDnsRecord')->name("createDnsRecord");
+    Route::post('/DNSStaticRecords/New/store','storeDnsRecord')->name("storeDnsRecord");
 });
 
 Route::controller(WireguardController::class)->group(function () {

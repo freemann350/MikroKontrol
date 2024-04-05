@@ -26,7 +26,7 @@ class SecurityProfileController extends Controller
     
             return view('security_profiles.index', ['security_profiles' => $data]);
         } catch (\Exception $e) {
-            return abort(500);
+            return view('security_profiles.index', ['security_profiles' => null, 'conn_error' => $e->getMessage()]);
         }
     }
 

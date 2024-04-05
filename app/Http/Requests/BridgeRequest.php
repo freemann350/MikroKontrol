@@ -22,14 +22,37 @@ class BridgeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
+            'name' => [
+                'required',
+                'string'
+            ],
+            'ageing-time' => [
+                'nullable', 
+                'date_format:H:i:s'
+            ],
+            'mtu' => [
+                'nullable', 
+                'integer'
+            ],
+            'admin-mac' => [
+                'nullable', 
+                'string',
+                'regex:/^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/'
+            ],
+            'dhcp-snooping' => 'boolean',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'name.required' => 'The name is required',
+            'name.required' => 'The name field is required.',
+            'name.string' => 'The name field must be a string.',
+            'ageing.date_format' => 'The ageing field must be in valid format (e.g., 21:58:39).',
+            'mtu.integer' => 'The mtu field must be an integer.',
+            'mac.string' => 'The mac field must be a string.',
+            'mac.regex' => 'The MAC address field must be in a valid format (e.g., 12:34:56:78:90:AB).',
+            'snooping.boolean' => 'The snooping field must be a boolean value.',
         ];
     }
 }

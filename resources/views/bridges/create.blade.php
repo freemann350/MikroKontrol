@@ -11,14 +11,58 @@
             </p>
             <form method="POST" action="{{route('Bridges.store')}}">
             @csrf
-            <div class="form-group row">
+            <div class="form-group">
                 <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Name</label>
                 <div class="col-sm-9">
-                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{old('name')}}" placeholder="My Static DNS record">
+                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{old('name')}}" placeholder="bridge1" required>
                     @error('name')
                         <div class="invalid-feedback">
                             {{ $message }}
                         </div>
+                    @enderror
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Ageing time (optional)</label>
+                <div class="col-sm-9">
+                    <input type="text" name="ageing-time" class="form-control @error('ageing-time') is-invalid @enderror" value="{{old('ageing-time')}}" placeholder="00:05:00">
+                    @error('ageing-time')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputUsername2" class="col-sm-3 col-form-label">MTU (optional)</label>
+                <div class="col-sm-9">
+                    <input type="text" name="mtu" class="form-control @error('mtu') is-invalid @enderror" value="{{old('mtu')}}" placeholder="1500">
+                    @error('mtu')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 col-form-label">MAC Address (optional)</label>
+                <div class="col-sm-9">
+                    <input type="text" name="admin-mac" class="form-control @error('admin-mac') is-invalid @enderror" value="{{old('admin-mac')}}" placeholder="AA:BB:CC:DD:EE:FF">
+                    @error('admin-mac')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-9">
+                    <input class="form-check-input @error('dhcp-snooping') is-invalid @enderror"" type="checkbox" name="dhcp-snooping" value="1" {{ old('dhcp-snooping') ? 'checked' : '' }}>
+                    <label class="form-check-label @error('dhcp-snooping') is-invalid @enderror""> &nbsp;DHCP Snooping</label>
+                    @error('dhcp-snooping')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
                     @enderror
                 </div>
             </div>

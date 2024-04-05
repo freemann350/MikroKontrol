@@ -8,6 +8,7 @@
             <p class="card-description">
             List of all IP addresses on the device
             </p>
+            @if ($addresses != null)
             <div class="table-responsive">
             <table class="table table-hover table-striped"  style="text-align:center" id="dt">
                 <thead>
@@ -47,10 +48,16 @@
             <br>
             <button onclick="location.reload();" type="button" class="btn btn-info btn-lg btn-block"><i class="mdi mdi-refresh"></i>Refresh info
             </button>
+            @else
+            <p>Could not load info.</p>
+            <p>Error: <b>{{$conn_error}}</b></p>
+            @endif
         </div>
     </div>
 </div>
+@if ($addresses != null)
 <div class="d-grid gap-2">
   <a class="btn btn-success btn-lg btn-block" href="{{ route ('IPAddresses.create') }}"><i class="mdi mdi-plus-circle"></i> Add new address</a>
 </div>
+@endif
 @endsection

@@ -24,7 +24,7 @@ class WirelessController extends Controller
             });
             return view('wireless.index', ['wireless' => $data]);
         } catch (\Exception $e) {
-            return abort(500);
+            return view('wireless.index', ['wireless' => null, 'conn_error' => $e->getMessage()]);
         }
     }
 

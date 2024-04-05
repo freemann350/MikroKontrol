@@ -25,7 +25,7 @@ class StaticRouteController extends Controller
             });
             return view('static_routes.index', ['routes' => $data]);
         } catch (\Exception $e) {
-            return abort(500);
+            return view('static_routes.index', ['routes' => null, 'conn_error' => $e->getMessage()]);
         }
     }
 

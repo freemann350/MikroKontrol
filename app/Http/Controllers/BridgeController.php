@@ -26,7 +26,7 @@ class BridgeController extends Controller
             return view('bridges.index', ['bridges' => $data]);
             
         } catch (\Exception $e) {
-            return abort(500);
+            return view('bridges.index', ['bridges' => null, 'conn_error' => $e->getMessage()]);
         }
     }
     
@@ -36,9 +36,25 @@ class BridgeController extends Controller
 
     public function store(BridgeRequest $request): View {
         $formData = $request->validated();
+        if ($formData["admin-mac"] != null )
+            $formData["auto-mac"] = "false";
+
+        if (is_null($formData["ageing-time"]))
+            unset($formData["ageing-time"]);
+
+        if (is_null($formData["mtu"]))
+            unset($formData["mtu"]);
+
+        if (is_null($formData["admin-mac"]))
+            unset($formData["admin-mac"]);
+
+        if ($formData["dhcp-snooping"])
+        $formData["dhcp-snooping"] = "true";
+
         $jsonData = json_encode($formData);
 
         $client = new Client();
+        
         try {
             $response = $client->request('PUT', 'http://192.168.88.1/rest/interface/bridge', [
                 'auth' => ['admin', '123456'],
@@ -49,7 +65,7 @@ class BridgeController extends Controller
 
             return $this->index();
         } catch (\Exception $e) {
-            return abort(500);
+            return dd($e->getMessage());
         }
     }
 }
