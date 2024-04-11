@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use GuzzleHttp\Client;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use GuzzleHttp\Exception\ConnectException;
@@ -11,8 +12,8 @@ class BridgeController extends Controller
 {
     public function index(): View
     {
-        $client = new Client();
         try {
+            $client = new Client();
             $response = $client->get('http://192.168.88.1/rest/interface/bridge', [
                 'auth' => ['admin', '123456'],
                 'timeout' => 3
@@ -30,11 +31,13 @@ class BridgeController extends Controller
         }
     }
     
-    public function create(): View {
+    public function create(): View 
+    {
         return view("bridges.create");
     }
 
-    public function store(BridgeRequest $request): View {
+    public function store(BridgeRequest $request): RedirectResponse
+    {
         $formData = $request->validated();
         if ($formData["admin-mac"] != null )
             $formData["auto-mac"] = "false";
@@ -63,7 +66,7 @@ class BridgeController extends Controller
                 'timeout' => 3
             ]);
 
-            return $this->index();
+            return redirect()->route('Bridges.index');
         } catch (\Exception $e) {
             return dd($e->getMessage());
         }

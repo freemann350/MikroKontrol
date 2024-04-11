@@ -224,18 +224,33 @@
     @if (Route::currentRouteName() == 'SecurityProfiles.index')
       function sp_psk(psk) {
         Swal.fire({
-            title: "Your SP password is:",
+            title: "Your SP password is",
             icon: "info",
             html: `
                 <b><h3>
                 <small class="text-muted">${psk}</small>
                 </b></h3>
             `,
-            focusConfirm: true,
-            cancelButtonAriaLabel: "Thumbs down"
+            focusConfirm: true
         });
       }
     @endif
+
+    @if (Route::currentRouteName() == 'Wireguard.index')
+      function wg_prk(prk) {
+        Swal.fire({
+            title: "Your Wireguard private key is",
+            icon: "info",
+            html: `
+                <b><h3>
+                <small class="text-muted">${prk}</small>
+                </b></h3>
+            `,
+            focusConfirm: true
+        });
+      }
+    @endif
+
   </script>
   <!-- endinject -->
 </body>

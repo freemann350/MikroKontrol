@@ -29,7 +29,7 @@
                     <td>{{ $address['address'] }} ({{ $address['dynamic'] == "true" ? 'Dynamic' : 'Static' }})</td>
                     <td>{{ $address['network'] }}</td>
                     <td>{{ $address['interface']}} ({{$address['actual-interface']}})</td>
-                    <td>{{ $address['comment'] }}</td>
+                    <td>{{ isset($address['comment']) ? $address['comment'] : "-"}}</td>
                     @if ($address['disabled']=="false")
                     <td><label class="badge badge-success">Enabled</label></td>
                     @else

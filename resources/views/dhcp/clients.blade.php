@@ -29,7 +29,7 @@
                 <tr>
                     <td>{{ $client['.id'] }}</td>
                     <td>{{ $client['interface']}}</td>
-                    <td>{{ $client['comment'] }}</td>
+                    <td>{{ isset($client['comment']) ? $client['comment'] : "-"}}</td>
                     <td>{{ $client['dhcp-options'] }} </td>
                     <td>{{ $client['use-peer-dns'] }} </td>
                     <td>{{ $client['use-peer-ntp'] }} </td>

@@ -64,7 +64,7 @@ Route::controller(DhcpController::class)->group(function () {
 
 Route::controller(DnsController::class)->group(function () {
     Route::get('/DNSServer','server')->name("dns_server");
-    Route::get('/DNSServer/New','editDnsServer')->name("editDnsServer");
+    Route::get('/DNSServer/Edit','editDnsServer')->name("editDnsServer");
     Route::get('/DNSStaticRecords','records')->name("dns_records");
     Route::get('/DNSStaticRecords/New','createDnsRecord')->name("createDnsRecord");
     Route::post('/DNSStaticRecords/New/store','storeDnsRecord')->name("storeDnsRecord");

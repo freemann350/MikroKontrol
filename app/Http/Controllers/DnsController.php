@@ -30,7 +30,20 @@ class DnsController extends Controller
     }
 
     public function editDnsServer(): View {
-        return view("dns.edit_server");
+        try {
+            $client = new Client();
+    
+            $response = $client->get('http://192.168.88.1/rest/ip/dns', [
+                'auth' => ['admin', '123456'],
+                'timeout' => 3
+            ]);
+    
+            $data = json_decode($response->getBody(), true);
+
+            return view("dns.edit_server", ['server' => $data]);
+        } catch (\Exception $e) {
+            return view('dns.server', ['server' => null, 'conn_error' => $e->getMessage()]);
+        }
     }
 
     public function storeDnsServer(DnsRecordRequest $request) : View

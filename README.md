@@ -1,6 +1,8 @@
+# MikroKontrol - Simple Laravel Web UI for controlling MikroTik devices REST API
+
+
 ![Mikrotik Logo](https://logos-world.net/wp-content/uploads/2023/01/MikroTik-Logo.jpg)
 
-Simple Laravel Web UI for controlling MikroTik devices REST API
 
 Main template is [Star Admin 2 by BootstrapDash](https://demo.bootstrapdash.com/star-admin2-free/template/index.html) 
 
@@ -27,13 +29,64 @@ Notes:
 - The configuration provided is very simple, if time allows, there will be a custom json text area to allow for a more advanced configuration of the endpoints
 
 
-**ToDO (by order):**
+## ToDO (by order):
 
-- Item info 
+- Individual item info 
+    - [ ] Bridges
+    - [ ] Security Profiles
+    - [ ] Wireless Interfaces
+    - [ ] Addresses
+    - [ ] Static Routing
+    - [ ] DHCP Server
+    - [ ] DHCP Client
+    - [ ] DNS Server
+    - [ ] DNS Static Records
+    - [ ] Wireguard
+- Forms (view)
+    - [x] Bridges
+    - [x] Security Profiles
+    - [ ] Wireless Interfaces
+    - [x] Addresses
+    - [x] Static Routing
+    - [ ] DHCP Server
+    - [ ] DHCP Client
+    - [x] DNS Static Records
+    - [x] Wireguard
 - PUTs/POSTs (new data)
+    - [x] Bridges
+    - [ ] Security Profiles
+    - [ ] Wireless Interfaces
+    - [x] Addresses
+    - [ ] Static Routing
+    - [ ] DHCP Server
+    - [ ] DHCP Client
+    - [ ] DNS Server
+    - [x] DNS Static Records
+    - [x] Wireguard
 - PATCHes
+    - [ ] Bridges
+    - [ ] Security Profiles
+    - [ ] Wireless Interfaces
+    - [ ] Addresses
+    - [ ] Static Routing
+    - [ ] DHCP Server
+    - [ ] DHCP Client
+    - [ ] DNS Server
+    - [ ] DNS Static Records
+    - [ ] Wireguard
 - DELETEs
-- Error treatment on all pages (check DNS Server (controller/view))
-- Login
-- Device addition and selection (Dashboard)
-- Custom request (JSON textarea on creation/updates)
+    - [ ] Bridges
+    - [ ] Security Profiles
+    - [ ] Wireless Interfaces
+    - [ ] Addresses
+    - [ ] Static Routing
+    - [ ] DHCP Server
+    - [ ] DHCP Client
+    - [ ] DNS Server
+    - [ ] DNS Static Records
+    - [ ] Wireguard
+- [ ] Error treatment on all pages (check DNS Server (controller/view))
+- [ ] Login
+- [ ] Device addition and selection (Dashboard)
+- [ ] Add wireguard QR code (endpoint needs to be manually inserted)
+- [ ] Custom request (JSON textarea on creation/updates)

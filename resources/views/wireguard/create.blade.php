@@ -5,17 +5,39 @@
 <div class="col-md-12 grid-margin stretch-card">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Add new Static DNS Record</h4>
+            <h4 class="card-title">Add new Wireguard interface</h4>
             <p class="card-description">
-                Here you can add a static DNS record (A Type)
+                Here you can add a new Wireguard interface
             </p>
-            <form method="POST" action="{{route('Bridges.store')}}">
+            <form method="POST" action="{{route('Wireguard.store')}}">
             @csrf
             <div class="form-group row">
-                <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Name</label>
+                <label class="col-sm-3 col-form-label">Name</label>
                 <div class="col-sm-9">
-                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{old('name')}}" placeholder="My Static DNS record">
+                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{old('name')}}" placeholder="wireguard1">
                     @error('name')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">MTU</label>
+                <div class="col-sm-9">
+                    <input type="text" name="mtu" class="form-control @error('mtu') is-invalid @enderror" value="{{old('mtu')}}" placeholder="1420">
+                    @error('mtu')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Port</label>
+                <div class="col-sm-9">
+                    <input type="text" name="listen-port" class="form-control @error('listen-port') is-invalid @enderror" value="{{old('listen-port')}}" placeholder="13230">
+                    @error('listen-port')
                         <div class="invalid-feedback">
                             {{ $message }}
                         </div>

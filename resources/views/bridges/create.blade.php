@@ -12,7 +12,7 @@
             <form method="POST" action="{{route('Bridges.store')}}">
             @csrf
             <div class="form-group">
-                <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Name</label>
+                <label class="col-sm-3 col-form-label">Name</label>
                 <div class="col-sm-9">
                     <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{old('name')}}" placeholder="bridge1" required>
                     @error('name')
@@ -23,7 +23,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Ageing time (optional)</label>
+                <label class="col-sm-3 col-form-label">Ageing time (optional)</label>
                 <div class="col-sm-9">
                     <input type="text" name="ageing-time" class="form-control @error('ageing-time') is-invalid @enderror" value="{{old('ageing-time')}}" placeholder="00:05:00">
                     @error('ageing-time')
@@ -34,7 +34,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="exampleInputUsername2" class="col-sm-3 col-form-label">MTU (optional)</label>
+                <label class="col-sm-3 col-form-label">MTU (optional)</label>
                 <div class="col-sm-9">
                     <input type="text" name="mtu" class="form-control @error('mtu') is-invalid @enderror" value="{{old('mtu')}}" placeholder="1500">
                     @error('mtu')

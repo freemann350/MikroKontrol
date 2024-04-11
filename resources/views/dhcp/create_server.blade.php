@@ -7,12 +7,12 @@
         <div class="card-body">
             <h4 class="card-title">Add new DHCP Server</h4>
             <p class="card-description">
-                Here you can add a new DHCP Server (A Type)
+                Here you can add a new DHCP Server
             </p>
-            <form method="POST" action="{{route('Bridges.store')}}">
+            <form method="POST" action="{{route('DHCP.store')}}">
             @csrf
             <div class="form-group row">
-                <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Name</label>
+                <label class="col-sm-3 col-form-label">Name</label>
                 <div class="col-sm-9">
                     <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{old('name')}}" placeholder="My Static DNS record">
                     @error('name')
