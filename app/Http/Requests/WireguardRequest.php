@@ -27,7 +27,7 @@ class WireguardRequest extends FormRequest
                 'string'
             ],
             'mtu' => [
-                'required',
+                'nullable',
                 'integer'
             ],
             'listen-port' => [
@@ -43,7 +43,6 @@ class WireguardRequest extends FormRequest
         return [
             'name.required' => 'The Name field is required.',
             'name.string' => 'The Name field must be a string.',
-            'mtu.required' => 'The MTU field is required.',
             'mtu.integer' => 'The MTU field must be an integer.',
             'listen-port.integer' => 'The Port field must be an integer.',
             'listen-port.between' => 'The Port field must be an integer between 1024 and 65535.',

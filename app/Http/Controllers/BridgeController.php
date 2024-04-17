@@ -51,8 +51,8 @@ class BridgeController extends Controller
         if (is_null($formData["admin-mac"]))
             unset($formData["admin-mac"]);
 
-        if ($formData["dhcp-snooping"])
-        $formData["dhcp-snooping"] = "true";
+        if (isset($formData["dhcp-snooping"]))
+            $formData["dhcp-snooping"] = "true";
 
         $jsonData = json_encode($formData);
 
@@ -66,9 +66,43 @@ class BridgeController extends Controller
                 'timeout' => 3
             ]);
 
-            return redirect()->route('Bridges.index');
+            return redirect()->route('Bridges.index')->with('success-msg', "A Bridge interface was added with success");
         } catch (\Exception $e) {
-            return dd($e->getMessage());
+            $error = $this->treat_error($e->getMessage());
+
+            if ($error == null)
+                dd($e->getMessage());
+
+            return redirect()->back()->withInput()->with('error-msg', $error);
         }
+    }
+
+    private function treat_error($errorMessage) 
+    {
+        $error = null;
+
+        // Search for the detail and error information within the error message
+        if (preg_match('/"detail":\s*"([^"]+)"/', $errorMessage, $matches)) {
+            $error['detail'] = $matches[1];
+        } else {
+            $error['detail'] = null;
+        }
+    
+        if (preg_match('/"error":\s*(\d+)/', $errorMessage, $matches)) {
+            $error['error'] = (int) $matches[1];
+        } else {
+            $error['error'] = null;
+        }        
+
+        if (preg_match('/"message":\s*"([^"]+)"/', $errorMessage, $matches)) {
+            $error['message'] = $matches[1];
+        } else {
+            $error['message'] = null;
+        }
+
+        if ($error['detail'] == null && $error['error'] == null && $error['message'] == null)
+            return null;
+
+        return $error;
     }
 }

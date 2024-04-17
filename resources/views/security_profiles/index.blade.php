@@ -26,8 +26,8 @@
                 <tr>
                     <td>{{ $security_profile['.id'] }}</td>
                     <td>{{ $security_profile['name'] }}</td>
-                    <td>{{ $security_profile['authentication-types'] }}</td>
-                    <td>{{ $security_profile['unicast-ciphers'] }}</td>
+                    <td>{{ isset($security_profile['authentication-types']) && $security_profile['authentication-types'] !== "" ? $security_profile['authentication-types'] : "-"}}</td>
+                    <td>{{ isset($security_profile['unicast-ciphers']) && $security_profile['unicast-ciphers'] !== "" ? $security_profile['unicast-ciphers'] : "-"}}</td>
                     @if ($security_profile['default']=="true")
                     <td><label class="badge badge-success">True</label></td>
                     @else
@@ -36,7 +36,7 @@
                     <td>
                         <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-information-outline"></i></a>
                         <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-pencil"></i></a>
-                        @if (isset($security_profile['wpa2-pre-shared-key']))
+                        @if ($security_profile['wpa2-pre-shared-key'] !== "")
                         <a class="btn btn-outline-warning btn-fw btn-rounded btn-sm" href="#" onclick="sp_psk('{{$security_profile['wpa2-pre-shared-key']}}')"><i class="mdi mdi-key"></i></a>
                         @endif
                         <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-trash-can-outline"></i></a>

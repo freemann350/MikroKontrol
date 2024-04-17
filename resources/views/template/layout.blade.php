@@ -183,7 +183,6 @@
   <script src="{{ url('js/main/hoverable-collapse.js') }}"></script>
   <script src="{{ url('js/main/template.js') }}"></script>
   <script src="https://cdn.datatables.net/v/bs5/dt-2.0.3/datatables.min.js"></script>
-  <script src="{{ url('js/main/template.js') }}"></script>
   <script src="{{ url('js/main/jquery.min.js') }}"></script>
   <script src="{{ url('js/main/toastr.min.js') }}"></script>
   <script src="{{ url('js/main/sweetalert2@11.js') }}"></script>
@@ -251,6 +250,31 @@
       }
     @endif
 
+    toastr.options = {
+      "closeButton": false,
+      "debug": false,
+      "newestOnTop": false,
+      "progressBar": true,
+      "positionClass": "toast-top-right",
+      "preventDuplicates": false,
+      "onclick": null,
+      "showDuration": "300",
+      "hideDuration": "1000",
+      "timeOut": "5000",
+      "extendedTimeOut": "1000",
+      "showEasing": "swing",
+      "hideEasing": "linear",
+      "showMethod": "fadeIn",
+      "hideMethod": "fadeOut"
+    }
+
+    @if (session('error-msg'))
+      toastr.error('{{session('error-msg')['message']}} ({{session('error-msg')['error']}})<br>{{session('error-msg')['detail']}}', 'A problem has occurred')
+    @endif
+
+        @if (session('success-msg'))
+      toastr.success('{{session('success-msg')}}','Success!')
+    @endif
   </script>
   <!-- endinject -->
 </body>

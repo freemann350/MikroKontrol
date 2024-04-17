@@ -29,16 +29,16 @@
                 <tr>
                     <td>{{ $route['.id'] }}</td>
                     <td>{{ $route['dst-address'] }} </td>
-                    <td>{{ $route['local-address']}}</td>
+                    <td>{{ isset($route['local-address']) ? $route['local-address'] : "-"}}</td>
                     <td>{{ $route['gateway'] }} ({{ $route['immediate-gw'] }})</td>
                     <td>{{ $route['distance'] }} ({{ $route['scope'] }})</td>
                     <td>{{ $route['routing-table'] }}</td>
-                    @if ($route['connect'] == "true")
+                    @if (isset($route['connect']) && $route['connect'] == "true")
                     <td class="text-success"> Connected  <i class="ti-arrow-up"></i></td>
                     @else
                     <td class="text-danger"> Not connected <i class="ti-arrow-down"></i></td>
                     @endif
-                    @if ($route['active']=="true")
+                    @if (isset($route['active']) && $route['active']=="true")
                     <td><label class="badge badge-success">Estabilished</label></td>
                     @else
                     <td><label class="badge badge-danger">Not estabilished</label></td>

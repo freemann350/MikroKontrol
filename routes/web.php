@@ -57,8 +57,10 @@ Route::controller(StaticRouteController::class)->group(function () {
 Route::controller(DhcpController::class)->group(function () {
     Route::get('/DHCPServers','servers')->name("dhcp_servers");
     Route::get('/DHCPServers/New','createDhcpServer')->name("createDhcpServer");
+    Route::post('/DHCPServers/New','storeDhcpServer')->name("storeDhcpServer");
     Route::get('/DHCPClients','client')->name("dhcp_client");
     Route::get('/DHCPClients/New','createDhcpClient')->name("createDhcpClient");
+    Route::post('/DHCPClients/New','storeDhcpClient')->name("storeDhcpClient");
     Route::resource('/DHCP',DhcpController::class);
 });
 

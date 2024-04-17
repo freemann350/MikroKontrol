@@ -48,19 +48,18 @@ Notes:
     - [ ] Wireless Interfaces
     - [x] Addresses
     - [x] Static Routing
-    - [ ] DHCP Server
-    - [ ] DHCP Client
+    - [x] DHCP Server
+    - [x] DHCP Client
     - [x] DNS Static Records
     - [x] Wireguard
 - PUTs/POSTs (new data)
     - [x] Bridges
-    - [ ] Security Profiles
+    - [x] Security Profiles
     - [ ] Wireless Interfaces
     - [x] Addresses
-    - [ ] Static Routing
-    - [ ] DHCP Server
-    - [ ] DHCP Client
-    - [ ] DNS Server
+    - [x] Static Routing
+    - [x] DHCP Server
+    - [x] DHCP Client
     - [x] DNS Static Records
     - [x] Wireguard
 - PATCHes
@@ -85,8 +84,13 @@ Notes:
     - [ ] DNS Server
     - [ ] DNS Static Records
     - [ ] Wireguard
-- [ ] Error treatment on all pages (check DNS Server (controller/view))
-- [ ] Login
+- [ ] Toast messages on error/success
+    - [x] PUT/POST
+    - [ ] PATCH
+    - [ ] DELETE
+- [ ] Login & Users
+    - [ ] CRUD users
+    - [ ] Login
 - [ ] Device addition and selection (Dashboard)
-- [ ] Add wireguard QR code (endpoint needs to be manually inserted)
 - [ ] Custom request (JSON textarea on creation/updates)
+- [ ] Add wireguard QR code (endpoint needs to be manually inserted)

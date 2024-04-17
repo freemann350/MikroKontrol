@@ -19,7 +19,7 @@
                     <th>Address Pool</th> 
                     <th>Lease Time</th>
                     <th>Authoritative</th>
-                    <th>State</th>
+                    <th>Validity state</th>
                     <th>Current Status</th>
                     <th>Actions</th>
                 </tr>
@@ -34,9 +34,9 @@
                     <td>{{ $server['lease-time'] }}</td>
                     <td>{{ $server['authoritative'] }}</td>
                     @if ($server['invalid'] == "true")
-                    <td><i class="mdi mdi-check-circle text-success">&nbsp;</i></td>
-                    @else
                     <td><i class="mdi mdi-close-circle text-danger">&nbsp;</i></td>
+                    @else
+                    <td><i class="mdi mdi-check-circle text-success">&nbsp;</i></td>
                     @endif
                     @if ($server['disabled']=="false")
                     <td><label class="badge badge-success">Enabled</label></td>

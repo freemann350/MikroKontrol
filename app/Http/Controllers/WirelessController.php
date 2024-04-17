@@ -31,4 +31,33 @@ class WirelessController extends Controller
     public function create(): View {
         return view("wireless.create");
     }
+
+    private function treat_error($errorMessage) 
+    {
+        $error = null;
+
+        // Search for the detail and error information within the error message
+        if (preg_match('/"detail":\s*"([^"]+)"/', $errorMessage, $matches)) {
+            $error['detail'] = $matches[1];
+        } else {
+            $error['detail'] = null;
+        }
+    
+        if (preg_match('/"error":\s*(\d+)/', $errorMessage, $matches)) {
+            $error['error'] = (int) $matches[1];
+        } else {
+            $error['error'] = null;
+        }        
+
+        if (preg_match('/"message":\s*"([^"]+)"/', $errorMessage, $matches)) {
+            $error['message'] = $matches[1];
+        } else {
+            $error['message'] = null;
+        }
+
+        if ($error['detail'] == null && $error['error'] == null && $error['message'] == null)
+            return null;
+
+        return $error;
+    }
 }
