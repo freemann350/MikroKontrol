@@ -17,7 +17,6 @@
                     <th>Address</th>
                     <th>Network</th>
                     <th>Interface (Actual Interface)</th> 
-                    <th>Comment</th>
                     <th>Current Status</th>
                     <th>Actions</th>
                 </tr>
@@ -29,7 +28,6 @@
                     <td>{{ $address['address'] }} ({{ $address['dynamic'] == "true" ? 'Dynamic' : 'Static' }})</td>
                     <td>{{ $address['network'] }}</td>
                     <td>{{ $address['interface']}} ({{$address['actual-interface']}})</td>
-                    <td>{{ isset($address['comment']) ? $address['comment'] : "-"}}</td>
                     @if ($address['disabled']=="false")
                     <td><label class="badge badge-success">Enabled</label></td>
                     @else
@@ -37,8 +35,10 @@
                     @endif
                     <td>
                         <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-information-outline"></i></a>
-                        <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-pencil"></i></a>
-                        <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-trash-can-outline"></i></a>
+                        <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="{{route("IPAddresses.edit",$address['.id'])}}"><i class="mdi mdi-pencil"></i></a>
+                        @if (!isset($address['comment']) || $address['comment'] != 'defconf')
+                        <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm" href="#" onclick="_delete('Are you sure you want to delete the IP Address &quot;{{$address["address"]}}&quot; ({{$address[".id"]}})','{{ route("IPAddresses.destroy", $address[".id"]) }}')"><i class="mdi mdi-trash-can-outline"></i></a>
+                        @endif
                     </td>
                 </tr>
                 @endforeach

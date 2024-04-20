@@ -33,7 +33,7 @@ class StaticRouteRequest extends FormRequest
             ],
             'check-gateway' => [
                 'required',
-                Rule::in(['ping', 'arp', 'bfd', 'none']),
+                Rule::in(['ping', 'arp', 'none']),
             ],
             'suppress-hw-offload' => [
                 'nullable',
@@ -50,10 +50,6 @@ class StaticRouteRequest extends FormRequest
             'target-scope'=> [
                 'nullable',
                 'between:0,255'
-            ],
-            'blackhole'=> [
-                'nullable',
-                Rule::in(['true'])
             ]
         ];
     }
@@ -64,12 +60,11 @@ class StaticRouteRequest extends FormRequest
         'dst-address.regex' => 'The destination address must be in the format xxx.xxx.xxx.xxx/xx.',
         'gateway.required' => 'The gateway address is required.',
         'check-gateway.required' => 'The check-gateway field is required.',
-        'check-gateway.in' => 'The check-gateway field must be one of: ping, arp, bfd, none.',
+        'check-gateway.in' => 'The check-gateway field must be one of: ping, arp, none.',
         'suppress-hw-offload.in' => 'The suppress-hw-offload field must be true.',
         'distance.between' => 'The distance must be between 0 and 255.',
         'scope.between' => 'The scope must be between 0 and 255.',
         'target-scope.between' => 'The target-scope must be between 0 and 255.',
-        'blackhole.in' => 'The blackhole field must be true.',
     ];
 }
 }

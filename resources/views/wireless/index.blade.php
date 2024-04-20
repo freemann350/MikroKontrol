@@ -32,7 +32,7 @@
                     <td>{{ $wireless['ssid'] }}</td>
                     <td>{{ $wireless['mode'] }}</td>
                     <td>{{ $wireless['security-profile'] }}</td>
-                    <td>{{ $wireless['band'] }}</td>
+                    <td>{{ isset($wireless['band']) ? $wireless['band'] : '-'  }}</td>
                     @if ($wireless['running'] == "true")
                     <td class="text-success"> Connected <i class="ti-arrow-up"></i></td>
                     @else
@@ -45,8 +45,10 @@
                     @endif
                     <td>
                         <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-information-outline"></i></a>
-                        <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-pencil"></i></a>
-                        <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-trash-can-outline"></i></a>
+                        <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="{{route('Wireless.edit',$wireless['.id'])}}"><i class="mdi mdi-pencil"></i></a>
+                        @if (!isset($wireless['band']))
+                        <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm" href="#" onclick="_delete('Are you sure you want to delete the Wireless interface &quot;{{$wireless['name']}}&quot; ({{$wireless['ssid']}})' ,'{{ route("Wireless.destroy", $wireless[".id"]) }}')"><i class="mdi mdi-trash-can-outline"></i></a>
+                        @endif
                     </td>
                 </tr>
                 @endforeach

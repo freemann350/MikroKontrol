@@ -28,11 +28,10 @@ class BridgeRequest extends FormRequest
             ],
             'ageing-time' => [
                 'nullable', 
-                'date_format:H:i:s'
             ],
             'mtu' => [
                 'nullable', 
-                'integer'
+                'string'
             ],
             'admin-mac' => [
                 'nullable', 

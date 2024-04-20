@@ -134,11 +134,17 @@
               </ul>
             </div>
           </li>
-          <li class="nav-item {{ Route::currentRouteName() == 'Wireguard.index' ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route ('Wireguard.index') }}">
+          <li class="nav-item {{ Route::currentRouteName() == 'Wireguard.servers' || Route::currentRouteName() == 'Wireguard.clients'? 'active' : '' }}">
+            <a class="nav-link" data-bs-toggle="collapse" data-bs-toggle="collapse" href="#wireguard" aria-expanded="false" aria-controls="wireguard">
               <i class="menu-icon mdi mdi-vpn"></i>
               <span class="menu-title">Wireguard</span>
             </a>
+            <div class="collapse" id="wireguard">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item {{ Route::currentRouteName() == 'wireguard_servers' ? 'active' : '' }}"> <a class="nav-link" href="{{ route ('wireguard_servers') }}">Servers</a></li>
+                <li class="nav-item {{ Route::currentRouteName() == 'wireguard_clients' ? 'active' : '' }}"> <a class="nav-link" href="{{ route ('wireguard_clients') }}">Clients</a></li>
+              </ul>
+            </div>
           </li>
           <li class="nav-item nav-category"></li>
           <li class="nav-item">
@@ -193,7 +199,7 @@
     @endif
   </script>
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function() {
         // Get the link element
         var logout = document.getElementById("logout");
 
@@ -235,7 +241,7 @@
       }
     @endif
 
-    @if (Route::currentRouteName() == 'Wireguard.index')
+    @if (Route::currentRouteName() == 'wireguard_servers')
       function wg_prk(prk) {
         Swal.fire({
             title: "Your Wireguard private key is",
@@ -249,6 +255,33 @@
         });
       }
     @endif
+
+    function _delete(msg, route) {
+        Swal.fire({
+            title: "Deleting record",
+            text: msg,
+            icon: "error",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            cancelButtonText: "No",
+            confirmButtonText: "Yes"
+        }).then((result) => {
+            if (result.isConfirmed) {
+              // Create a form element
+              const form = document.createElement('form');
+              form.method = 'POST';
+              form.action = route;
+              form.innerHTML = `
+                  @csrf
+                  @method('DELETE')
+              `;
+              // Append the form to the document body and submit it
+              document.body.appendChild(form);
+              form.submit();
+            }
+        });
+    };
 
     toastr.options = {
       "closeButton": false,
@@ -272,9 +305,10 @@
       toastr.error('{{session('error-msg')['message']}} ({{session('error-msg')['error']}})<br>{{session('error-msg')['detail']}}', 'A problem has occurred')
     @endif
 
-        @if (session('success-msg'))
+    @if (session('success-msg'))
       toastr.success('{{session('success-msg')}}','Success!')
     @endif
+
   </script>
   <!-- endinject -->
 </body>

@@ -65,11 +65,6 @@
                     <input class="form-check-input" type="checkbox" name="use-peer-ntp" value="true">
                     <label class="form-check-label"> &nbsp;Use peer NTP</label>
                 </div>
-                @error('unicast-ciphers')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                @enderror
             </div>
             <button type="submit" class="btn btn-primary btn-fw">Submit</button>
             </form>

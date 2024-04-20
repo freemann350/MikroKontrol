@@ -36,8 +36,7 @@ class DhcpServerRequest extends FormRequest
                 'regex:/^(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/'
             ],
             'lease-time'=> [
-                'nullable',
-                'date_format:H:i:s'
+                'nullable'
             ],
             'address-pool'=> [
                 'required',

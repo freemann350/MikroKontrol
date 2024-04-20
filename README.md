@@ -41,56 +41,62 @@ Notes:
     - [ ] DHCP Client
     - [ ] DNS Server
     - [ ] DNS Static Records
-    - [ ] Wireguard
+    - [ ] Wireguard Server
+    - [ ] Wireguard Client
 - Forms (view)
     - [x] Bridges
     - [x] Security Profiles
-    - [ ] Wireless Interfaces
+    - [x] Wireless Interfaces
     - [x] Addresses
     - [x] Static Routing
     - [x] DHCP Server
     - [x] DHCP Client
     - [x] DNS Static Records
-    - [x] Wireguard
+    - [x] Wireguard Server
+    - [x] Wireguard Client
 - PUTs/POSTs (new data)
     - [x] Bridges
     - [x] Security Profiles
-    - [ ] Wireless Interfaces
+    - [x] Wireless Interfaces
     - [x] Addresses
     - [x] Static Routing
     - [x] DHCP Server
     - [x] DHCP Client
     - [x] DNS Static Records
-    - [x] Wireguard
+    - [x] Wireguard Server
+    - [x] Wireguard Client
 - PATCHes
-    - [ ] Bridges
-    - [ ] Security Profiles
-    - [ ] Wireless Interfaces
-    - [ ] Addresses
-    - [ ] Static Routing
-    - [ ] DHCP Server
-    - [ ] DHCP Client
-    - [ ] DNS Server
-    - [ ] DNS Static Records
-    - [ ] Wireguard
+    - [x] Bridges
+    - [x] Security Profiles
+    - [x] Wireless Interfaces
+    - [x] Addresses
+    - [x] Static Routing
+    - [x] DHCP Server
+    - [x] DHCP Client
+    - [x] DNS Server
+    - [x] DNS Static Records
+    - [x] Wireguard Server
+    - [x] Wireguard Client
 - DELETEs
-    - [ ] Bridges
-    - [ ] Security Profiles
-    - [ ] Wireless Interfaces
-    - [ ] Addresses
-    - [ ] Static Routing
-    - [ ] DHCP Server
-    - [ ] DHCP Client
-    - [ ] DNS Server
-    - [ ] DNS Static Records
-    - [ ] Wireguard
-- [ ] Toast messages on error/success
+    - [x] Bridges
+    - [x] Security Profiles
+    - [x] Wireless Interfaces
+    - [x] Addresses
+    - [x] Static Routing
+    - [x] DHCP Server
+    - [x] DHCP Client
+    - [x] DNS Static Records
+    - [x] Wireguard Server
+    - [x] Wireguard Client
+- [x] Toast messages on error/success
     - [x] PUT/POST
-    - [ ] PATCH
-    - [ ] DELETE
+    - [x] PATCH
+    - [x] DELETE
 - [ ] Login & Users
     - [ ] CRUD users
     - [ ] Login
+    - [ ] Gates
 - [ ] Device addition and selection (Dashboard)
 - [ ] Custom request (JSON textarea on creation/updates)
 - [ ] Add wireguard QR code (endpoint needs to be manually inserted)
+- [ ] Error fix (empty data, errors on data retrieval in creates,...)

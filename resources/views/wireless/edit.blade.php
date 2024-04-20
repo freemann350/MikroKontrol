@@ -9,12 +9,13 @@
             <p class="card-description">
                 Here you can add a new Wireless interface
             </p>
-            <form method="POST" action="{{route('Wireless.store')}}">
+            <form method="POST" action="{{route('Wireless.update',$wireless['.id'])}}"  enctype="multipart/form-data">
             @csrf
+            @method('PUT')
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">SSID</label>
                 <div class="col-sm-9">
-                    <input type="text" name="ssid" class="form-control @error('ssid') is-invalid @enderror" value="{{old('ssid')}}" placeholder="My-WiFi">
+                    <input type="text" name="ssid" class="form-control @error('ssid') is-invalid @enderror" value="{{$wireless['ssid']}}" placeholder="My-WiFi">
                     @error('ssid')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -28,7 +29,7 @@
                     <select class="form-select" name="master-interface">
                         @foreach ($interfaces as $interface)
                         @if (isset($interface['band']))
-                        <option value="{{$interface['name']}}">{{$interface['ssid']}} ({{$interface['name']}}, {{$interface['band']}})</option>
+                        <option value="{{$interface['name']}}" {{$wireless['name'] == $interface['name'] ? 'selected': ''}}>{{$interface['ssid']}} ({{$interface['name']}}, {{$interface['band']}})</option>
                         @endif
                         @endforeach
                     </select>
@@ -44,7 +45,7 @@
                 <div class="col-sm-9">
                     <select class="form-select" name="security-profile">
                         @foreach ($security_profiles as $security_profile)
-                        <option>{{$security_profile['name']}}</option>
+                        <option {{$wireless['security-profile'] == $security_profile['name'] ? 'selected': ''}}>{{$security_profile['name']}}</option>
                         @endforeach
                     </select>
                     @error('security-profile')
@@ -58,10 +59,10 @@
                 <label class="col-sm-3 col-form-label">WPS Mode</label>
                 <div class="col-sm-9">
                     <select class="form-select" name="wps-mode">
-                        <option value="disabled">Disabled</option>
-                        <option value="push-button">Push button</option>
-                        <option value="push-button-5s">Push button 5 seconds</option>
-                        <option value="virtual-push-button-only">Virtual push button only</option>
+                        <option value="disabled" {{$wireless['wps-mode'] == "disabled" ? 'selected': ''}}>Disabled</option>
+                        <option value="push-button" {{$wireless['wps-mode'] == "push-button" ? 'selected': ''}}>Push button</option>
+                        <option value="push-button-5s" {{$wireless['wps-mode'] == "push-button-5s" ? 'selected': ''}}>Push button 5 seconds</option>
+                        <option value="virtual-push-button-only" {{$wireless['wps-mode'] == "virtual-push-button-only" ? 'selected': ''}}>Virtual push button only</option>
                     </select>
                     @error('wps-mode')
                         <div class="invalid-feedback">
@@ -74,15 +75,15 @@
                 <label class="col-sm-3 col-form-label">Options</label>
                 <br>
                 <div class="col-sm-3 form-check-inline">
-                    <input class="form-check-input" type="checkbox" name="default-authentication" value="true" checked>
+                    <input class="form-check-input" type="checkbox" name="default-authentication" value="true" {{$wireless['default-authentication'] == "true" ? 'checked': ''}}>
                     <label class="form-check-label"> &nbsp;Default Authenticate</label>
                 </div>
                 <div class="col-sm-3 form-check-inline">
-                    <input class="form-check-input" type="checkbox" name="default-forwarding" value="true" checked>
+                    <input class="form-check-input" type="checkbox" name="default-forwarding" value="true" {{$wireless['default-forwarding'] == "true" ? 'checked': ''}}>
                     <label class="form-check-label"> &nbsp;Default forward</label>
                 </div>
                 <div class="col-sm-3 form-check-inline">
-                    <input class="form-check-input" type="checkbox" name="hide-ssid" value="true">
+                    <input class="form-check-input" type="checkbox" name="hide-ssid" value="true" {{$wireless['hide-ssid'] == "true" ? 'checked': ''}}>
                     <label class="form-check-label"> &nbsp;Hide SSID</label>
                 </div>
             </div>

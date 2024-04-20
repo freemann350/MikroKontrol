@@ -35,11 +35,13 @@
                     @endif
                     <td>
                         <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-information-outline"></i></a>
-                        <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-pencil"></i></a>
+                        <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="{{route('SecurityProfiles.edit',$security_profile['.id'])}}"><i class="mdi mdi-pencil"></i></a>
                         @if ($security_profile['wpa2-pre-shared-key'] !== "")
                         <a class="btn btn-outline-warning btn-fw btn-rounded btn-sm" href="#" onclick="sp_psk('{{$security_profile['wpa2-pre-shared-key']}}')"><i class="mdi mdi-key"></i></a>
                         @endif
-                        <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-trash-can-outline"></i></a>
+                        @if ($security_profile['default']!="true")
+                        <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm" href="#" onclick="_delete('Are you sure you want to delete the Security Profile &quot;{{$security_profile["name"]}}&quot; ({{$security_profile[".id"]}})','{{ route("SecurityProfiles.destroy", $security_profile[".id"]) }}')"><i class="mdi mdi-trash-can-outline"></i></a>
+                        @endif
                     </td>
                 </tr>
                 @endforeach

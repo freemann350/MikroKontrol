@@ -9,15 +9,16 @@
             <p class="card-description">
                 Here you can add a new DHCP Client
             </p>
-            <form method="POST" action="{{route('storeDhcpClient')}}">
+            <form method="POST" action="{{route('updateDhcpClient',$client['.id'])}}" enctype="multipart/form-data">
             @csrf
+            @method('PUT')
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Interface</label>
                 <div class="col-sm-9">
                     <select class="form-select" name="interface">
                         @foreach ($interfaces as $interface)
                         @if ($interface['type'] != "loopback")
-                        <option>{{$interface['name']}}</option>
+                        <option {{$client['interface'] == $interface['name'] ? "selected" : ""}}>{{$interface['name']}}</option>
                         @endif
                         @endforeach
                     </select>
@@ -32,9 +33,9 @@
                 <label class="col-sm-3 col-form-label">Add default route</label>
                 <div class="col-sm-9">
                     <select class="form-select" name="add-default-route">
-                        <option value="no">No</option>
-                        <option value="special-classless">Special classless</option>
-                        <option value="yes" selected>Yes</option>
+                        <option value="no" {{$client['add-default-route'] == "no" ? "selected" : ""}}>No</option>
+                        <option value="special-classless" {{$client['add-default-route'] == "special-classless" ? "selected" : ""}}>Special classless</option>
+                        <option value="yes" {{$client['add-default-route'] == "yes" ? "selected" : ""}}>Yes</option>
                     </select>
                     @error('interface')
                         <div class="invalid-feedback">
@@ -46,7 +47,7 @@
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Comment (optional)</label>
                 <div class="col-sm-9">
-                    <input type="text" name="comment" class="form-control @error('comment') is-invalid @enderror" value="{{old('comment')}}" placeholder="defconf">
+                    <input type="text" name="comment" class="form-control @error('comment') is-invalid @enderror" value="{{isset($client['comment']) ? $client['comment'] : ""}}" placeholder="defconf">
                     @error('comment')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -58,11 +59,11 @@
                 <label class="col-sm-3 col-form-label">Options</label>
                 <br>
                 <div class="col-sm-3 form-check-inline">
-                    <input class="form-check-input" type="checkbox" name="use-peer-dns" value="true">
+                    <input class="form-check-input" type="checkbox" name="use-peer-dns" value="true" {{$client['use-peer-dns']  == "true" ? "checked" : ""}}>
                     <label class="form-check-label"> &nbsp;Use peer DNS</label>
                 </div>
                 <div class="col-sm-3 form-check-inline">
-                    <input class="form-check-input" type="checkbox" name="use-peer-ntp" value="true">
+                    <input class="form-check-input" type="checkbox" name="use-peer-ntp" value="true" {{$client['use-peer-ntp']  == "true" ? "checked" : ""}}>
                     <label class="form-check-label"> &nbsp;Use peer NTP</label>
                 </div>
                 @error('unicast-ciphers')

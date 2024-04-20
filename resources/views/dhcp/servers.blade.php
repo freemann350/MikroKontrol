@@ -32,7 +32,7 @@
                     <td>{{ $server['interface'] }} </td>
                     <td>{{ $server['address-pool'] }} </td>
                     <td>{{ $server['lease-time'] }}</td>
-                    <td>{{ $server['authoritative'] }}</td>
+                    <td>{{ isset($server['authoritative']) ? $server['authoritative'] : "no"}}</td>
                     @if ($server['invalid'] == "true")
                     <td><i class="mdi mdi-close-circle text-danger">&nbsp;</i></td>
                     @else
@@ -45,8 +45,8 @@
                     @endif
                     <td>
                         <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-information-outline"></i></a>
-                        <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-pencil"></i></a>
-                        <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-trash-can-outline"></i></a>
+                        <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="{{route("editDhcpServer",$server['.id'])}}"><i class="mdi mdi-pencil"></i></a>
+                        <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm" href="#" onclick="_delete('Are you sure you want to delete the DHCP Server &quot;{{$server["name"]}}&quot; ({{$server[".id"]}})','{{ route("destroyDhcpServer", $server[".id"]) }}')"><i class="mdi mdi-trash-can-outline"></i></a>
                     </td>
                 </tr>
                 @endforeach

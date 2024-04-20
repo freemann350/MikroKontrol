@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class DnsServerRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class DnsServerRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +23,48 @@ class DnsServerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'servers' => [
+                'nullable'
+            ],
+            'use-doh-server' => [
+                'nullable'
+            ],
+            'doh-max-concurrent-queries'=> [
+                'required',
+                'integer'
+            ],
+            'doh-max-server-connections'=> [
+                'required',
+                'integer'
+            ],
+            'doh-timeout'=> [
+                'required'
+            ],
+            'max-udp-packet-size'=> [
+                'required',
+                'integer',
+                'between:50,65507'
+            ],
+            'query-server-timeout'=> [
+                'required'
+            ],
+            'query-total-timeout'=> [
+                'required'            ],
+            'allow-remote-requests'=> [
+                'nullable',
+                Rule::in('true')
+            ],
+            'address-list-extra-time'=> [
+                'required'
+            ],
+            'cache-size'=> [
+                'required',
+                'integer',
+                'between:64,4294967295'
+            ],
+            'cache-max-ttl'=> [
+                'required'
+            ],
         ];
     }
 }

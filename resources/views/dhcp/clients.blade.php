@@ -15,7 +15,6 @@
                 <tr>
                     <th>#</th>
                     <th>Interface</th> 
-                    <th>Comment</th>
                     <th>Options</th>
                     <th>Use Peer DNS</th>
                     <th>Use Peer NTP</th>
@@ -29,7 +28,6 @@
                 <tr>
                     <td>{{ $client['.id'] }}</td>
                     <td>{{ $client['interface']}}</td>
-                    <td>{{ isset($client['comment']) ? $client['comment'] : "-"}}</td>
                     <td>{{ $client['dhcp-options'] }} </td>
                     <td>{{ $client['use-peer-dns'] }} </td>
                     <td>{{ $client['use-peer-ntp'] }} </td>
@@ -44,9 +42,9 @@
                     <td><label class="badge badge-danger">Disabled</label></td>
                     @endif
                     <td>
-                        <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-information-outline"></i></a>
-                        <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-pencil"></i></a>
-                        <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-trash-can-outline"></i></a>
+                        <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href=""><i class="mdi mdi-information-outline"></i></a>
+                        <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="{{route("editDhcpClient",$client['.id'])}}"><i class="mdi mdi-pencil"></i></a>
+                        <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm" href="#" onclick="_delete('Are you sure you want to delete the DHCP Client on the interface&quot;{{$client["interface"]}}&quot; ({{$client[".id"]}})','{{ route("destroyDhcpClient", $client[".id"]) }}')"><i class="mdi mdi-trash-can-outline"></i></a>
                     </td>
                 </tr>
                 @endforeach

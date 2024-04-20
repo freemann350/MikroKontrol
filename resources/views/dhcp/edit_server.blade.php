@@ -9,12 +9,13 @@
             <p class="card-description">
                 Here you can add a new DHCP Server
             </p>
-            <form method="POST" action="{{route('storeDhcpServer')}}">
+            <form method="POST" action="{{route('updateDhcpServer',$server['.id'])}}" enctype="multipart/form-data">
             @csrf
+            @method('PUT')
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Name</label>
                 <div class="col-sm-9">
-                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{old('name')}}" placeholder="defconf">
+                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{$server['name']}}" placeholder="defconf">
                     @error('name')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -28,7 +29,7 @@
                     <select class="form-select" name="interface">
                         @foreach ($interfaces as $interface)
                         @if ($interface['type'] != "loopback")
-                        <option>{{$interface['name']}}</option>
+                        <option {{$server['interface'] == $interface['name'] ? "selected" : ""}}>{{$interface['name']}}</option>
                         @endif
                         @endforeach
                     </select>
@@ -42,7 +43,7 @@
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Relay (optional)</label>
                 <div class="col-sm-9">
-                    <input type="text" name="relay" class="form-control @error('relay') is-invalid @enderror" value="{{old('relay')}}" placeholder="0.0.0.0">
+                    <input type="text" name="relay" class="form-control @error('relay') is-invalid @enderror" value="{{isset($server['relay'])? $server['relay'] : ""}}" placeholder="0.0.0.0">
                     @error('relay')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -53,7 +54,7 @@
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Lease Time (optional)</label>
                 <div class="col-sm-9">
-                    <input type="text" name="lease-time" class="form-control @error('lease-time') is-invalid @enderror" value="{{old('lease-time')}}" placeholder="00:10:00">
+                    <input type="text" name="lease-time" class="form-control @error('lease-time') is-invalid @enderror" value="{{$server['lease-time']}}" placeholder="00:10:00">
                     @error('lease-time')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -65,10 +66,10 @@
                 <label class="col-sm-3 col-form-label">Address pool</label>
                 <div class="col-sm-9">
                     <select class="form-select" name="address-pool">
-                        <option value="static-only">Static only</option>
-                        <option value="default-dhcp" selected>Default DHCP</option>
+                        <option value="static-only" {{$server['interface'] == "static-only" ? "selected" : ""}}>Static only</option>
+                        <option value="default-dhcp" {{$server['interface'] == "default-dhcp" ? "selected" : ""}}>Default DHCP</option>
                     </select>
-                    @error('interface')
+                    @error('address-pool')
                         <div class="invalid-feedback">
                             {{ $message }}
                         </div>
@@ -78,7 +79,7 @@
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Comment (optional)</label>
                 <div class="col-sm-9">
-                    <input type="text" name="comment" class="form-control @error('comment') is-invalid @enderror" value="{{old('comment')}}" placeholder="defconf">
+                    <input type="text" name="comment" class="form-control @error('comment') is-invalid @enderror" value="{{isset($server['comment']) ? $server['comment'] : ""}}" placeholder="defconf">
                     @error('comment')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -90,10 +91,10 @@
                 <label class="col-sm-3 col-form-label">Authoritative</label>
                 <div class="col-sm-9">
                     <select class="form-select" name="authoritative">
-                        <option value="after-2s-delay">After 2s delay</option>
-                        <option value="after-10s-delay">After 10s delay</option>
-                        <option value="no">No</option>
-                        <option value="yes" selected>Yes</option>
+                        <option value="after-2s-delay" {{$server['authoritative'] == "after-2s-delay" ? "selected" : ""}}>After 2s delay</option>
+                        <option value="after-10s-delay" {{$server['authoritative'] == "after-10s-delay" ? "selected" : ""}}>After 10s delay</option>
+                        <option value="no" {{!isset($server['authoritative']) ? "selected" : ""}}>No</option>
+                        <option value="yes" {{$server['authoritative'] == "yes" ? "selected" : ""}}>Yes</option>
                     </select>
                     @error('address-pool')
                         <div class="invalid-feedback">
@@ -106,7 +107,7 @@
                 <label class="col-sm-3 col-form-label">Options</label>
                 <br>
                 <div class="col-sm-3 form-check-inline">
-                    <input class="form-check-input" type="checkbox" name="always-broadcast" value="true">
+                    <input class="form-check-input" type="checkbox" name="always-broadcast" value="true" {{isset($server['always-broadcast']) ? "checked" : ""}}>
                     <label class="form-check-label"> &nbsp;Always broadcast</label>
                     @error('always-broadcast')
                         <div class="invalid-feedback">
@@ -115,7 +116,7 @@
                     @enderror
                 </div>
                 <div class="col-sm-3 form-check-inline">
-                    <input class="form-check-input" type="checkbox" name="add-arp" value="true">
+                    <input class="form-check-input" type="checkbox" name="add-arp" value="true" {{isset($server['add-arp']) ? "checked" : ""}}>
                     <label class="form-check-label"> &nbsp;Add ARP for leases</label>
                     @error('add-arp')
                         <div class="invalid-feedback">
@@ -124,7 +125,7 @@
                     @enderror
                 </div>
                 <div class="col-sm-3 form-check-inline">
-                    <input class="form-check-input" type="checkbox" name="use-framed-as-classless" value="true" checked>
+                    <input class="form-check-input" type="checkbox" name="use-framed-as-classless" value="true" {{!isset($server['use-framed-as-classless']) ? "checked" : ""}}>
                     <label class="form-check-label"> &nbsp;Use framed as classless</label>
                     @error('use-framed-as-classless')
                         <div class="invalid-feedback">
@@ -133,7 +134,7 @@
                     @enderror
                 </div>
                 <div class="col-sm-3 form-check-inline">
-                    <input class="form-check-input" type="checkbox" name="conflict-detection" value="true" checked>
+                    <input class="form-check-input" type="checkbox" name="conflict-detection" value="true" {{!isset($server['conflict-detection']) ? "checked" : ""}}>
                     <label class="form-check-label"> &nbsp;Conflict detection</label>
                     @error('conflict-detection')
                         <div class="invalid-feedback">

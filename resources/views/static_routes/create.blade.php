@@ -43,7 +43,6 @@
                     <select class="form-select" name="check-gateway">
                         <option value="ping">Ping</option>
                         <option value="arp">ARP</option>
-                        <option value="bfd">BFD</option>
                         <option value="none">None</option>
                     </select>
                     @error('check-gateway')
@@ -95,17 +94,6 @@
                         </div>
                     @enderror
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-3">
-                    <input class="form-check-input" type="checkbox" name="blackhole" value="true">
-                    <label class="form-check-label"> &nbsp;Blackhole</label>
-                </div>
-                @error('blackhole')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                @enderror
             </div>
             <button type="submit" class="btn btn-primary btn-fw">Submit</button>
             </form>

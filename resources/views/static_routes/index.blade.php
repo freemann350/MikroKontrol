@@ -15,10 +15,7 @@
                 <tr>
                     <th>#</th>
                     <th>Destination Address</th>
-                    <th>Local Address</th> 
                     <th>Gateway (Immediate Gateway)</th>
-                    <th>Distance (Scope)</th>
-                    <th>Routing Table</th>
                     <th>Estabilished Status</th>
                     <th>Connection Status</th>
                     <th>Actions</th>
@@ -29,10 +26,7 @@
                 <tr>
                     <td>{{ $route['.id'] }}</td>
                     <td>{{ $route['dst-address'] }} </td>
-                    <td>{{ isset($route['local-address']) ? $route['local-address'] : "-"}}</td>
                     <td>{{ $route['gateway'] }} ({{ $route['immediate-gw'] }})</td>
-                    <td>{{ $route['distance'] }} ({{ $route['scope'] }})</td>
-                    <td>{{ $route['routing-table'] }}</td>
                     @if (isset($route['connect']) && $route['connect'] == "true")
                     <td class="text-success"> Connected  <i class="ti-arrow-up"></i></td>
                     @else
@@ -45,8 +39,8 @@
                     @endif
                     <td>
                         <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-information-outline"></i></a>
-                        <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-pencil"></i></a>
-                        <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-trash-can-outline"></i></a>
+                        <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="{{route('StaticRoutes.edit',$route['.id'])}}"><i class="mdi mdi-pencil"></i></a>
+                        <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm" href="#" onclick="_delete('Are you sure you want to delete the Static Route &quot;{{$route["dst-address"]}}&quot; (via {{$route["gateway"]}})' ,'{{ route("StaticRoutes.destroy", $route[".id"]) }}')"><i class="mdi mdi-trash-can-outline"></i></a>
                     </td>
                 </tr>
                 @endforeach

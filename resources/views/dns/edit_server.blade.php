@@ -9,7 +9,7 @@
             <p class="card-description">
                 Here you can edit the device's DNS Server
             </p>
-            <form method="POST" action="{{route('Bridges.store')}}">
+            <form method="POST" action="{{route('storeDnsServer')}}">
             @csrf
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Servers</label>
@@ -100,7 +100,30 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-3 col-form-label">Max concurrent queries</label>
+                <div class="col-sm-9">
+                    <br>
+                    <input class="form-check-input @error('allow-remote-requests') is-invalid @enderror"" type="checkbox" name="allow-remote-requests" value="true" {{ $server['allow-remote-requests'] == "true" ? 'checked' : '' }}>
+                    <label class="form-check-label @error('allow-remote-requests') is-invalid @enderror""> &nbsp;Allow remote requests</label>
+                    @error('allow-remote-requests')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                    @enderror
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 col-form-label">Address list extra time</label>
+                <div class="col-sm-9">
+                    <input type="text" name="address-list-extra-time" class="form-control @error('address-list-extra-time') is-invalid @enderror" value="{{$server['address-list-extra-time']}}" placeholder="100">
+                    @error('address-list-extra-time')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 col-form-label">Maximum concurrent queries</label>
                 <div class="col-sm-9">
                     <input type="text" name="max-concurrent-queries" class="form-control @error('max-concurrent-queries') is-invalid @enderror" value="{{$server['max-concurrent-queries']}}" placeholder="100">
                     @error('max-concurrent-queries')

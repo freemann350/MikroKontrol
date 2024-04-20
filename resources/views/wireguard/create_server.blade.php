@@ -5,11 +5,11 @@
 <div class="col-md-12 grid-margin stretch-card">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Add new Wireguard interface</h4>
+            <h4 class="card-title">Add new Wireguard server</h4>
             <p class="card-description">
-                Here you can add a new Wireguard interface
+                Here you can add a new Wireguard server
             </p>
-            <form method="POST" action="{{route('Wireguard.store')}}">
+            <form method="POST" action="{{route('wireguard_storeServer')}}">
             @csrf
             <div class="form-group row">
                 <label class="col-sm-3 col-form-label">Name</label>
