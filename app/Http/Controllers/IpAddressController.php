@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CustomRequest;
 use GuzzleHttp\Client;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -79,6 +80,31 @@ class IpAddressController extends Controller
         }
     }
 
+    public function storeCustom(CustomRequest $request): RedirectResponse
+    {
+        $formData = $request->validated();
+        
+        $client = new Client();
+        
+        try {
+            $response = $client->request('PUT', 'http://192.168.88.1/rest/ip/address', [
+                'auth' => ['admin', '123456'],
+                'headers' => ['Content-Type' => 'application/json'],
+                'body' => $formData['custom'],
+                'timeout' => 3
+            ]);
+
+            return redirect()->route('IPAddresses.index')->with('success-msg', "An IP Adddress was added with success");
+        } catch (\Exception $e) {
+            $error = $this->treat_error($e->getMessage());
+
+            if ($error == null)
+                dd($e->getMessage());
+
+            return redirect()->back()->withInput()->with('error-msg', $error);
+        }
+    }
+
     public function edit($id): View {
         try {
             $client = new Client();
@@ -125,6 +151,31 @@ class IpAddressController extends Controller
                 'timeout' => 3
             ]);
 
+            return redirect()->route('IPAddresses.index')->with('success-msg', "The IP Adddress was updated with success");
+        } catch (\Exception $e) {
+            $error = $this->treat_error($e->getMessage());
+
+            if ($error == null)
+                dd($e->getMessage());
+
+            return redirect()->back()->withInput()->with('error-msg', $error);
+        }
+    }
+
+    public function updateCustom(CustomRequest $request, $id): RedirectResponse
+    {
+        $formData = $request->validated();
+        
+        $client = new Client();
+
+        try {
+            $response = $client->request('PATCH', "http://192.168.88.1/rest/ip/address/$id", [
+                'auth' => ['admin', '123456'],
+                'headers' => ['Content-Type' => 'application/json'],
+                'body' => $formData['custom'],
+                'timeout' => 3
+            ]);
+            
             return redirect()->route('IPAddresses.index')->with('success-msg', "The IP Adddress was updated with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());

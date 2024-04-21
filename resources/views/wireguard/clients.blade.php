@@ -8,6 +8,7 @@
             <p class="card-description">
             List of all Wireguard peers on the device
             </p>
+
             @if ($wg != "-1")
             <div class="table-responsive">
             <table class="table table-hover table-striped"  style="text-align:center" id="dt">
@@ -21,21 +22,24 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($wg as $wg)
+                @foreach($wg as $key=>$wg1)
                 <tr>
-                    <td>{{ $wg['.id'] }}</td>
-                    <td>{{ $wg['name'] }}</td>
-                    <td>{{ $wg['public-key'] }}</td>
-                    @if ($wg['disabled']=="false")
+                    <td>{{ $wg1['.id'] }}</td>
+                    <td>{{ $wg1['name'] }} </td>
+                    <td>{{ $wg1['public-key'] }}</td>
+                    @if ($wg1['disabled']=="false")
                     <td><label class="badge badge-success">Enabled</label></td>
                     @else
                     <td><label class="badge badge-danger">Disabled</label></td>
                     @endif
                     <td>
                         <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-information-outline"></i></a>
-                        <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="{{ route("wireguard_editClient",$wg['.id']) }}"><i class="mdi mdi-pencil"></i></a>
-                        <a class="btn btn-outline-warning btn-fw btn-rounded btn-sm" href="#" onclick="wg_prk('{{$wg['private-key']}}')"><i class="mdi mdi-key"></i></a>
-                        <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm" href="#" onclick="_delete('Are you sure you want to delete the wireguard interface &quot;{{$wg["name"]}}&quot; ({{$wg[".id"]}})','{{ route("wireguard_destroyClient", $wg[".id"]) }}')"><i class="mdi mdi-trash-can-outline"></i></a>
+                        <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="{{ route("wireguard_editClient",$wg1['.id']) }}"><i class="mdi mdi-pencil"></i></a>
+                        @if ($wg1['private-key'] != "")
+                        <a class="btn btn-outline-warning btn-fw btn-rounded btn-sm" href="#" onclick="wg_prk('{{$wg1['private-key']}}')"><i class="mdi mdi-key"></i></a>
+                        <a class="btn btn-outline-primary btn-fw btn-rounded btn-sm" href="#" onclick="wg_qr{{$key}}()"><i class="mdi mdi-qrcode"></i></a>
+                        @endif
+                        <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm" href="#" onclick="_delete('Are you sure you want to delete the wireguard interface &quot;{{$wg1["name"]}}&quot; ({{$wg1[".id"]}})','{{ route("wireguard_destroyClient", $wg1[".id"]) }}')"><i class="mdi mdi-trash-can-outline"></i></a>
                     </td>
                 </tr>
                 @endforeach
@@ -57,4 +61,20 @@
   <a class="btn btn-success btn-lg btn-block" href="{{ route ('wireguard_createClient') }}"><i class="mdi mdi-plus-circle"></i> Add new wireguard interface</a>
 </div>
 @endif
+
+@foreach ($wg as $key=>$wg2)
+    @if (isset($wg2['qrcode']))
+    <script>    
+        function wg_qr{{$key}}() {
+            Swal.fire({
+                title: 'Wireguard QR Code',
+                icon: "info",
+                html: `
+                    {!! $wg2['qrcode'] !!}
+                `,
+                });
+            }
+    </script>
+    @endif
+@endforeach
 @endsection

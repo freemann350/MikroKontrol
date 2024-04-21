@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CustomRequest;
 use App\Http\Requests\WirelessRequest;
 use GuzzleHttp\Client;
 use Illuminate\Http\RedirectResponse;
@@ -19,11 +20,13 @@ class WirelessController extends Controller
                 'auth' => ['admin', '123456'],
                 'timeout' => 3
             ]);
+            
             $data = json_decode($response->getBody(), true);
 
             usort($data, function ($a, $b) {
                 return $a['.id'] <=> $b['.id'];
             });
+
             return view('wireless.index', ['wireless' => $data]);
         } catch (\Exception $e) {
             return view('wireless.index', ['wireless' => null, 'conn_error' => $e->getMessage()]);
@@ -85,6 +88,31 @@ class WirelessController extends Controller
                 'auth' => ['admin', '123456'],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $jsonData,
+                'timeout' => 3
+            ]);
+
+            return redirect()->route('Wireless.index')->with('success-msg', "A Wireless interface was added with success");
+        } catch (\Exception $e) {
+            $error = $this->treat_error($e->getMessage());
+
+            if ($error == null)
+                dd($e->getMessage());
+
+            return redirect()->back()->withInput()->with('error-msg', $error);
+        }
+    }
+
+    public function storeCustom(CustomRequest $request): RedirectResponse
+    {
+        $formData = $request->validated();
+        
+        $client = new Client();
+        
+        try {
+            $response = $client->request('PUT', 'http://192.168.88.1/rest/interface/wireless', [
+                'auth' => ['admin', '123456'],
+                'headers' => ['Content-Type' => 'application/json'],
+                'body' => $formData['custom'],
                 'timeout' => 3
             ]);
 
@@ -178,6 +206,30 @@ class WirelessController extends Controller
         }
     }
 
+    public function updateCustom(CustomRequest $request, $id): RedirectResponse
+    {
+        $formData = $request->validated();
+        
+        $client = new Client();
+
+        try {
+            $response = $client->request('PATCH', "http://192.168.88.1/rest/interface/wireless/$id", [
+                'auth' => ['admin', '123456'],
+                'headers' => ['Content-Type' => 'application/json'],
+                'body' => $formData['custom'],
+                'timeout' => 3
+            ]);
+            
+            return redirect()->route('Wireless.index')->with('success-msg', "A Wireless interface was updated with success");
+        } catch (\Exception $e) {
+            $error = $this->treat_error($e->getMessage());
+
+            if ($error == null)
+                dd($e->getMessage());
+
+            return redirect()->back()->withInput()->with('error-msg', $error);
+        }
+    }
 
     public function destroy($id) 
     {

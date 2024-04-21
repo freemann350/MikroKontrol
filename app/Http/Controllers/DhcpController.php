@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CustomRequest;
 use App\Http\Requests\DhcpClientRequest;
 use App\Http\Requests\DhcpServerRequest;
 use GuzzleHttp\Client;
@@ -95,6 +96,31 @@ class DhcpController extends Controller
         }
     }
 
+    public function storeServerCustom(CustomRequest $request): RedirectResponse
+    {
+        $formData = $request->validated();
+        
+        $client = new Client();
+        
+        try {
+            $response = $client->request('PUT', 'http://192.168.88.1/rest/ip/dhcp-server', [
+                'auth' => ['admin', '123456'],
+                'headers' => ['Content-Type' => 'application/json'],
+                'body' => $formData['custom'],
+                'timeout' => 3
+            ]);
+
+            return redirect()->route('dhcp_servers')->with('success-msg', "A DHCP Server was added with success");
+        } catch (\Exception $e) {
+            $error = $this->treat_error($e->getMessage());
+
+            if ($error == null)
+                dd($e->getMessage());
+
+            return redirect()->back()->withInput()->with('error-msg', $error);
+        }
+    }
+
     public function editDhcpServer($id): View 
     {
         try {
@@ -173,6 +199,30 @@ class DhcpController extends Controller
         }
     }
 
+    public function updateServerCustom(CustomRequest $request, $id): RedirectResponse
+    {
+        $formData = $request->validated();
+        
+        $client = new Client();
+
+        try {
+            $response = $client->request('PATCH', "http://192.168.88.1/rest/ip/dhcp-server/$id", [
+                'auth' => ['admin', '123456'],
+                'headers' => ['Content-Type' => 'application/json'],
+                'body' => $formData['custom'],
+                'timeout' => 3
+            ]);
+            
+            return redirect()->route('dhcp_servers')->with('success-msg', "A DHCP Server was added with success");
+        } catch (\Exception $e) {
+            $error = $this->treat_error($e->getMessage());
+
+            if ($error == null)
+                dd($e->getMessage());
+
+            return redirect()->back()->withInput()->with('error-msg', $error);
+        }
+    }
     public function destroyDhcpServer($id) 
     {
         $client = new Client();
@@ -271,6 +321,32 @@ class DhcpController extends Controller
         }
     }
 
+    
+    public function storeClientCustom(CustomRequest $request): RedirectResponse
+    {
+        $formData = $request->validated();
+        
+        $client = new Client();
+        
+        try {
+            $response = $client->request('PUT', 'http://192.168.88.1/rest/ip/dhcp-client', [
+                'auth' => ['admin', '123456'],
+                'headers' => ['Content-Type' => 'application/json'],
+                'body' => $formData['custom'],
+                'timeout' => 3
+            ]);
+
+            return redirect()->route('dhcp_client')->with('success-msg', "A DHCP Client was added with success");
+        } catch (\Exception $e) {
+            $error = $this->treat_error($e->getMessage());
+
+            if ($error == null)
+                dd($e->getMessage());
+
+            return redirect()->back()->withInput()->with('error-msg', $error);
+        }
+    }
+
     public function editDhcpClient($id): View 
     {
         try {
@@ -328,6 +404,31 @@ class DhcpController extends Controller
                 'timeout' => 3
             ]);
 
+            return redirect()->route('dhcp_client')->with('success-msg', "A DHCP Client was updated with success");
+        } catch (\Exception $e) {
+            $error = $this->treat_error($e->getMessage());
+
+            if ($error == null)
+                dd($e->getMessage());
+
+            return redirect()->back()->withInput()->with('error-msg', $error);
+        }
+    }
+
+    public function updateClientCustom(CustomRequest $request, $id): RedirectResponse
+    {
+        $formData = $request->validated();
+        
+        $client = new Client();
+
+        try {
+            $response = $client->request('PATCH', "http://192.168.88.1/rest/ip/dhcp-client/$id", [
+                'auth' => ['admin', '123456'],
+                'headers' => ['Content-Type' => 'application/json'],
+                'body' => $formData['custom'],
+                'timeout' => 3
+            ]);
+            
             return redirect()->route('dhcp_client')->with('success-msg', "A DHCP Client was updated with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());

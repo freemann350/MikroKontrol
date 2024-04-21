@@ -241,7 +241,7 @@
       }
     @endif
 
-    @if (Route::currentRouteName() == 'wireguard_servers')
+    @if (Route::currentRouteName() == 'wireguard_servers' || Route::currentRouteName() == 'wireguard_clients')
       function wg_prk(prk) {
         Swal.fire({
             title: "Your Wireguard private key is",
@@ -309,6 +309,12 @@
       toastr.success('{{session('success-msg')}}','Success!')
     @endif
 
+    function prettyPrint() {
+        var ugly = document.getElementById('custom').value;
+        var obj = JSON.parse(ugly);
+        var pretty = JSON.stringify(obj, undefined, 4);
+        document.getElementById('custom').value = pretty;
+    }
   </script>
   <!-- endinject -->
 </body>

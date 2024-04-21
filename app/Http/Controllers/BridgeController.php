@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CustomRequest;
 use GuzzleHttp\Client;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -77,6 +78,31 @@ class BridgeController extends Controller
         }
     }
 
+    public function storeCustom(CustomRequest $request): RedirectResponse
+    {
+        $formData = $request->validated();
+
+        $client = new Client();
+        
+        try {
+            $response = $client->request('PUT', 'http://192.168.88.1/rest/interface/bridge', [
+                'auth' => ['admin', '123456'],
+                'headers' => ['Content-Type' => 'application/json'],
+                'body' => $formData['custom'],
+                'timeout' => 3
+            ]);
+
+            return redirect()->route('Bridges.index')->with('success-msg', "A Bridge interface was added with success");
+        } catch (\Exception $e) {
+            $error = $this->treat_error($e->getMessage());
+
+            if ($error == null)
+                dd($e->getMessage());
+
+            return redirect()->back()->withInput()->with('error-msg', $error);
+        }
+    }
+
     public function edit($id): View
     {
         
@@ -124,6 +150,31 @@ class BridgeController extends Controller
                 'auth' => ['admin', '123456'],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $jsonData,
+                'timeout' => 3
+            ]);
+            
+            return redirect()->route('Bridges.index')->with('success-msg', "A Bridge interface was updated with success");
+        } catch (\Exception $e) {
+            $error = $this->treat_error($e->getMessage());
+
+            if ($error == null)
+                dd($e->getMessage());
+
+            return redirect()->back()->withInput()->with('error-msg', $error);
+        }
+    }
+
+    public function updateCustom(CustomRequest $request, $id): RedirectResponse
+    {
+        $formData = $request->validated();
+        
+        $client = new Client();
+
+        try {
+            $response = $client->request('PATCH', "http://192.168.88.1/rest/interface/bridge/$id", [
+                'auth' => ['admin', '123456'],
+                'headers' => ['Content-Type' => 'application/json'],
+                'body' => $formData['custom'],
                 'timeout' => 3
             ]);
             

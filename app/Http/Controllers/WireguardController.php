@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CustomRequest;
 use App\Http\Requests\WireguardServerRequest;
 use App\Http\Requests\WireguardClientRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use GuzzleHttp\Client;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class WireguardController extends Controller
 {
@@ -54,6 +56,32 @@ class WireguardController extends Controller
                 'auth' => ['admin', '123456'],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $jsonData,
+                'timeout' => 3
+            ]);
+
+            return redirect()->route('wireguard_servers')->with('success-msg', "A Wireguard Interface was added with success");
+        } catch (\Exception $e) {
+            $error = $this->treat_error($e->getMessage());
+
+            if ($error == null)
+                dd($e->getMessage());
+
+            return redirect()->back()->withInput()->with('error-msg', $error);
+        }
+    }
+
+    
+    public function storeServerCustom(CustomRequest $request): RedirectResponse
+    {
+        $formData = $request->validated();
+        
+        $client = new Client();
+        
+        try {
+            $response = $client->request('PUT', 'http://192.168.88.1/rest/interface/wireguard', [
+                'auth' => ['admin', '123456'],
+                'headers' => ['Content-Type' => 'application/json'],
+                'body' => $formData['custom'],
                 'timeout' => 3
             ]);
 
@@ -116,6 +144,31 @@ class WireguardController extends Controller
         }
     }
 
+    public function updateServerCustom(CustomRequest $request, $id): RedirectResponse
+    {
+        $formData = $request->validated();
+        
+        $client = new Client();
+
+        try {
+            $response = $client->request('PATCH', "http://192.168.88.1/rest/interface/wireguard/$id", [
+                'auth' => ['admin', '123456'],
+                'headers' => ['Content-Type' => 'application/json'],
+                'body' => $formData['custom'],
+                'timeout' => 3
+            ]);
+            
+            return redirect()->route('wireguard_servers')->with('success-msg', "A wireguard interface was updated with success");
+        } catch (\Exception $e) {
+            $error = $this->treat_error($e->getMessage());
+
+            if ($error == null)
+                dd($e->getMessage());
+
+            return redirect()->back()->withInput()->with('error-msg', $error);
+        }
+    }
+
     public function destroyServer($id) 
     {
         $client = new Client();
@@ -149,10 +202,18 @@ class WireguardController extends Controller
             ]);
 
             $data = json_decode($response->getBody(), true);
+            
             usort($data, function ($a, $b) {
                 return $a['.id'] <=> $b['.id'];
             });
 
+            foreach ($data as &$val) {
+                if ($val['private-key'] != "") {
+                    $qrcode = $this->qrcode($val['private-key'] ?? null, $val['public-key'] ?? null, $val['preshared-key'] ?? null, $val['allowed-address'] ?? null, $val['endpoint-address'] ?? null, $val['endpoint-port'] ?? null, $val['persistent-keepalive'] ?? null);
+                    $val['qrcode'] = $qrcode;
+                }
+            }
+            
             return view('wireguard.clients', ['wg' => $data]);
             
         } catch (\Exception $e) {
@@ -215,6 +276,8 @@ class WireguardController extends Controller
 
         if (!isset($formData['persistent-keepalive']))
             unset($formData['persistent-keepalive']);
+
+        
         $jsonData = json_encode($formData);
 
         $client = new Client();
@@ -224,6 +287,32 @@ class WireguardController extends Controller
                 'auth' => ['admin', '123456'],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $jsonData,
+                'timeout' => 3
+            ]);
+
+            return redirect()->route('wireguard_clients')->with('success-msg', "A Wireguard Peer was added with success");
+        } catch (\Exception $e) {
+            $error = $this->treat_error($e->getMessage());
+
+            if ($error == null)
+                dd($e->getMessage());
+
+            return redirect()->back()->withInput()->with('error-msg', $error);
+        }
+    }
+
+    
+    public function storeClientCustom(CustomRequest $request): RedirectResponse
+    {
+        $formData = $request->validated();
+        
+        $client = new Client();
+        
+        try {
+            $response = $client->request('PUT', 'http://192.168.88.1/rest/interface/wireguard/peers', [
+                'auth' => ['admin', '123456'],
+                'headers' => ['Content-Type' => 'application/json'],
+                'body' => $formData['custom'],
                 'timeout' => 3
             ]);
 
@@ -326,6 +415,31 @@ class WireguardController extends Controller
         }
     }
 
+    public function updateClientCustom(CustomRequest $request, $id): RedirectResponse
+    {
+        $formData = $request->validated();
+        
+        $client = new Client();
+
+        try {
+            $response = $client->request('PATCH', "http://192.168.88.1/rest/interface/wireguard/peers/$id", [
+                'auth' => ['admin', '123456'],
+                'headers' => ['Content-Type' => 'application/json'],
+                'body' => $formData['custom'],
+                'timeout' => 3
+            ]);
+            
+            return redirect()->route('wireguard_clients')->with('success-msg', "A Wireguard Peer was updated with success");
+        } catch (\Exception $e) {
+            $error = $this->treat_error($e->getMessage());
+
+            if ($error == null)
+                dd($e->getMessage());
+
+            return redirect()->back()->withInput()->with('error-msg', $error);
+        }
+    }
+
     public function destroyClient($id) 
     {
         $client = new Client();
@@ -348,6 +462,58 @@ class WireguardController extends Controller
         }
     }
 
+    public function qrcode($prk,$puk,$psk,$ips,$endpoint,$port,$keepalive)
+    {
+        if ($prk != null) {
+            $QrPrivateKey = "PrivateKey = $prk";
+        } else {
+            $QrPrivateKey = null;
+        }
+
+        if ($puk != null) {
+            $QrPublicKey = "PublicKey = $puk";
+        } else {
+            $QrPublicKey = null;
+        }
+        
+        if ($psk != null){
+            $QrPresharedKey = "PresharedKey = $psk";
+        } else {
+            $QrPresharedKey = null;
+        }
+        
+        if ($ips != null){
+            $QrAllowedIPs = "AllowedIPs = $ips";
+        } else {
+            $QrAllowedIPs = null;
+        }
+
+        if ($endpoint != null && $port != null){
+            $QrEndpoint = "Endpoint = " . $endpoint . ":" . $port;
+        } else {
+            $QrEndpoint = null;
+        }
+
+        if ($keepalive != null){
+            $QrPersistentKeepalive = "PersistentKeepalive = $keepalive";
+        } else {
+            $QrPersistentKeepalive = null;
+        }
+
+        $qrCode = QrCode::size(150)->generate("
+        [Interface]
+        $QrPrivateKey
+        
+        [Peer]
+        $QrPublicKey
+        $QrPresharedKey
+        $QrAllowedIPs
+        $QrEndpoint
+        $QrPersistentKeepalive
+        ");
+
+        return view('qrcode',['qrCode' => $qrCode]);
+    }
     private function treat_error($errorMessage) 
     {
         $error = null;

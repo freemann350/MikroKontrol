@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CustomRequest;
 use App\Http\Requests\StaticRouteRequest;
 use GuzzleHttp\Client;
 use Illuminate\Http\RedirectResponse;
@@ -88,6 +89,31 @@ class StaticRouteController extends Controller
         }
     }
 
+    public function storeCustom(CustomRequest $request): RedirectResponse
+    {
+        $formData = $request->validated();
+        
+        $client = new Client();
+        
+        try {
+            $response = $client->request('PUT', 'http://192.168.88.1/rest/ip/route', [
+                'auth' => ['admin', '123456'],
+                'headers' => ['Content-Type' => 'application/json'],
+                'body' => $formData['custom'],
+                'timeout' => 3
+            ]);
+
+            return redirect()->route('StaticRoutes.index')->with('success-msg', "A Static Route was added with success");
+        } catch (\Exception $e) {
+            $error = $this->treat_error($e->getMessage());
+
+            if ($error == null)
+                dd($e->getMessage());
+
+            return redirect()->back()->withInput()->with('error-msg', $error);
+        }
+    }
+
     public function edit($id): View {
         try {
             $client = new Client();
@@ -143,6 +169,31 @@ class StaticRouteController extends Controller
                 'timeout' => 3
             ]);
 
+            return redirect()->route('StaticRoutes.index')->with('success-msg', "A Static Route was added with success");
+        } catch (\Exception $e) {
+            $error = $this->treat_error($e->getMessage());
+
+            if ($error == null)
+                dd($e->getMessage());
+
+            return redirect()->back()->withInput()->with('error-msg', $error);
+        }
+    }
+
+    public function updateCustom(CustomRequest $request, $id): RedirectResponse
+    {
+        $formData = $request->validated();
+        
+        $client = new Client();
+
+        try {
+            $response = $client->request('PATCH', "http://192.168.88.1/rest/ip/route/$id", [
+                'auth' => ['admin', '123456'],
+                'headers' => ['Content-Type' => 'application/json'],
+                'body' => $formData['custom'],
+                'timeout' => 3
+            ]);
+            
             return redirect()->route('StaticRoutes.index')->with('success-msg', "A Static Route was added with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());

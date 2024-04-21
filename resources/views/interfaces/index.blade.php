@@ -87,7 +87,7 @@
                     <td>{{ $wireless['ssid'] }}</td>
                     <td>{{ $wireless['mode'] }}</td>
                     <td>{{ $wireless['security-profile'] }}</td>
-                    <td>{{ $wireless['band'] }}</td>
+                    <td>{{ isset($wireless['band']) ? $wireless['band'] : '-' }}</td>
                     @if ($wireless['running'] == "true")
                     <td class="text-success"> Connected <i class="ti-arrow-up"></i></td>
                     @else

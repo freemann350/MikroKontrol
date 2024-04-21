@@ -147,4 +147,29 @@
         </div>
     </div>
 </div>
+<div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Custom JSON request (for advanced users only)</h4>
+            <p class="card-description">
+                Here you can make your own request to the device.
+                <br>
+                Check the <a href="https://help.mikrotik.com/docs/display/ROS">Mikrotik Support</a> for the correct parameters
+            </p>
+            <form method="POST" action="{{route('dhcp_storeServerCustom')}}">
+            @csrf
+            <div class="form-group">
+                <textarea class="form-control" name="custom" id="custom">{{old('custom')}}</textarea>
+                @error('custom')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+            <p class="btn btn-info btn-fw" onclick="prettyPrint()">Beautify JSON</p><br>
+            <button type="submit" class="btn btn-primary btn-fw">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection

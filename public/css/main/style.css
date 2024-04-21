@@ -10798,7 +10798,7 @@ progress {
 textarea.form-control, textarea.asColorPicker-input, .select2-container--default textarea.select2-selection--single, .select2-container--default .select2-selection--single textarea.select2-search__field, textarea.typeahead,
 textarea.tt-query,
 textarea.tt-hint {
-  min-height: 2rem;
+  min-height: 15rem;
 }
 
 textarea.form-control-sm {
@@ -19132,7 +19132,6 @@ button:focus {
 }
 
 textarea {
-  resize: none;
   overflow-x: hidden;
 }
 
