@@ -1,18 +1,6 @@
 @extends('template.layout')
 
 @section('main-content')
-
-<div class="col-md-12 grid-margin stretch-card">
-    <div class="card">
-        <div class="card-body">
-            <h4 class="card-title"><strong>You don't have any devices yet</h4>
-            <p class="card-description">
-                Try adding one using the button below
-            </p>
-        </div>
-    </div>
-</div>
-
 <div class="col-md-12 grid-margin stretch-card">
     <div class="card">
         <div class="card-body">

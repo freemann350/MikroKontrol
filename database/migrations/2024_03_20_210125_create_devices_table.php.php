@@ -11,6 +11,9 @@ class CreateDevicesTable extends Migration
         Schema::create('devices', function (Blueprint $table) {
             $table->id();
             $table->string('device_name');
+            $table->string('username');
+            $table->string('password');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('endpoint');
             $table->string('timeout')->default('3');
             $table->enum('method', ['http', 'https']);

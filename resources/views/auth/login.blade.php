@@ -21,43 +21,47 @@
 
   img {
     display: block;
-    margin: 0 auto 20px;
+    margin: -20px auto 50px;
     width: 100px; /* Adjust image width as needed */
     height: auto;
   }
 
   p {
     text-align: center;
-    padding-bottom: 15px;
   }
 </style>
 </head>
 <body>
   <canvas id=c></canvas>
 
-<!-- partial:index.partial.html -->
-<div class="screen-1">
-  <div>
+  <!-- partial:index.partial.html -->
+  <form method="POST" action="{{ route('Auth.login') }}">
+  <div class="screen-1">
+    <div>
+      <strong><i><p>MikroKontrol</p></i></strong>
+    </div>
     <img src="https://merch.mikrotik.com/cdn/shop/files/512.png?v=1657867177" alt="MikroTik Logo">
-    <strong><i><p>MikroKontrol</p></i></strong>
-  </div>
-  <div class="email">
-    <label for="email">Email Address</label>
-    <div class="sec-2">
-      <ion-icon name="mail-outline"></ion-icon>
-      <input type="email" name="email" placeholder="user@mail.org"/>
+      @csrf
+      <div class="email">
+        <label for="email">Email Address</label>
+        <div class="sec-2">
+          <ion-icon name="mail-outline"></ion-icon>
+          <input type="email" name="email" placeholder="user@mail.org" value="{{old('email')}}">
+        </div>
+      </div>
+
+      <div class="password">
+        <label for="password">Password</label>
+        <div class="sec-2">
+          <ion-icon name="lock-closed-outline"></ion-icon>
+          <input class="pas" type="password" name="password" placeholder="············" value="{{old('password')}}">
+        </div>
+      </div>
+      <button type="submit" class="login">Login</button>
     </div>
-  </div>
-  <div class="password">
-    <label for="password">Password</label>
-    <div class="sec-2">
-      <ion-icon name="lock-closed-outline"></ion-icon>
-      <input class="pas" type="password" name="password" placeholder="············"/>
-    </div>
-  </div>
-  <a href="{{route ('dashboard') }}"><button class="login">Login </button></a>
-</div>
-<!-- partial -->
+  </form>
+
+  <!-- partial -->
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
   <script src="{{ url('js/login/p5_bg.js') }}"></script>

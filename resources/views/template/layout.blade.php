@@ -33,10 +33,10 @@
           </button>
         </div>
         <div>
-          <a class="navbar-brand brand-logo" href="{{ route ('dashboard') }}">
+          <a class="navbar-brand brand-logo" href="{{ route ('Dashboard.index') }}">
             <img src="https://static.wixstatic.com/media/fb3f0e_b6f3cb9e385a47ca8cc59124cce1bc16~mv2.png/v1/fill/w_560,h_160,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/Mikrotik%20Logo.png" alt="logo" style="padding-bottom: 10px;"/>
           </a>
-          <a class="navbar-brand brand-logo-mini" href="{{ route ('dashboard') }}">
+          <a class="navbar-brand brand-logo-mini" href="{{ route ('Dashboard.index') }}">
             <img src="https://merch.mikrotik.com/cdn/shop/files/512.png?v=1657867177" alt="logo" />
           </a>
         </div>
@@ -44,8 +44,8 @@
       <div class="navbar-menu-wrapper d-flex align-items-top"> 
         <ul class="navbar-nav">
           <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-            <h1 class="welcome-text">Welcome, <span class="text-black fw-bold">John Doe</span></h1>
-            <h3 class="welcome-sub-text">This is your main page </h3>
+            <h1 class="welcome-text">Hello, <span class="text-black fw-bold">{{isset(Auth::user()->name) ? Auth::user()->name : 'NONAME'}}</span></h1>
+            <h3 class="welcome-sub-text">Currently not using any device </h3>
           </li>
         </ul>
         <ul class="navbar-nav ms-auto">
@@ -64,12 +64,26 @@
       <!-- SIDEBAR -->
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
-          <li class="nav-item {{ Route::currentRouteName() == 'dashboard' ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route ('dashboard') }}">
+          <li class="nav-item nav-category">My pages</li>
+          <li class="nav-item {{ Route::currentRouteName() == 'Dashboard.index' ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route ('Dashboard.index') }}">
               <i class="mdi mdi-grid-large menu-icon"></i>
               <span class="menu-title">Dashboard</span>
             </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="menu-icon mdi mdi-account-edit"></i>
+              <span class="menu-title">My information</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <i class="menu-icon mdi mdi-account-supervisor"></i>
+              <span class="menu-title">Users</span>
+            </a>
+          </li>
+          @if (Route::currentRouteName() != "TESTING")
           <li class="nav-item nav-category">Physical connections</li>
           <li class="nav-item {{ Route::currentRouteName() == 'Interfaces.index' ? 'active' : '' }}">
             <a class="nav-link" href="{{ route ('Interfaces.index') }}">
@@ -146,6 +160,7 @@
               </ul>
             </div>
           </li>
+          @endif
           <li class="nav-item nav-category"></li>
           <li class="nav-item">
             <a class="nav-link" id="logout" href="#">
@@ -211,7 +226,7 @@
             // Execute SweetAlert code
             Swal.fire({
                 title: "Are you sure you want to leave?",
-                text: "There's more networking to be done",
+                text: "There's more networking to be donse",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
@@ -220,7 +235,7 @@
                 confirmButtonText: "Yes"
             }).then((result) => {
                 if (result.isConfirmed) {
-                  window.location.href = '{{ route('login') }}';
+                  window.location.href = '{{ route('Auth.logout') }}';
                 }
             });
         });

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BridgeController;
 use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\DhcpController;
@@ -22,11 +23,20 @@ Route::get('/dashboard', function () {
     return view('dashboard.index');
 })->name('dashboard');
 
+Route::controller(AuthController::class)->group(function () {
+    Route::get('/','index')->name("Auth.index");
+    Route::post('/Login','login')->name("Auth.login");
+    Route::get('/Logout','logout')->name("Auth.logout");
+});
+
 Route::controller(UserController::class)->group(function () {
 
 });
 
 Route::controller(DeviceController::class)->group(function () {
+    Route::resource('/Devices',InterfacesController::class)->except('index');
+    Route::get('/Dashboard','index')->name("Dashboard.index");
+    Route::get('/Dashboard/{device}','indexDevice')->name("Dashboard.indexDevice");
 
 });
 
