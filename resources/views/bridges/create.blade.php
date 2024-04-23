@@ -48,7 +48,7 @@
                     @enderror
             </div>
             <div class="form-group">
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input class="form-check-input @error('dhcp-snooping') is-invalid @enderror"" type="checkbox" name="dhcp-snooping" value="1" {{ old('dhcp-snooping') ? 'checked' : '' }}>
                     <label class="form-check-label @error('dhcp-snooping') is-invalid @enderror""> &nbsp;DHCP Snooping</label>
                     @error('dhcp-snooping')

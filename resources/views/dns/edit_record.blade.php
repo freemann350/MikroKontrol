@@ -14,7 +14,7 @@
             @method('PUT')
             <div class="form-group row">
                 <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Name</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{$record['name']}}" placeholder="My DNS record name">
                     @error('name')
                         <div class="invalid-feedback">
@@ -25,7 +25,7 @@
             </div>
             <div class="form-group row">
                 <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Address</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="address" class="form-control @error('address') is-invalid @enderror" value="{{$record['address']}}" placeholder="My record address">
                     @error('address')
                         <div class="invalid-feedback">

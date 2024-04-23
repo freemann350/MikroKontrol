@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "e8c73e99-6903-4d5e-8887-668747de8e89",
 		"name": "MikroKontrol",
-		"description": "Postman File for MikroKontrol, a simple Laravel MikroTik SDN controller.\n\nGET, POST & PUT endpoints for MikroTik devices.\n\n---\n\nNote: MikroTik IDs are Hexadecimal.\n\n---\n\nVariables configured:\n\n- IP - Endpoint IP\n- PWD - Router Admin password",
+		"description": "Postman File for MikroKontrol, a simple Laravel MikroTik SDN controller.\n\nGET and some POST/PUT endpoints for MikroTik devices.\n\n---\n\nNote: MikroTik IDs are Hexadecimal.\n\n---\n\nVariables configured:\n\n- IP - Endpoint IP\n- PWD - Router Admin password",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "31644809"
 	},
@@ -51,10 +51,13 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://{{IP}}/rest/ip/address",
+									"raw": "http://192.168.88.1/rest/ip/address",
 									"protocol": "http",
 									"host": [
-										"{{IP}}"
+										"192",
+										"168",
+										"88",
+										"1"
 									],
 									"path": [
 										"rest",
@@ -132,10 +135,13 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://{{IP}}/rest/ip/route",
+									"raw": "http://192.168.88.1/rest/ip/route",
 									"protocol": "http",
 									"host": [
-										"{{IP}}"
+										"192",
+										"168",
+										"88",
+										"1"
 									],
 									"path": [
 										"rest",
@@ -214,10 +220,13 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://{{IP}}/rest/ip/dns/static",
+									"raw": "http://192.168.88.1/rest/ip/dns/static",
 									"protocol": "http",
 									"host": [
-										"{{IP}}"
+										"192",
+										"168",
+										"88",
+										"1"
 									],
 									"path": [
 										"rest",
@@ -360,10 +369,13 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://{{IP}}/rest/ip/dns",
+									"raw": "http://192.168.88.1/rest/ip/dns",
 									"protocol": "http",
 									"host": [
-										"{{IP}}"
+										"192",
+										"168",
+										"88",
+										"1"
 									],
 									"path": [
 										"rest",
@@ -521,7 +533,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\":\"testing\"\n}",
+							"raw": "{\n    \"name\":\"testing_v4\",\n    \"ageing-time\": \"01:20:50\",\n    \"mtu\":1500,\n    \"dhcp-snooping\":\"true\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -626,6 +638,27 @@
 							"body": "[\n    {\n        \".id\": \"*0\",\n        \"authentication-types\": \"wpa2-psk\",\n        \"default\": \"true\",\n        \"disable-pmkid\": \"false\",\n        \"eap-methods\": \"passthrough\",\n        \"group-ciphers\": \"aes-ccm\",\n        \"group-key-update\": \"5m\",\n        \"interim-update\": \"0s\",\n        \"management-protection\": \"disabled\",\n        \"management-protection-key\": \"\",\n        \"mode\": \"dynamic-keys\",\n        \"mschapv2-password\": \"\",\n        \"mschapv2-username\": \"\",\n        \"name\": \"default\",\n        \"radius-called-format\": \"mac:ssid\",\n        \"radius-eap-accounting\": \"false\",\n        \"radius-mac-accounting\": \"false\",\n        \"radius-mac-authentication\": \"false\",\n        \"radius-mac-caching\": \"disabled\",\n        \"radius-mac-format\": \"XX:XX:XX:XX:XX:XX\",\n        \"radius-mac-mode\": \"as-username\",\n        \"static-algo-0\": \"none\",\n        \"static-algo-1\": \"none\",\n        \"static-algo-2\": \"none\",\n        \"static-algo-3\": \"none\",\n        \"static-key-0\": \"\",\n        \"static-key-1\": \"\",\n        \"static-key-2\": \"\",\n        \"static-key-3\": \"\",\n        \"static-sta-private-algo\": \"none\",\n        \"static-sta-private-key\": \"\",\n        \"static-transmit-key\": \"key-0\",\n        \"supplicant-identity\": \"MikroTik\",\n        \"tls-certificate\": \"none\",\n        \"tls-mode\": \"no-certificates\",\n        \"unicast-ciphers\": \"aes-ccm\",\n        \"wpa-pre-shared-key\": \"\",\n        \"wpa2-pre-shared-key\": \"mikrotik\"\n    }\n]"
 						}
 					]
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://{{IP}}/rest/interface/wireless/security-profiles",
+							"protocol": "http",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"rest",
+								"interface",
+								"wireless",
+								"security-profiles"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -707,6 +740,35 @@
 							"body": "[\n    {\n        \".id\": \"*7\",\n        \"adaptive-noise-immunity\": \"none\",\n        \"allow-sharedkey\": \"false\",\n        \"ampdu-priorities\": \"0\",\n        \"amsdu-limit\": \"8192\",\n        \"amsdu-threshold\": \"8192\",\n        \"antenna-gain\": \"3\",\n        \"area\": \"\",\n        \"arp\": \"enabled\",\n        \"arp-timeout\": \"auto\",\n        \"band\": \"2ghz-b/g/n\",\n        \"basic-rates-a/g\": \"6Mbps\",\n        \"basic-rates-b\": \"1Mbps\",\n        \"bridge-mode\": \"enabled\",\n        \"channel-width\": \"20/40mhz-XX\",\n        \"compression\": \"false\",\n        \"country\": \"etsi\",\n        \"default-ap-tx-limit\": \"0\",\n        \"default-authentication\": \"true\",\n        \"default-client-tx-limit\": \"0\",\n        \"default-forwarding\": \"true\",\n        \"default-name\": \"wlan1\",\n        \"disable-running-check\": \"false\",\n        \"disabled\": \"false\",\n        \"disconnect-timeout\": \"3s\",\n        \"distance\": \"indoors\",\n        \"frame-lifetime\": \"0\",\n        \"frequency\": \"auto\",\n        \"frequency-mode\": \"regulatory-domain\",\n        \"frequency-offset\": \"0\",\n        \"guard-interval\": \"any\",\n        \"hide-ssid\": \"false\",\n        \"ht-basic-mcs\": \"mcs-0,mcs-1,mcs-2,mcs-3,mcs-4,mcs-5,mcs-6,mcs-7\",\n        \"ht-supported-mcs\": \"mcs-0,mcs-1,mcs-2,mcs-3,mcs-4,mcs-5,mcs-6,mcs-7,mcs-8,mcs-9,mcs-10,mcs-11,mcs-12,mcs-13,mcs-14,mcs-15,mcs-16,mcs-17,mcs-18,mcs-19,mcs-20,mcs-21,mcs-22,mcs-23\",\n        \"hw-fragmentation-threshold\": \"disabled\",\n        \"hw-protection-mode\": \"none\",\n        \"hw-protection-threshold\": \"0\",\n        \"hw-retries\": \"7\",\n        \"installation\": \"indoor\",\n        \"interface-type\": \"IPQ4019\",\n        \"interworking-profile\": \"disabled\",\n        \"keepalive-frames\": \"enabled\",\n        \"l2mtu\": \"1600\",\n        \"mac-address\": \"C4:AD:34:9F:61:76\",\n        \"max-station-count\": \"2007\",\n        \"mode\": \"ap-bridge\",\n        \"mtu\": \"1500\",\n        \"multicast-buffering\": \"enabled\",\n        \"multicast-helper\": \"default\",\n        \"name\": \"wlan1\",\n        \"nv2-cell-radius\": \"30\",\n        \"nv2-downlink-ratio\": \"50\",\n        \"nv2-mode\": \"dynamic-downlink\",\n        \"nv2-preshared-key\": \"\",\n        \"nv2-qos\": \"default\",\n        \"nv2-queue-count\": \"2\",\n        \"nv2-security\": \"disabled\",\n        \"nv2-sync-secret\": \"\",\n        \"on-fail-retry-time\": \"100ms\",\n        \"preamble-mode\": \"both\",\n        \"radio-name\": \"C4AD349F6176\",\n        \"rate-selection\": \"advanced\",\n        \"rate-set\": \"default\",\n        \"running\": \"false\",\n        \"rx-chains\": \"0,1\",\n        \"scan-list\": \"default\",\n        \"secondary-frequency\": \"\",\n        \"security-profile\": \"default\",\n        \"skip-dfs-channels\": \"disabled\",\n        \"ssid\": \"MikroTik-9F6176\",\n        \"station-bridge-clone-mac\": \"00:00:00:00:00:00\",\n        \"station-roaming\": \"disabled\",\n        \"supported-rates-a/g\": \"6Mbps,9Mbps,12Mbps,18Mbps,24Mbps,36Mbps,48Mbps,54Mbps\",\n        \"supported-rates-b\": \"1Mbps,2Mbps,5.5Mbps,11Mbps\",\n        \"tdma-period-size\": \"2\",\n        \"tx-chains\": \"0,1\",\n        \"tx-power-mode\": \"default\",\n        \"update-stats-interval\": \"disabled\",\n        \"vlan-id\": \"1\",\n        \"vlan-mode\": \"no-tag\",\n        \"wds-cost-range\": \"50-150\",\n        \"wds-default-bridge\": \"none\",\n        \"wds-default-cost\": \"100\",\n        \"wds-ignore-ssid\": \"false\",\n        \"wds-mode\": \"disabled\",\n        \"wireless-protocol\": \"802.11\",\n        \"wmm-support\": \"disabled\",\n        \"wps-mode\": \"push-button\"\n    },\n    {\n        \".id\": \"*8\",\n        \"adaptive-noise-immunity\": \"none\",\n        \"allow-sharedkey\": \"false\",\n        \"ampdu-priorities\": \"0\",\n        \"amsdu-limit\": \"8192\",\n        \"amsdu-threshold\": \"8192\",\n        \"antenna-gain\": \"3\",\n        \"area\": \"\",\n        \"arp\": \"enabled\",\n        \"arp-timeout\": \"auto\",\n        \"band\": \"5ghz-a/n/ac\",\n        \"basic-rates-a/g\": \"6Mbps\",\n        \"bridge-mode\": \"enabled\",\n        \"channel-width\": \"20/40/80mhz-XXXX\",\n        \"compression\": \"false\",\n        \"country\": \"etsi\",\n        \"default-ap-tx-limit\": \"0\",\n        \"default-authentication\": \"true\",\n        \"default-client-tx-limit\": \"0\",\n        \"default-forwarding\": \"true\",\n        \"default-name\": \"wlan2\",\n        \"disable-running-check\": \"false\",\n        \"disabled\": \"false\",\n        \"disconnect-timeout\": \"3s\",\n        \"distance\": \"indoors\",\n        \"frame-lifetime\": \"0\",\n        \"frequency\": \"auto\",\n        \"frequency-mode\": \"regulatory-domain\",\n        \"frequency-offset\": \"0\",\n        \"guard-interval\": \"any\",\n        \"hide-ssid\": \"false\",\n        \"ht-basic-mcs\": \"mcs-0,mcs-1,mcs-2,mcs-3,mcs-4,mcs-5,mcs-6,mcs-7\",\n        \"ht-supported-mcs\": \"mcs-0,mcs-1,mcs-2,mcs-3,mcs-4,mcs-5,mcs-6,mcs-7,mcs-8,mcs-9,mcs-10,mcs-11,mcs-12,mcs-13,mcs-14,mcs-15,mcs-16,mcs-17,mcs-18,mcs-19,mcs-20,mcs-21,mcs-22,mcs-23\",\n        \"hw-fragmentation-threshold\": \"disabled\",\n        \"hw-protection-mode\": \"none\",\n        \"hw-protection-threshold\": \"0\",\n        \"hw-retries\": \"7\",\n        \"installation\": \"indoor\",\n        \"interface-type\": \"IPQ4019\",\n        \"interworking-profile\": \"disabled\",\n        \"keepalive-frames\": \"enabled\",\n        \"l2mtu\": \"1600\",\n        \"mac-address\": \"C4:AD:34:9F:61:77\",\n        \"max-station-count\": \"2007\",\n        \"mode\": \"ap-bridge\",\n        \"mtu\": \"1500\",\n        \"multicast-buffering\": \"enabled\",\n        \"multicast-helper\": \"default\",\n        \"name\": \"wlan2\",\n        \"nv2-cell-radius\": \"30\",\n        \"nv2-downlink-ratio\": \"50\",\n        \"nv2-mode\": \"dynamic-downlink\",\n        \"nv2-preshared-key\": \"\",\n        \"nv2-qos\": \"default\",\n        \"nv2-queue-count\": \"2\",\n        \"nv2-security\": \"disabled\",\n        \"nv2-sync-secret\": \"\",\n        \"on-fail-retry-time\": \"100ms\",\n        \"preamble-mode\": \"both\",\n        \"radio-name\": \"C4AD349F6177\",\n        \"rate-selection\": \"advanced\",\n        \"rate-set\": \"default\",\n        \"running\": \"false\",\n        \"rx-chains\": \"0,1\",\n        \"scan-list\": \"default\",\n        \"secondary-frequency\": \"\",\n        \"security-profile\": \"default\",\n        \"skip-dfs-channels\": \"disabled\",\n        \"ssid\": \"MikroTik-9F6176\",\n        \"station-bridge-clone-mac\": \"00:00:00:00:00:00\",\n        \"station-roaming\": \"disabled\",\n        \"supported-rates-a/g\": \"6Mbps,9Mbps,12Mbps,18Mbps,24Mbps,36Mbps,48Mbps,54Mbps\",\n        \"tdma-period-size\": \"2\",\n        \"tx-chains\": \"0,1\",\n        \"tx-power-mode\": \"default\",\n        \"update-stats-interval\": \"disabled\",\n        \"vht-basic-mcs\": \"mcs0-7\",\n        \"vht-supported-mcs\": \"mcs0-9,mcs0-9,mcs0-9\",\n        \"vlan-id\": \"1\",\n        \"vlan-mode\": \"no-tag\",\n        \"wds-cost-range\": \"50-150\",\n        \"wds-default-bridge\": \"none\",\n        \"wds-default-cost\": \"100\",\n        \"wds-ignore-ssid\": \"false\",\n        \"wds-mode\": \"disabled\",\n        \"wireless-protocol\": \"802.11\",\n        \"wmm-support\": \"disabled\",\n        \"wps-mode\": \"push-button\"\n    }\n]"
 						}
 					]
+				},
+				{
+					"name": "Create Wireless Interface",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"ssid\": \"asdasda\",\n    \"master-interface\": \"wlan2\",\n    \"security-profile\": \"default\",\n    \"wps-mode\": \"disabled\",\n    \"default-forwarding\": \"true\",\n    \"mode\": \"ap-bridge\",\n    \"default-authentication\": \"false\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{IP}}/rest/interface/wireless",
+							"protocol": "http",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"rest",
+								"interface",
+								"wireless"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -871,7 +933,7 @@
 			"name": "Wireguard",
 			"item": [
 				{
-					"name": "Wireguard (ToDo)",
+					"name": "Wireguard Server",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -885,6 +947,28 @@
 								"rest",
 								"interface",
 								"wireguard"
+							]
+						},
+						"description": "Returns Wireguard configuration"
+					},
+					"response": []
+				},
+				{
+					"name": "Wireguard Peers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{IP}}/rest/interface/wireguard/peers",
+							"protocol": "http",
+							"host": [
+								"{{IP}}"
+							],
+							"path": [
+								"rest",
+								"interface",
+								"wireguard",
+								"peers"
 							]
 						},
 						"description": "Returns Wireguard configuration"
@@ -966,6 +1050,26 @@
 					"body": "[\n    {\n        \".id\": \"*2\",\n        \"actual-mtu\": \"1500\",\n        \"default-name\": \"ether1\",\n        \"disabled\": \"false\",\n        \"fp-rx-byte\": \"0\",\n        \"fp-rx-packet\": \"0\",\n        \"fp-tx-byte\": \"0\",\n        \"fp-tx-packet\": \"0\",\n        \"l2mtu\": \"1598\",\n        \"link-downs\": \"0\",\n        \"mac-address\": \"C4:AD:34:9F:61:71\",\n        \"max-l2mtu\": \"9214\",\n        \"mtu\": \"1500\",\n        \"name\": \"ether1\",\n        \"running\": \"false\",\n        \"rx-byte\": \"0\",\n        \"rx-drop\": \"0\",\n        \"rx-error\": \"0\",\n        \"rx-packet\": \"0\",\n        \"tx-byte\": \"0\",\n        \"tx-drop\": \"0\",\n        \"tx-error\": \"0\",\n        \"tx-packet\": \"0\",\n        \"tx-queue-drop\": \"0\",\n        \"type\": \"ether\"\n    },\n    {\n        \".id\": \"*3\",\n        \"actual-mtu\": \"1500\",\n        \"default-name\": \"ether2\",\n        \"disabled\": \"false\",\n        \"fp-rx-byte\": \"2935621\",\n        \"fp-rx-packet\": \"25851\",\n        \"fp-tx-byte\": \"0\",\n        \"fp-tx-packet\": \"0\",\n        \"l2mtu\": \"1598\",\n        \"last-link-down-time\": \"2024-03-24 15:51:18\",\n        \"last-link-up-time\": \"2024-03-24 15:51:24\",\n        \"link-downs\": \"6\",\n        \"mac-address\": \"C4:AD:34:9F:61:72\",\n        \"max-l2mtu\": \"9214\",\n        \"mtu\": \"1500\",\n        \"name\": \"ether2\",\n        \"running\": \"true\",\n        \"rx-byte\": \"3039025\",\n        \"rx-drop\": \"0\",\n        \"rx-error\": \"0\",\n        \"rx-packet\": \"25851\",\n        \"slave\": \"true\",\n        \"tx-byte\": \"36534608\",\n        \"tx-drop\": \"0\",\n        \"tx-error\": \"0\",\n        \"tx-packet\": \"41948\",\n        \"tx-queue-drop\": \"0\",\n        \"type\": \"ether\"\n    },\n    {\n        \".id\": \"*4\",\n        \"actual-mtu\": \"1500\",\n        \"default-name\": \"ether3\",\n        \"disabled\": \"false\",\n        \"fp-rx-byte\": \"0\",\n        \"fp-rx-packet\": \"0\",\n        \"fp-tx-byte\": \"0\",\n        \"fp-tx-packet\": \"0\",\n        \"l2mtu\": \"1598\",\n        \"link-downs\": \"0\",\n        \"mac-address\": \"C4:AD:34:9F:61:73\",\n        \"max-l2mtu\": \"9214\",\n        \"mtu\": \"1500\",\n        \"name\": \"ether3\",\n        \"running\": \"false\",\n        \"rx-byte\": \"0\",\n        \"rx-drop\": \"0\",\n        \"rx-error\": \"0\",\n        \"rx-packet\": \"0\",\n        \"slave\": \"true\",\n        \"tx-byte\": \"0\",\n        \"tx-drop\": \"0\",\n        \"tx-error\": \"0\",\n        \"tx-packet\": \"0\",\n        \"tx-queue-drop\": \"0\",\n        \"type\": \"ether\"\n    },\n    {\n        \".id\": \"*5\",\n        \"actual-mtu\": \"1500\",\n        \"default-name\": \"ether4\",\n        \"disabled\": \"false\",\n        \"fp-rx-byte\": \"0\",\n        \"fp-rx-packet\": \"0\",\n        \"fp-tx-byte\": \"0\",\n        \"fp-tx-packet\": \"0\",\n        \"l2mtu\": \"1598\",\n        \"link-downs\": \"0\",\n        \"mac-address\": \"C4:AD:34:9F:61:74\",\n        \"max-l2mtu\": \"9214\",\n        \"mtu\": \"1500\",\n        \"name\": \"ether4\",\n        \"running\": \"false\",\n        \"rx-byte\": \"0\",\n        \"rx-drop\": \"0\",\n        \"rx-error\": \"0\",\n        \"rx-packet\": \"0\",\n        \"slave\": \"true\",\n        \"tx-byte\": \"0\",\n        \"tx-drop\": \"0\",\n        \"tx-error\": \"0\",\n        \"tx-packet\": \"0\",\n        \"tx-queue-drop\": \"0\",\n        \"type\": \"ether\"\n    },\n    {\n        \".id\": \"*6\",\n        \"actual-mtu\": \"1500\",\n        \"default-name\": \"ether5\",\n        \"disabled\": \"false\",\n        \"fp-rx-byte\": \"0\",\n        \"fp-rx-packet\": \"0\",\n        \"fp-tx-byte\": \"0\",\n        \"fp-tx-packet\": \"0\",\n        \"l2mtu\": \"1598\",\n        \"link-downs\": \"0\",\n        \"mac-address\": \"C4:AD:34:9F:61:75\",\n        \"max-l2mtu\": \"9214\",\n        \"mtu\": \"1500\",\n        \"name\": \"ether5\",\n        \"running\": \"false\",\n        \"rx-byte\": \"0\",\n        \"rx-drop\": \"0\",\n        \"rx-error\": \"0\",\n        \"rx-packet\": \"0\",\n        \"slave\": \"true\",\n        \"tx-byte\": \"0\",\n        \"tx-drop\": \"0\",\n        \"tx-error\": \"0\",\n        \"tx-packet\": \"0\",\n        \"tx-queue-drop\": \"0\",\n        \"type\": \"ether\"\n    },\n    {\n        \".id\": \"*7\",\n        \"actual-mtu\": \"1500\",\n        \"default-name\": \"wlan1\",\n        \"disabled\": \"false\",\n        \"fp-rx-byte\": \"0\",\n        \"fp-rx-packet\": \"0\",\n        \"fp-tx-byte\": \"0\",\n        \"fp-tx-packet\": \"0\",\n        \"l2mtu\": \"1600\",\n        \"link-downs\": \"0\",\n        \"mac-address\": \"C4:AD:34:9F:61:76\",\n        \"max-l2mtu\": \"2290\",\n        \"mtu\": \"1500\",\n        \"name\": \"wlan1\",\n        \"running\": \"false\",\n        \"rx-byte\": \"0\",\n        \"rx-drop\": \"0\",\n        \"rx-error\": \"0\",\n        \"rx-packet\": \"0\",\n        \"slave\": \"true\",\n        \"tx-byte\": \"0\",\n        \"tx-drop\": \"0\",\n        \"tx-error\": \"0\",\n        \"tx-packet\": \"0\",\n        \"tx-queue-drop\": \"0\",\n        \"type\": \"wlan\"\n    },\n    {\n        \".id\": \"*8\",\n        \"actual-mtu\": \"1500\",\n        \"default-name\": \"wlan2\",\n        \"disabled\": \"false\",\n        \"fp-rx-byte\": \"0\",\n        \"fp-rx-packet\": \"0\",\n        \"fp-tx-byte\": \"0\",\n        \"fp-tx-packet\": \"0\",\n        \"l2mtu\": \"1600\",\n        \"link-downs\": \"0\",\n        \"mac-address\": \"C4:AD:34:9F:61:77\",\n        \"max-l2mtu\": \"2290\",\n        \"mtu\": \"1500\",\n        \"name\": \"wlan2\",\n        \"running\": \"false\",\n        \"rx-byte\": \"0\",\n        \"rx-drop\": \"0\",\n        \"rx-error\": \"0\",\n        \"rx-packet\": \"0\",\n        \"slave\": \"true\",\n        \"tx-byte\": \"0\",\n        \"tx-drop\": \"0\",\n        \"tx-error\": \"0\",\n        \"tx-packet\": \"0\",\n        \"tx-queue-drop\": \"0\",\n        \"type\": \"wlan\"\n    },\n    {\n        \".id\": \"*9\",\n        \"actual-mtu\": \"1500\",\n        \"comment\": \"defconf\",\n        \"disabled\": \"false\",\n        \"fp-rx-byte\": \"2880347\",\n        \"fp-rx-packet\": \"25472\",\n        \"fp-tx-byte\": \"0\",\n        \"fp-tx-packet\": \"0\",\n        \"l2mtu\": \"1598\",\n        \"last-link-up-time\": \"2024-03-24 12:01:04\",\n        \"link-downs\": \"0\",\n        \"mac-address\": \"C4:AD:34:9F:61:72\",\n        \"mtu\": \"auto\",\n        \"name\": \"bridge\",\n        \"running\": \"true\",\n        \"rx-byte\": \"2921668\",\n        \"rx-drop\": \"0\",\n        \"rx-error\": \"0\",\n        \"rx-packet\": \"25780\",\n        \"tx-byte\": \"35806535\",\n        \"tx-drop\": \"0\",\n        \"tx-error\": \"0\",\n        \"tx-packet\": \"34144\",\n        \"tx-queue-drop\": \"0\",\n        \"type\": \"bridge\"\n    },\n    {\n        \".id\": \"*1\",\n        \"actual-mtu\": \"65536\",\n        \"disabled\": \"false\",\n        \"fp-rx-byte\": \"0\",\n        \"fp-rx-packet\": \"0\",\n        \"fp-tx-byte\": \"0\",\n        \"fp-tx-packet\": \"0\",\n        \"last-link-up-time\": \"2024-03-24 12:01:04\",\n        \"link-downs\": \"0\",\n        \"mac-address\": \"00:00:00:00:00:00\",\n        \"mtu\": \"65536\",\n        \"name\": \"lo\",\n        \"running\": \"true\",\n        \"rx-byte\": \"0\",\n        \"rx-drop\": \"0\",\n        \"rx-error\": \"0\",\n        \"rx-packet\": \"0\",\n        \"tx-byte\": \"0\",\n        \"tx-drop\": \"0\",\n        \"tx-error\": \"0\",\n        \"tx-packet\": \"0\",\n        \"tx-queue-drop\": \"0\",\n        \"type\": \"loopback\"\n    }\n]"
 				}
 			]
+		},
+		{
+			"name": "Resources",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{IP}}/rest/system/resource",
+					"protocol": "http",
+					"host": [
+						"{{IP}}"
+					],
+					"path": [
+						"rest",
+						"system",
+						"resource"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"auth": {

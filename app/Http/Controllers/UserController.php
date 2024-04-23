@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PasswordRequest;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
@@ -56,6 +57,19 @@ class UserController extends Controller
         } else {
             $formData['admin'] = 1;
         }
+
+        $user = User::findOrFail($id);
+        $user->update($formData);
+        if (auth()->user()->admin == 1) {
+            return redirect()->route('users_all')->with('success-msg', "An User was updated with success");
+        } else {
+            return redirect()->back()->withInput()->with('success-msg', "An User was updated with success");
+        }
+    }
+
+    public function updatePassword(PasswordRequest $request, $id)
+    {
+        $formData = $request->validated();
 
         $user = User::findOrFail($id);
         $user->update($formData);

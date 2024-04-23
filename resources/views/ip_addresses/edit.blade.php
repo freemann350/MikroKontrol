@@ -14,7 +14,7 @@
             @method('PUT')
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Address</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="address" class="form-control @error('address') is-invalid @enderror" value="{{$address['address']}}" placeholder="0.0.0.0/0" required>
                     @error('address')
                         <div class="invalid-feedback">
@@ -25,7 +25,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Network</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="network" class="form-control @error('network') is-invalid @enderror" value="{{$address['network']}}" placeholder="0.0.0.0">
                     @error('network')
                         <div class="invalid-feedback">
@@ -36,7 +36,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Interface</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <select class="form-select" name="interface">
                         @foreach ($interfaces as $interface)
                         <option {{$address['interface'] == $interface['name'] ? "selected" : ""}}>{{$interface['name']}}</option>
@@ -51,7 +51,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Comment (optional)</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="comment" class="form-control @error('comment') is-invalid @enderror" value="{{isset($address['comment']) ? $address['comment'] : ""}}" placeholder="My interface">
                     @error('comment')
                         <div class="invalid-feedback">

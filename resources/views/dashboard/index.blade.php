@@ -51,7 +51,7 @@
                             Online
                         </p>
                     </address>
-                    <a class="btn btn-outline-dark btn-lg btn-block" href="{{ route ('Device.index', $device['id']) }}">Use this device</a><br>
+                    <a class="btn btn-outline-dark btn-lg btn-block" href="{{ route ('Devices.index', $device['id']) }}">Use this device</a><br>
                     <a class="btn btn-outline-dark btn-lg btn-block" href="{{ route ('Devices.edit', $device['id']) }}">Edit this device</a>
                 @else
                     <address>

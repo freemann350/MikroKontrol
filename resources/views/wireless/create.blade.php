@@ -13,7 +13,7 @@
             @csrf
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">SSID</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="ssid" class="form-control @error('ssid') is-invalid @enderror" value="{{old('ssid')}}" placeholder="My-WiFi">
                     @error('ssid')
                         <div class="invalid-feedback">
@@ -24,7 +24,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Master Interface</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <select class="form-select" name="master-interface">
                         @foreach ($interfaces as $interface)
                         @if (isset($interface['band']))
@@ -41,7 +41,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Security Profile</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <select class="form-select" name="security-profile">
                         @foreach ($security_profiles as $security_profile)
                         <option>{{$security_profile['name']}}</option>
@@ -56,7 +56,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">WPS Mode</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <select class="form-select" name="wps-mode">
                         <option value="disabled">Disabled</option>
                         <option value="push-button">Push button</option>

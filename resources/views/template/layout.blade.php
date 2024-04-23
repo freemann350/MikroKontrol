@@ -86,7 +86,7 @@
           @if (isset($deviceParam))
           <li class="nav-item nav-category">Device</li>
           <li class="nav-item {{ Route::currentRouteName() == 'Dashboard.indexDevice' ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route ('Device.index',1) }}">
+            <a class="nav-link" href="{{ route ('Devices.index',$deviceParam) }}">
               <i class="menu-icon mdi mdi-information"></i>
               <span class="menu-title">Device Information</span>
             </a>

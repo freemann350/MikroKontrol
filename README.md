@@ -88,7 +88,4 @@ All passwords are *password*
     - [ ] DNS Static Records
     - [ ] Wireguard Server
     - [ ] Wireguard Client
-    
-- Users
-    - [ ] Gates/Middlewares
-- [ ] Error fix (empty data, errors on data retrieval in creates,...)
+- [ ] Edit user password

@@ -14,7 +14,7 @@
             @method('PUT')
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Interface</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <select class="form-select" name="interface">
                         @foreach ($interfaces as $interface)
                         @if ($interface['type'] != "loopback")
@@ -31,7 +31,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Add default route</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <select class="form-select" name="add-default-route">
                         <option value="no" {{$client['add-default-route'] == "no" ? "selected" : ""}}>No</option>
                         <option value="special-classless" {{$client['add-default-route'] == "special-classless" ? "selected" : ""}}>Special classless</option>
@@ -46,7 +46,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Comment (optional)</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="comment" class="form-control @error('comment') is-invalid @enderror" value="{{isset($client['comment']) ? $client['comment'] : ""}}" placeholder="defconf">
                     @error('comment')
                         <div class="invalid-feedback">

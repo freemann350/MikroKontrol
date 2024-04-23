@@ -14,7 +14,7 @@
             @method('PUT')
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Destination Address</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="dst-address" class="form-control @error('dst-address') is-invalid @enderror" value="{{$route['dst-address']}}" placeholder="0.0.0.0/0">
                     @error('dst-address')
                         <div class="invalid-feedback">
@@ -25,7 +25,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Gateway</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <select class="form-select" name="gateway">
                         @foreach ($interfaces as $interface)
                         <option {{$route['gateway'] == $interface['name'] ? "selected" : ""}}>{{$interface['name']}}</option>
@@ -40,7 +40,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Check Gateway</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <select class="form-select" name="check-gateway">
                         <option value="ping" {{ isset($route['check-gateway']) && $route['check-gateway'] == "ping" ? "selected" : ""}}>Ping</option>
                         <option value="arp" {{isset($route['check-gateway']) && $route['check-gateway'] == "arp" ? "selected" : ""}}>ARP</option>
@@ -53,7 +53,7 @@
                     @enderror
                 </div>
                 <br>
-                <div class="col-sm-3">
+                <div class="col-sm-12">
                     <input class="form-check-input" type="checkbox" name="suppress-hw-offload" value="true" {{$route['suppress-hw-offload'] == true ? "checked" : ""}}>
                     <label class="form-check-label"> &nbsp;Suppress hw offload</label>
                 </div>
@@ -65,7 +65,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Distance (optional)</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="distance" class="form-control @error('distance') is-invalid @enderror" value="{{$route['distance']}}" placeholder="0">
                     @error('distance')
                         <div class="invalid-feedback">
@@ -76,7 +76,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Scope (optional)</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="scope" class="form-control @error('scope') is-invalid @enderror" value="{{$route['scope']}}" placeholder="30">
                     @error('scope')
                         <div class="invalid-feedback">
@@ -87,7 +87,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Target Scope (optional)</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="target-scope" class="form-control @error('target-scope') is-invalid @enderror" value="{{isset($route['target-scope']) ? $route['target-scope'] : ""}}" placeholder="10">
                     @error('target-scope')
                         <div class="invalid-feedback">

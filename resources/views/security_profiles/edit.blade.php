@@ -14,7 +14,7 @@
             @method('PUT')
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Name</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{$security_profile['name']}}" placeholder="securityprofile1">
                     @error('name')
                         <div class="invalid-feedback">
@@ -25,7 +25,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Mode</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <select class="form-select" name="mode">
                         <option value="none" {{$security_profile['mode'] == "none" ? "selected" : ""}}>None</option>
                         <option value="dynamic-keys" {{$security_profile['mode'] == "dynamic-keys" ? "selected" : ""}}>Dynamic Keys</option>
@@ -80,7 +80,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">WPA2-Pre-Shared Key</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="wpa2-pre-shared-key" class="form-control @error('wpa2-pre-shared-key') is-invalid @enderror" value="{{$security_profile['wpa2-pre-shared-key']}}" placeholder="Your SP password">
                     @error('wpa2-pre-shared-key')
                         <div class="invalid-feedback">
@@ -91,7 +91,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Supplicant Identity</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="supplicant-identity" class="form-control @error('supplicant-identity') is-invalid @enderror" value="{{$security_profile['supplicant-identity']}}" placeholder="Your SP EAP supplicant">
                     @error('supplicant-identity')
                         <div class="invalid-feedback">
@@ -102,7 +102,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Group Key Update</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="group-key-update" class="form-control @error('group-key-update') is-invalid @enderror" value="{{$security_profile['group-key-update']}}" placeholder="HH:MM:SS">
                     @error('group-key-update')
                     <div class="invalid-feedback">
@@ -113,7 +113,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Management Protection</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <select class="form-select" name="management-protection">
                         <option value="allowed" {{$security_profile['management-protection'] == "allowed" ? "selected" : ""}}>Allowed</option>
                         <option value="disabled" {{$security_profile['management-protection'] == "disabled" ? "selected" : ""}}>Disabled</option>
@@ -128,7 +128,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Management Protection Key</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="management-protection-key" class="form-control @error('management-protection-key') is-invalid @enderror" value="{{$security_profile['management-protection-key']}}" placeholder="Your SP EAP supplicant">
                     @error('management-protection-key')
                         <div class="invalid-feedback">
@@ -138,7 +138,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-sm-3">
+                <div class="col-sm-12">
                     <input class="form-check-input" type="checkbox" name="disable-pmkid" value="true" {{$security_profile['disable-pmkid'] == "true" ? "checked" : ""}}>
                     <label class="form-check-label"> &nbsp;Disable PMKID</label>
                 </div>

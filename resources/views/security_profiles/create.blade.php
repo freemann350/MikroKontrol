@@ -13,7 +13,7 @@
             @csrf
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Name</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{old('name')}}" placeholder="securityprofile1">
                     @error('name')
                         <div class="invalid-feedback">
@@ -24,7 +24,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Mode</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <select class="form-select" name="mode">
                         <option value="none" selected>None</option>
                         <option value="dynamic-keys">Dynamic Keys</option>
@@ -79,7 +79,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">WPA2-Pre-Shared Key</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="wpa2-pre-shared-key" class="form-control @error('wpa2-pre-shared-key') is-invalid @enderror" value="{{old('wpa2-pre-shared-key')}}" placeholder="Your SP password">
                     @error('wpa2-pre-shared-key')
                         <div class="invalid-feedback">
@@ -90,7 +90,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Supplicant Identity</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="supplicant-identity" class="form-control @error('supplicant-identity') is-invalid @enderror" value="{{old('supplicant-identity')}}" placeholder="Your SP EAP supplicant">
                     @error('supplicant-identity')
                         <div class="invalid-feedback">
@@ -101,7 +101,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Group Key Update</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="group-key-update" class="form-control @error('group-key-update') is-invalid @enderror" value="{{old('group-key-update')}}" placeholder="HH:MM:SS">
                     @error('group-key-update')
                     <div class="invalid-feedback">
@@ -112,7 +112,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Management Protection</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <select class="form-select" name="management-protection">
                         <option value="allowed">Allowed</option>
                         <option value="disabled" selected>Disabled</option>
@@ -127,7 +127,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Management Protection Key</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="management-protection-key" class="form-control @error('management-protection-key') is-invalid @enderror" value="{{old('management-protection-key')}}" placeholder="Your SP EAP supplicant">
                     @error('management-protection-key')
                         <div class="invalid-feedback">
@@ -137,7 +137,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-sm-3">
+                <div class="col-sm-12">
                     <input class="form-check-input" type="checkbox" name="disable-pmkid" value="true">
                     <label class="form-check-label"> &nbsp;Disable PMKID</label>
                 </div>

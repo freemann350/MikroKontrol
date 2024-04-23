@@ -35,13 +35,16 @@ Route::middleware('auth')->group(function () {
         Route::get('/Users','index')->name("users_all")->middleware(AdminMiddleware::class);
         Route::get('/User/{User}/edit','edit')->name("User.edit")->middleware(EditUserMiddleware::class);
         Route::put('/User/{User}','update')->name("User.update")->middleware(EditUserMiddleware::class);
+        Route::patch('/User/{User}/password','updatePassword')->name("User.updatePassword")->middleware(EditUserMiddleware::class);
         Route::resource('/User',UserController::class)->except(['index','edit','update'])->middleware(AdminMiddleware::class);
     });
 
     Route::controller(DeviceController::class)->group(function () {
-        Route::resource('/Devices',DeviceController::class)->except('index')->middleware(DeviceControlMiddleware::class);
-        Route::get('/{Device}/Overview/','indexDevice')->name("Device.index")->middleware(DeviceControlMiddleware::class);
         Route::get('/Dashboard','index')->name("Dashboard.index");
+        Route::resource('/Devices',DeviceController::class)->except(['index','create','store'])->middleware(DeviceControlMiddleware::class);
+        Route::get('/{Device}/Overview','indexDevice')->name("Devices.index")->middleware(DeviceControlMiddleware::class);
+        Route::get('/Device/create','create')->name("Devices.create");
+        Route::post('/Device','store')->name("Devices.store");
 
     });
 

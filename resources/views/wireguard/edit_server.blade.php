@@ -14,7 +14,7 @@
             @method('PUT')
             <div class="form-group row">
                 <label class="col-sm-3 col-form-label">Name</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{$wg['name']}}" placeholder="wireguard1">
                     @error('name')
                         <div class="invalid-feedback">
@@ -25,7 +25,7 @@
             </div>
             <div class="form-group row">
                 <label class="col-sm-3 col-form-label">Port</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="listen-port" class="form-control @error('listen-port') is-invalid @enderror" value="{{$wg['listen-port']}}" placeholder="13230">
                     @error('listen-port')
                         <div class="invalid-feedback">
@@ -36,7 +36,7 @@
             </div>
             <div class="form-group row">
                 <label class="col-sm-3 col-form-label">MTU (optional)</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="mtu" class="form-control @error('mtu') is-invalid @enderror" value="{{$wg['mtu']}}" placeholder="1420">
                     @error('mtu')
                         <div class="invalid-feedback">

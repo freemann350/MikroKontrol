@@ -14,7 +14,7 @@
             @method('PUT')
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Name</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{$wg['name']}}" placeholder="wireguard1">
                     @error('name')
                         <div class="invalid-feedback">
@@ -25,7 +25,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Interface</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <select class="form-select" name="interface">
                         @foreach ($interfaces as $interface)
                         @if ($interface['type'] == "wg")
@@ -42,7 +42,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Public Key</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="public-key" class="form-control @error('public-key') is-invalid @enderror" value="{{$wg['public-key']}}" placeholder="<wg public key>">
                     @error('public-key')
                         <div class="invalid-feedback">
@@ -53,7 +53,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Private Key (optional)</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="private-key" class="form-control @error('private-key') is-invalid @enderror" value="{{$wg['private-key']}}" placeholder="auto">
                     <br>
                     <div class="col-sm-3 form-check-inline">
@@ -69,7 +69,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Endpoint (optional)</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="endpoint-address" class="form-control @error('endpoint-address') is-invalid @enderror" value="{{$wg['endpoint-address']}}" placeholder="0.0.0.0">
                     @error('endpoint-address')
                         <div class="invalid-feedback">
@@ -80,7 +80,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Endpoint port (optional)</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="endpoint-port" class="form-control @error('endpoint-port') is-invalid @enderror" value="{{$wg['endpoint-port']}}" placeholder="1024-65535">
                     @error('endpoint-port')
                         <div class="invalid-feedback">
@@ -91,7 +91,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Allowed Address</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="allowed-address" class="form-control @error('allowed-address') is-invalid @enderror" value="{{$wg['allowed-address']}}" placeholder="0.0.0.0/0">
                     @error('allowed-address')
                         <div class="invalid-feedback">
@@ -102,7 +102,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Preshared Key (optional)</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="preshared-key" class="form-control @error('preshared-key') is-invalid @enderror" value="{{$wg['preshared-key']}}" placeholder="auto">
                     <br>
                     <div class="col-sm-3 form-check-inline">
@@ -118,7 +118,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Persistent Keepalive (optional)</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="persistent-keepalive" class="form-control @error('persistent-keepalive') is-invalid @enderror" value="{{isset($wg['persistent-keepalive']) ? $wg['persistent-keepalive'] : ''}}" placeholder="HH:MM:SS">
                     @error('persistent-keepalive')
                         <div class="invalid-feedback">

@@ -13,7 +13,7 @@
             @csrf
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Name</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{old('name')}}" placeholder="user" required>
                     @error('name')
                         <div class="invalid-feedback">
@@ -24,7 +24,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Email</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" value="{{old('email')}}" placeholder="user@example.com" required>
                     @error('email')
                         <div class="invalid-feedback">
@@ -35,7 +35,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Password</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" value="{{old('password')}}" required>
                     @error('password')
                         <div class="invalid-feedback">

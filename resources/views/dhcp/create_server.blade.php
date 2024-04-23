@@ -13,7 +13,7 @@
             @csrf
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Name</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" value="{{old('name')}}" placeholder="defconf">
                     @error('name')
                         <div class="invalid-feedback">
@@ -24,7 +24,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Interface</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <select class="form-select" name="interface">
                         @foreach ($interfaces as $interface)
                         @if ($interface['type'] != "loopback")
@@ -41,7 +41,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Relay (optional)</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="relay" class="form-control @error('relay') is-invalid @enderror" value="{{old('relay')}}" placeholder="0.0.0.0">
                     @error('relay')
                         <div class="invalid-feedback">
@@ -52,7 +52,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Lease Time (optional)</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="lease-time" class="form-control @error('lease-time') is-invalid @enderror" value="{{old('lease-time')}}" placeholder="00:10:00">
                     @error('lease-time')
                         <div class="invalid-feedback">
@@ -63,7 +63,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Address pool</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <select class="form-select" name="address-pool">
                         <option value="static-only">Static only</option>
                         <option value="default-dhcp" selected>Default DHCP</option>
@@ -77,7 +77,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Comment (optional)</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <input type="text" name="comment" class="form-control @error('comment') is-invalid @enderror" value="{{old('comment')}}" placeholder="defconf">
                     @error('comment')
                         <div class="invalid-feedback">
@@ -88,7 +88,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Authoritative</label>
-                <div class="col-sm-9">
+                <div class="col-sm-12">
                     <select class="form-select" name="authoritative">
                         <option value="after-2s-delay">After 2s delay</option>
                         <option value="after-10s-delay">After 10s delay</option>
