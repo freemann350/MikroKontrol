@@ -94,17 +94,15 @@ class DeviceController extends Controller
 
     public function update(DeviceRequest $request,$id)
     {
-        // Validate the incoming request data
         $formData = $request->validated();
 
         if ($formData['timeout'] == null)
             $formData['timeout'] = 3;
 
-        // Create a new Device instance and save it to the database
         $device = Device::findOrFail($id);
         $device->update($formData);
 
-        return redirect()->route('Dashboard.index')->with('success-msg', "A Device was added with success");
+        return redirect()->route('Dashboard.index')->with('success-msg', "A Device was updated with success");
     }
 
     public function destroy($id)
@@ -112,6 +110,6 @@ class DeviceController extends Controller
         $device = Device::findOrFail($id);
         $device->delete();
 
-        return redirect()->route('Dashboard.index')->with('success-msg', "A Device was added with success");
+        return redirect()->route('Dashboard.index')->with('success-msg', "A Device was deleted with success");
     }
 }

@@ -70,7 +70,9 @@ After downloading all files (git clone, manual download, ...), run the following
 3. Seed the DB with default placeholder data
    `php artisan db:seed`
 
-  
+Admin default account: admin@example.com
+User default account: user@example.com
+All passwords are *password*
 
 ## ToDO (by order):
 
@@ -86,7 +88,7 @@ After downloading all files (git clone, manual download, ...), run the following
     - [ ] DNS Static Records
     - [ ] Wireguard Server
     - [ ] Wireguard Client
+    
 - Users
-    - [ ] CRUD users
-    - [ ] Gates
+    - [ ] Gates/Middlewares
 - [ ] Error fix (empty data, errors on data retrieval in creates,...)

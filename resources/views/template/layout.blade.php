@@ -70,17 +70,19 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link {{ Route::currentRouteName() == 'User.edit' ? 'active' : '' }}" href="{{route('User.edit', Auth::user()->id)}}">
               <i class="menu-icon mdi mdi-account-edit"></i>
               <span class="menu-title">My information</span>
             </a>
           </li>
+          @if (Auth::user()->admin == 1)
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link {{ Route::currentRouteName() == 'users_all' ? 'active' : '' }}" href="{{route('users_all')}}">
               <i class="menu-icon mdi mdi-account-supervisor"></i>
               <span class="menu-title">Users</span>
             </a>
           </li>
+          @endif
           @if (isset($deviceParam))
           <li class="nav-item nav-category">Device</li>
           <li class="nav-item {{ Route::currentRouteName() == 'Dashboard.indexDevice' ? 'active' : '' }}">
