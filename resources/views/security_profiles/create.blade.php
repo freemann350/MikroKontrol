@@ -9,7 +9,7 @@
             <p class="card-description">
                 Here you can add a new Security Profile for Wireless interfaces
             </p>
-            <form method="POST" action="{{route('SecurityProfiles.store')}}">
+            <form method="POST" action="{{route('SecurityProfiles.store', $deviceParam)}}">
             @csrf
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Name</label>
@@ -163,7 +163,7 @@
                 <br>
                 Check the <a href="https://help.mikrotik.com/docs/display/ROS">Mikrotik Support</a> for the correct parameters
             </p>
-            <form method="POST" action="{{route('sp_storeCustom')}}">
+            <form method="POST" action="{{route('sp_storeCustom', $deviceParam)}}">
             @csrf
             <div class="form-group">
                 <textarea class="form-control" name="custom" id="custom">{{old('custom')}}</textarea>

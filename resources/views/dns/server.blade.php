@@ -131,7 +131,7 @@
                 </div>
             </div>
             <div class="d-grid gap-2 d-md-block">
-                <a class="btn btn-success btn-lg btn-block" href="{{route('editDnsServer')}}"><i class="mdi mdi-pencil"></i> Edit router DNS</a>
+                <a class="btn btn-success btn-lg btn-block" href="{{route('editDnsServer', $deviceParam)}}"><i class="mdi mdi-pencil"></i> Edit router DNS</a>
                 <button onclick="location.reload();" type="button" class="btn btn-info btn-lg btn-block"><i class="mdi mdi-refresh"></i>Refresh info</button>
             </div>
             @else

@@ -35,9 +35,9 @@
                     @endif
                     <td>
                         <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-information-outline"></i></a>
-                        <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="{{route("IPAddresses.edit",$address['.id'])}}"><i class="mdi mdi-pencil"></i></a>
+                        <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="{{route("IPAddresses.edit",[$deviceParam, $address['.id']])}}"><i class="mdi mdi-pencil"></i></a>
                         @if (!isset($address['comment']) || $address['comment'] != 'defconf')
-                        <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm" href="#" onclick="_delete('Are you sure you want to delete the IP Address &quot;{{$address["address"]}}&quot; ({{$address[".id"]}})','{{ route("IPAddresses.destroy", $address[".id"]) }}')"><i class="mdi mdi-trash-can-outline"></i></a>
+                        <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm" href="#" onclick="_delete('Are you sure you want to delete the IP Address &quot;{{$address["address"]}}&quot; ({{$address[".id"]}})','{{ route("IPAddresses.destroy", [$deviceParam, $address[".id"]]) }}')"><i class="mdi mdi-trash-can-outline"></i></a>
                         @endif
                     </td>
                 </tr>
@@ -57,7 +57,7 @@
 </div>
 @if ($addresses != null)
 <div class="d-grid gap-2">
-  <a class="btn btn-success btn-lg btn-block" href="{{ route ('IPAddresses.create') }}"><i class="mdi mdi-plus-circle"></i> Add new address</a>
+  <a class="btn btn-success btn-lg btn-block" href="{{ route ('IPAddresses.create', $deviceParam) }}"><i class="mdi mdi-plus-circle"></i> Add new address</a>
 </div>
 @endif
 @endsection

@@ -9,7 +9,7 @@
             <p class="card-description">
                 Here you can add a new DHCP Client
             </p>
-            <form method="POST" action="{{route('updateDhcpClient',$client['.id'])}}" enctype="multipart/form-data">
+            <form method="POST" action="{{route('updateDhcpClient',[$deviceParam, $client['.id']])}}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="form-group">
@@ -87,7 +87,7 @@
                 <br>
                 Check the <a href="https://help.mikrotik.com/docs/display/ROS">Mikrotik Support</a> for the correct parameters
             </p>
-            <form method="POST" action="{{route('dhcp_updateClientCustom',$client['.id'])}}" enctype="multipart/form-data">
+            <form method="POST" action="{{route('dhcp_updateClientCustom',[$deviceParam, $client['.id']])}}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="form-group">

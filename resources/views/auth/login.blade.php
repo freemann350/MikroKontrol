@@ -29,6 +29,10 @@
   p {
     text-align: center;
   }
+
+  .invalid-feedback {
+    color: #dc3545;
+  }
 </style>
 </head>
 <body>
@@ -48,14 +52,24 @@
           <ion-icon name="mail-outline"></ion-icon>
           <input type="email" name="email" placeholder="user@mail.org" value="{{old('email')}}">
         </div>
+        @error('email')
+          <div class="invalid-feedback">
+              {{ $message }}
+          </div>
+        @enderror
       </div>
 
       <div class="password">
         <label for="password">Password</label>
         <div class="sec-2">
           <ion-icon name="lock-closed-outline"></ion-icon>
-          <input class="pas" type="password" name="password" placeholder="············" value="{{old('password')}}">
+          <input class="pas" type="password" name="password" placeholder="••••••••" value="{{old('password')}}">
         </div>
+        @error('password')
+          <div class="invalid-feedback">
+              {{ $message }}
+          </div>
+        @enderror
       </div>
       <button type="submit" class="login">Login</button>
     </div>

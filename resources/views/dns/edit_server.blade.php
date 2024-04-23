@@ -9,7 +9,7 @@
             <p class="card-description">
                 Here you can edit the device's DNS Server
             </p>
-            <form method="POST" action="{{route('storeDnsServer')}}">
+            <form method="POST" action="{{route('storeDnsServer', $deviceParam)}}">
             @csrf
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Servers</label>
@@ -181,7 +181,7 @@
                 <br>
                 Check the <a href="https://help.mikrotik.com/docs/display/ROS">Mikrotik Support</a> for the correct parameters
             </p>
-            <form method="POST" action="{{route('dns_storeServerCustom')}}">
+            <form method="POST" action="{{route('dns_storeServerCustom', $deviceParam)}}">
             @csrf
             <div class="form-group">
                 <textarea class="form-control" name="custom" id="custom">{{old('custom')}}</textarea>

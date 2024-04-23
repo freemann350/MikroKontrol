@@ -4,41 +4,44 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CustomRequest;
 use App\Http\Requests\StaticRouteRequest;
+use App\Models\Device;
 use GuzzleHttp\Client;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
-use Illuminate\Http\Request;
-use GuzzleHttp\Exception\RequestException;
 
 class StaticRouteController extends Controller
 {
-    public function index(): View
+    public function index($deviceId): View
     {
+        $device = Device::findOrFail($deviceId);
+
         try {
             $client = new Client();
 
-            $response = $client->get('http://192.168.88.1/rest/ip/route', [
-                'auth' => ['admin', '123456'],
-                'timeout' => 3
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/ip/route", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
             ]);
 
             $data = json_decode($response->getBody(), true);
             usort($data, function ($a, $b) {
                 return $a['.id'] <=> $b['.id'];
             });
-            return view('static_routes.index', ['routes' => $data]);
+            return view('static_routes.index', ['routes' => $data, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('static_routes.index', ['routes' => null, 'conn_error' => $e->getMessage()]);
+            return view('static_routes.index', ['routes' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
-    public function create(): View {
+    public function create($deviceId): View {
+        $device = Device::findOrFail($deviceId);
+
         try {
             $client = new Client();
 
-            $response = $client->get('http://192.168.88.1/rest/interface', [
-                'auth' => ['admin', '123456'],
-                'timeout' => 3
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/interface", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
             ]);
 
             $interfaces = json_decode($response->getBody(), true);
@@ -47,14 +50,16 @@ class StaticRouteController extends Controller
                 return $a['.id'] <=> $b['.id'];
             });
 
-            return view("static_routes.create",['interfaces' => $interfaces]);
+            return view("static_routes.create",['interfaces' => $interfaces, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('static_routes.create', ['interfaces' => null, 'conn_error' => $e->getMessage()]);
+            return view('static_routes.create', ['interfaces' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
-    public function store(StaticRouteRequest $request): RedirectResponse
+    public function store(StaticRouteRequest $request, $deviceId): RedirectResponse
     {
+        $device = Device::findOrFail($deviceId);
+
         $formData = $request->validated();
                 
         if ($formData['distance'] == null)
@@ -71,14 +76,14 @@ class StaticRouteController extends Controller
         $client = new Client();
 
         try {
-            $response = $client->request('PUT', 'http://192.168.88.1/rest/ip/route', [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PUT', $device['method'] . "://" . $device['endpoint'] . "/rest/ip/route", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $jsonData,
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
 
-            return redirect()->route('StaticRoutes.index')->with('success-msg', "A Static Route was added with success");
+            return redirect()->route('StaticRoutes.index', $device['id'])->with('success-msg', "A Static Route was added with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -89,21 +94,23 @@ class StaticRouteController extends Controller
         }
     }
 
-    public function storeCustom(CustomRequest $request): RedirectResponse
+    public function storeCustom(CustomRequest $request, $deviceId): RedirectResponse
     {
+        $device = Device::findOrFail($deviceId);
+
         $formData = $request->validated();
         
         $client = new Client();
         
         try {
-            $response = $client->request('PUT', 'http://192.168.88.1/rest/ip/route', [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PUT', $device['method'] . "://" . $device['endpoint'] . "/rest/ip/route", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $formData['custom'],
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
 
-            return redirect()->route('StaticRoutes.index')->with('success-msg', "A Static Route was added with success");
+            return redirect()->route('StaticRoutes.index', $device['id'])->with('success-msg', "A Static Route was added with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -114,13 +121,15 @@ class StaticRouteController extends Controller
         }
     }
 
-    public function edit($id): View {
+    public function edit($deviceId, $id): View {
+        $device = Device::findOrFail($deviceId);
+
         try {
             $client = new Client();
 
-            $response = $client->get('http://192.168.88.1/rest/interface', [
-                'auth' => ['admin', '123456'],
-                'timeout' => 3
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/interface", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
             ]);
 
             $interfaces = json_decode($response->getBody(), true);
@@ -131,21 +140,23 @@ class StaticRouteController extends Controller
 
             $client = new Client();
 
-            $response = $client->get("http://192.168.88.1/rest/ip/route/$id", [
-                'auth' => ['admin', '123456'],
-                'timeout' => 3
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/ip/route/$id", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
             ]);
 
             $route = json_decode($response->getBody(), true);
 
-            return view("static_routes.edit",['route' => $route,'interfaces' => $interfaces]);
+            return view("static_routes.edit",['route' => $route,'interfaces' => $interfaces, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('static_routes.edit', ['interfaces' => null, 'conn_error' => $e->getMessage()]);
+            return view('static_routes.edit', ['interfaces' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
-    public function update(StaticRouteRequest $request, $id): RedirectResponse
+    public function update(StaticRouteRequest $request, $deviceId, $id): RedirectResponse
     {
+        $device = Device::findOrFail($deviceId);
+
         $formData = $request->validated();
                 
         if ($formData['distance'] == null)
@@ -162,14 +173,14 @@ class StaticRouteController extends Controller
         $client = new Client();
 
         try {
-            $response = $client->request('PATCH', "http://192.168.88.1/rest/ip/route/$id", [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PATCH', $device['method'] . "://" . $device['endpoint'] . "/rest/ip/route/$id", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $jsonData,
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
 
-            return redirect()->route('StaticRoutes.index')->with('success-msg', "A Static Route was added with success");
+            return redirect()->route('StaticRoutes.index', $device['id'])->with('success-msg', "A Static Route was added with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -180,21 +191,23 @@ class StaticRouteController extends Controller
         }
     }
 
-    public function updateCustom(CustomRequest $request, $id): RedirectResponse
+    public function updateCustom(CustomRequest $request, $deviceId, $id): RedirectResponse
     {
+        $device = Device::findOrFail($deviceId);
+
         $formData = $request->validated();
         
         $client = new Client();
 
         try {
-            $response = $client->request('PATCH', "http://192.168.88.1/rest/ip/route/$id", [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PATCH', $device['method'] . "://" . $device['endpoint'] . "/rest/ip/route/$id", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $formData['custom'],
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
             
-            return redirect()->route('StaticRoutes.index')->with('success-msg', "A Static Route was added with success");
+            return redirect()->route('StaticRoutes.index', $device['id'])->with('success-msg', "A Static Route was added with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -205,18 +218,19 @@ class StaticRouteController extends Controller
         }
     }
 
-    public function destroy($id) {
+    public function destroy($deviceId, $id) {
+        $device = Device::findOrFail($deviceId);
         
         $client = new Client();
 
         try {
-            $response = $client->request('DELETE', "http://192.168.88.1/rest/ip/route/$id", [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('DELETE', $device['method'] . "://" . $device['endpoint'] . "/rest/ip/route/$id", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
             
-            return redirect()->route('StaticRoutes.index')->with('success-msg', "A Static Route was deleted with success");
+            return redirect()->route('StaticRoutes.index', $device['id'])->with('success-msg', "A Static Route was deleted with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 

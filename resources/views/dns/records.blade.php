@@ -33,8 +33,8 @@
                     @endif
                     <td>
                         <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-information-outline"></i></a>
-                        <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="{{route('editDnsRecord',$record[".id"])}}"><i class="mdi mdi-pencil"></i></a>
-                        <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm" href="#" onclick="_delete('Are you sure you want to delete the static DNS record &quot;{{$record["name"]}}&quot; ({{$record[".id"]}})','{{route("destroyDnsRecord", $record['.id'])}}')"><i class="mdi mdi-trash-can-outline"></i></a>
+                        <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="{{route('editDnsRecord',[$deviceParam, $record[".id"]])}}"><i class="mdi mdi-pencil"></i></a>
+                        <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm" href="#" onclick="_delete('Are you sure you want to delete the static DNS record &quot;{{$record["name"]}}&quot; ({{$record[".id"]}})','{{route("destroyDnsRecord", [$deviceParam, $record['.id']])}}')"><i class="mdi mdi-trash-can-outline"></i></a>
                     </td>
                 </tr>
                 @endforeach
@@ -53,7 +53,7 @@
 </div>
 @if ($records != "-1")
 <div class="d-grid gap-2">
-  <a class="btn btn-success btn-lg btn-block" href="{{route('createDnsRecord')}}"><i class="mdi mdi-plus-circle"></i> Add new static record</a>
+  <a class="btn btn-success btn-lg btn-block" href="{{route('createDnsRecord', $deviceParam)}}"><i class="mdi mdi-plus-circle"></i> Add new static record</a>
 </div>
 @endif
 @endsection

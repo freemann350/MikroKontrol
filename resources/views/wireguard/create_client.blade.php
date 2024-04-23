@@ -9,7 +9,7 @@
             <p class="card-description">
                 Here you can add a new Wireguard peer
             </p>
-            <form method="POST" action="{{route('wireguard_storeClient')}}">
+            <form method="POST" action="{{route('wireguard_storeClient', $deviceParam)}}">
             @csrf
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">Name</label>
@@ -140,7 +140,7 @@
                 <br>
                 Check the <a href="https://help.mikrotik.com/docs/display/ROS">Mikrotik Support</a> for the correct parameters
             </p>
-            <form method="POST" action="{{route('wg_storeClientCustom')}}">
+            <form method="POST" action="{{route('wg_storeClientCustom', $deviceParam)}}">
             @csrf
             <div class="form-group">
                 <textarea class="form-control" name="custom" id="custom">{{old('custom')}}</textarea>

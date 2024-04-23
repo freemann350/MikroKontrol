@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CustomRequest;
+use App\Models\Device;
 use GuzzleHttp\Client;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -12,33 +13,37 @@ use GuzzleHttp\Exception\RequestException;
 
 class IpAddressController extends Controller
 {
-    public function index(): View
+    public function index($deviceId): View
     {
+        $device = Device::findOrFail($deviceId);
+        
         try {
             $client = new Client();
 
-            $response = $client->get('http://192.168.88.1/rest/ip/address', [
-                'auth' => ['admin', '123456'],
-                'timeout' => 3
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/ip/address", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
             ]);
 
             $data = json_decode($response->getBody(), true);
             usort($data, function ($a, $b) {
                 return $a['.id'] <=> $b['.id'];
             });
-            return view('ip_addresses.index', ['addresses' => $data]);
+            return view('ip_addresses.index', ['addresses' => $data, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('ip_addresses.index', ['addresses' => null, 'conn_error' => $e->getMessage()]);
+            return view('ip_addresses.index', ['addresses' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
-    public function create(): View {
+    public function create($deviceId): View {
+        $device = Device::findOrFail($deviceId);
+        
         try {
             $client = new Client();
 
-            $response = $client->get('http://192.168.88.1/rest/interface', [
-                'auth' => ['admin', '123456'],
-                'timeout' => 3
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/interface", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
             ]);
 
             $interfaces = json_decode($response->getBody(), true);
@@ -47,14 +52,16 @@ class IpAddressController extends Controller
                 return $a['.id'] <=> $b['.id'];
             });
 
-            return view("ip_addresses.create",['interfaces' => $interfaces]);
+            return view("ip_addresses.create",['interfaces' => $interfaces, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('ip_addresses.create', ['interfaces' => null, 'conn_error' => $e->getMessage()]);
+            return view('ip_addresses.create', ['interfaces' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
-    public function store(IpAddressRequest $request): RedirectResponse 
+    public function store(IpAddressRequest $request, $deviceId): RedirectResponse 
     {
+        $device = Device::findOrFail($deviceId);
+        
         $formData = $request->validated();
 
         $jsonData = json_encode($formData);
@@ -62,14 +69,14 @@ class IpAddressController extends Controller
         $client = new Client();
         
         try {
-            $response = $client->request('PUT', 'http://192.168.88.1/rest/ip/address', [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PUT', $device['method'] . "://" . $device['endpoint'] . "/rest/ip/address", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $jsonData,
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
 
-            return redirect()->route('IPAddresses.index')->with('success-msg', "An IP Adddress was added with success");
+            return redirect()->route('IPAddresses.index', $deviceId)->with('success-msg', "An IP Adddress was added with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -80,21 +87,23 @@ class IpAddressController extends Controller
         }
     }
 
-    public function storeCustom(CustomRequest $request): RedirectResponse
+    public function storeCustom(CustomRequest $request, $deviceId): RedirectResponse
     {
+        $device = Device::findOrFail($deviceId);
+        
         $formData = $request->validated();
         
         $client = new Client();
         
         try {
-            $response = $client->request('PUT', 'http://192.168.88.1/rest/ip/address', [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PUT', $device['method'] . "://" . $device['endpoint'] . "/rest/ip/address", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $formData['custom'],
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
 
-            return redirect()->route('IPAddresses.index')->with('success-msg', "An IP Adddress was added with success");
+            return redirect()->route('IPAddresses.index', $deviceId)->with('success-msg', "An IP Adddress was added with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -105,13 +114,15 @@ class IpAddressController extends Controller
         }
     }
 
-    public function edit($id): View {
+    public function edit($deviceId, $id): View {
+        $device = Device::findOrFail($deviceId);
+        
         try {
             $client = new Client();
 
-            $response = $client->get('http://192.168.88.1/rest/interface', [
-                'auth' => ['admin', '123456'],
-                'timeout' => 3
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/interface", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
             ]);
 
             $interfaces = json_decode($response->getBody(), true);
@@ -122,21 +133,23 @@ class IpAddressController extends Controller
 
             $client = new Client();
 
-            $response = $client->get("http://192.168.88.1/rest/ip/address/$id", [
-                'auth' => ['admin', '123456'],
-                'timeout' => 3
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/ip/address/$id", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
             ]);
 
             $address = json_decode($response->getBody(), true);
 
-            return view("ip_addresses.edit",['address' => $address,'interfaces' => $interfaces]);
+            return view("ip_addresses.edit",['address' => $address,'interfaces' => $interfaces, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('ip_addresses.edit', ['address' => null, 'conn_error' => $e->getMessage()]);
+            return view('ip_addresses.edit', ['address' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
     
-    public function update(IpAddressRequest $request, $id): RedirectResponse 
+    public function update(IpAddressRequest $request, $deviceId, $id): RedirectResponse 
     {
+        $device = Device::findOrFail($deviceId);
+        
         $formData = $request->validated();
 
         $jsonData = json_encode($formData);
@@ -144,14 +157,14 @@ class IpAddressController extends Controller
         $client = new Client();
         
         try {
-            $response = $client->request('PATCH', "http://192.168.88.1/rest/ip/address/$id", [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PATCH', $device['method'] . "://" . $device['endpoint'] . "/rest/ip/address/$id", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $jsonData,
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
 
-            return redirect()->route('IPAddresses.index')->with('success-msg', "The IP Adddress was updated with success");
+            return redirect()->route('IPAddresses.index', $deviceId)->with('success-msg', "The IP Adddress was updated with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -162,21 +175,23 @@ class IpAddressController extends Controller
         }
     }
 
-    public function updateCustom(CustomRequest $request, $id): RedirectResponse
+    public function updateCustom(CustomRequest $request, $deviceId, $id): RedirectResponse
     {
+        $device = Device::findOrFail($deviceId);
+        
         $formData = $request->validated();
         
         $client = new Client();
 
         try {
-            $response = $client->request('PATCH', "http://192.168.88.1/rest/ip/address/$id", [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PATCH', $device['method'] . "://" . $device['endpoint'] . "/rest/ip/address/$id", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $formData['custom'],
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
             
-            return redirect()->route('IPAddresses.index')->with('success-msg', "The IP Adddress was updated with success");
+            return redirect()->route('IPAddresses.index', $deviceId)->with('success-msg', "The IP Adddress was updated with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -187,18 +202,19 @@ class IpAddressController extends Controller
         }
     }
 
-    public function destroy($id) {
+    public function destroy($deviceId, $id) {
+        $device = Device::findOrFail($deviceId);
         
         $client = new Client();
 
         try {
-            $response = $client->request('DELETE', "http://192.168.88.1/rest/ip/address/$id", [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('DELETE', $device['method'] . "://" . $device['endpoint'] . "/rest/ip/address/$id", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
             
-            return redirect()->route('IPAddresses.index')->with('success-msg', "A IP Address was deleted with success");
+            return redirect()->route('IPAddresses.index', $deviceId)->with('success-msg', "A IP Address was deleted with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 

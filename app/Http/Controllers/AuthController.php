@@ -30,6 +30,6 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         Auth::logout();
-        return redirect()->route('Auth.index');
+        return redirect()->route('login');
     }
 }

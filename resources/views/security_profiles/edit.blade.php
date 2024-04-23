@@ -9,7 +9,7 @@
             <p class="card-description">
                 Here you can add a new Security Profile for Wireless interfaces
             </p>
-            <form method="POST" action="{{route('SecurityProfiles.update', $security_profile['.id'])}}" enctype="multipart/form-data">
+            <form method="POST" action="{{route('SecurityProfiles.update', [$deviceParam, $security_profile['.id']])}}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="form-group">
@@ -163,7 +163,7 @@
                 <br>
                 Check the <a href="https://help.mikrotik.com/docs/display/ROS">Mikrotik Support</a> for the correct parameters
             </p>
-            <form method="POST" action="{{route('sp_updateCustom',$security_profile['.id'])}}" enctype="multipart/form-data">
+            <form method="POST" action="{{route('sp_updateCustom',[$deviceParam, $security_profile['.id']])}}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="form-group">

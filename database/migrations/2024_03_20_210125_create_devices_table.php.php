@@ -10,7 +10,7 @@ class CreateDevicesTable extends Migration
     {
         Schema::create('devices', function (Blueprint $table) {
             $table->id();
-            $table->string('device_name');
+            $table->string('name');
             $table->string('username');
             $table->string('password');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');

@@ -34,12 +34,12 @@
                     @endif
                     <td>
                         <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-information-outline"></i></a>
-                        <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="{{ route("wireguard_editClient",$wg1['.id']) }}"><i class="mdi mdi-pencil"></i></a>
+                        <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="{{ route("wireguard_editClient",[$deviceParam, $wg1['.id']]) }}"><i class="mdi mdi-pencil"></i></a>
                         @if ($wg1['private-key'] != "")
                         <a class="btn btn-outline-warning btn-fw btn-rounded btn-sm" href="#" onclick="wg_prk('{{$wg1['private-key']}}')"><i class="mdi mdi-key"></i></a>
                         <a class="btn btn-outline-primary btn-fw btn-rounded btn-sm" href="#" onclick="wg_qr{{$key}}()"><i class="mdi mdi-qrcode"></i></a>
                         @endif
-                        <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm" href="#" onclick="_delete('Are you sure you want to delete the wireguard interface &quot;{{$wg1["name"]}}&quot; ({{$wg1[".id"]}})','{{ route("wireguard_destroyClient", $wg1[".id"]) }}')"><i class="mdi mdi-trash-can-outline"></i></a>
+                        <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm" href="#" onclick="_delete('Are you sure you want to delete the wireguard interface &quot;{{$wg1["name"]}}&quot; ({{$wg1[".id"]}})','{{ route("wireguard_destroyClient", [$deviceParam, $wg1['.id']]) }}')"><i class="mdi mdi-trash-can-outline"></i></a>
                     </td>
                 </tr>
                 @endforeach
@@ -58,7 +58,7 @@
 </div>
 @if ($wg != "-1")
 <div class="d-grid gap-2">
-  <a class="btn btn-success btn-lg btn-block" href="{{ route ('wireguard_createClient') }}"><i class="mdi mdi-plus-circle"></i> Add new wireguard interface</a>
+  <a class="btn btn-success btn-lg btn-block" href="{{ route('wireguard_createClient', $deviceParam) }}"><i class="mdi mdi-plus-circle"></i> Add new wireguard interface</a>
 </div>
 @endif
 

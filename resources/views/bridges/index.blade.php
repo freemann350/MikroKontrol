@@ -43,9 +43,9 @@
                 @endif
                 <td>
                     <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-information-outline"></i></a>
-                    <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="{{route('Bridges.edit',$bridge['.id'])}}"><i class="mdi mdi-pencil"></i></a>
+                    <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="{{route('Bridges.edit',[$deviceParam, $bridge['.id']])}}"><i class="mdi mdi-pencil"></i></a>
                     @if (!isset($bridge['comment']) || $bridge['comment'] != 'defconf')
-                    <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm" href="#" onclick="_delete('Are you sure you want to delete the bridge &quot;{{$bridge["name"]}}&quot; ({{$bridge[".id"]}})','{{ route("Bridges.destroy", $bridge[".id"]) }}')"><i class="mdi mdi-trash-can-outline"></i></a>
+                    <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm" href="#" onclick="_delete('Are you sure you want to delete the bridge &quot;{{$bridge["name"]}}&quot; ({{$bridge[".id"]}})','{{ route("Bridges.destroy",[$deviceParam, $bridge['.id']]) }}')"><i class="mdi mdi-trash-can-outline"></i></a>
                     @endif
                 </td>
               </tr>
@@ -65,7 +65,7 @@
 </div>
 @if ($bridges != null)
 <div class="d-grid gap-2">
-  <a class="btn btn-success btn-lg btn-block" href="{{ route ('Bridges.create') }}"><i class="mdi mdi-plus-circle"></i> Add new bridge interface</a>
+  <a class="btn btn-success btn-lg btn-block" href="{{ route ('Bridges.create',$deviceParam) }}"><i class="mdi mdi-plus-circle"></i> Add new bridge interface</a>
 </div>
 @endif
 @endsection

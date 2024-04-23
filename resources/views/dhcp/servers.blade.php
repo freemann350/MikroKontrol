@@ -45,8 +45,8 @@
                     @endif
                     <td>
                         <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-information-outline"></i></a>
-                        <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="{{route("editDhcpServer",$server['.id'])}}"><i class="mdi mdi-pencil"></i></a>
-                        <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm" href="#" onclick="_delete('Are you sure you want to delete the DHCP Server &quot;{{$server["name"]}}&quot; ({{$server[".id"]}})','{{ route("destroyDhcpServer", $server[".id"]) }}')"><i class="mdi mdi-trash-can-outline"></i></a>
+                        <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="{{route("editDhcpServer",[$deviceParam, $server['.id']])}}"><i class="mdi mdi-pencil"></i></a>
+                        <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm" href="#" onclick="_delete('Are you sure you want to delete the DHCP Server &quot;{{$server["name"]}}&quot; ({{$server[".id"]}})','{{ route("destroyDhcpServer", [$deviceParam, $server[".id"]]) }}')"><i class="mdi mdi-trash-can-outline"></i></a>
                     </td>
                 </tr>
                 @endforeach
@@ -65,7 +65,7 @@
 </div>
 @if ($servers != null)
 <div class="d-grid gap-2">
-  <a class="btn btn-success btn-lg btn-block" href="{{ route ('createDhcpServer') }}"><i class="mdi mdi-plus-circle"></i> Add new server</a>
+  <a class="btn btn-success btn-lg btn-block" href="{{ route ('createDhcpServer', $deviceParam) }}"><i class="mdi mdi-plus-circle"></i> Add new server</a>
 </div>
 @endif
 @endsection

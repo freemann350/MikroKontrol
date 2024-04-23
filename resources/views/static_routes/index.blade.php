@@ -39,8 +39,8 @@
                     @endif
                     <td>
                         <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-information-outline"></i></a>
-                        <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="{{route('StaticRoutes.edit',$route['.id'])}}"><i class="mdi mdi-pencil"></i></a>
-                        <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm" href="#" onclick="_delete('Are you sure you want to delete the Static Route &quot;{{$route["dst-address"]}}&quot; (via {{$route["gateway"]}})' ,'{{ route("StaticRoutes.destroy", $route[".id"]) }}')"><i class="mdi mdi-trash-can-outline"></i></a>
+                        <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="{{route('StaticRoutes.edit',[$deviceParam, $route['.id']])}}"><i class="mdi mdi-pencil"></i></a>
+                        <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm" href="#" onclick="_delete('Are you sure you want to delete the Static Route &quot;{{$route["dst-address"]}}&quot; (via {{$route["gateway"]}})' ,'{{ route("StaticRoutes.destroy", [$deviceParam, $route[".id"]]) }}')"><i class="mdi mdi-trash-can-outline"></i></a>
                     </td>
                 </tr>
                 @endforeach
@@ -59,7 +59,7 @@
 </div>
 @if ($routes != null)
 <div class="d-grid gap-2">
-  <a class="btn btn-success btn-lg btn-block" href="{{ route ('StaticRoutes.create') }}"><i class="mdi mdi-plus-circle"></i> Add new static route</a>
+  <a class="btn btn-success btn-lg btn-block" href="{{ route('StaticRoutes.create', $deviceParam) }}"><i class="mdi mdi-plus-circle"></i> Add new static route</a>
 </div>
 @endif
 @endsection

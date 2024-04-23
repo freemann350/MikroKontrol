@@ -9,7 +9,7 @@
             <p class="card-description">
                 Here you can add a new Wireguard peer
             </p>
-            <form method="POST" action="{{route('wireguard_updateClient',$wg['.id'])}}"  enctype="multipart/form-data">
+            <form method="POST" action="{{route('wireguard_updateClient',[$deviceParam, $wg['.id']])}}"  enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="form-group">
@@ -141,7 +141,7 @@
                 <br>
                 Check the <a href="https://help.mikrotik.com/docs/display/ROS">Mikrotik Support</a> for the correct parameters
             </p>
-            <form method="POST" action="{{route('wg_updateClientCustom',$wg['.id'])}}" enctype="multipart/form-data">
+            <form method="POST" action="{{route('wg_updateClientCustom',[$deviceParam, $wg['.id']])}}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="form-group">

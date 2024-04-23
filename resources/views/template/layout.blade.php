@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
@@ -45,7 +44,6 @@
         <ul class="navbar-nav">
           <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
             <h1 class="welcome-text">Hello, <span class="text-black fw-bold">{{isset(Auth::user()->name) ? Auth::user()->name : 'NONAME'}}</span></h1>
-            <h3 class="welcome-sub-text">Currently not using any device </h3>
           </li>
         </ul>
         <ul class="navbar-nav ms-auto">
@@ -67,8 +65,8 @@
           <li class="nav-item nav-category">My pages</li>
           <li class="nav-item {{ Route::currentRouteName() == 'Dashboard.index' ? 'active' : '' }}">
             <a class="nav-link" href="{{ route ('Dashboard.index') }}">
-              <i class="mdi mdi-grid-large menu-icon"></i>
-              <span class="menu-title">Dashboard</span>
+              <i class="menu-icon mdi mdi-grid"></i>
+              <span class="menu-title">Device selection</span>
             </a>
           </li>
           <li class="nav-item">
@@ -83,42 +81,49 @@
               <span class="menu-title">Users</span>
             </a>
           </li>
-          @if (Route::currentRouteName() != "TESTING")
+          @if (isset($deviceParam))
+          <li class="nav-item nav-category">Device</li>
+          <li class="nav-item {{ Route::currentRouteName() == 'Dashboard.indexDevice' ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route ('Device.index',1) }}">
+              <i class="menu-icon mdi mdi-information"></i>
+              <span class="menu-title">Device Information</span>
+            </a>
+          </li>
           <li class="nav-item nav-category">Physical connections</li>
           <li class="nav-item {{ Route::currentRouteName() == 'Interfaces.index' ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route ('Interfaces.index') }}">
+            <a class="nav-link" href="{{ route ('Interfaces.index', $deviceParam) }}">
               <i class="menu-icon mdi mdi-server-network"></i>
               <span class="menu-title">Interfaces</span>
             </a>
           </li>
           <li class="nav-item {{ Route::currentRouteName() == 'Bridges.index' ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route ('Bridges.index') }}">
+            <a class="nav-link" href="{{ route ('Bridges.index', $deviceParam) }}">
               <i class="menu-icon mdi mdi-bridge"></i>
               <span class="menu-title">Bridges</span>
             </a>
           </li>
           <li class="nav-item nav-category">Wireless</li>
           <li class="nav-item {{ Route::currentRouteName() == 'SecurityProfiles.index' ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route ('SecurityProfiles.index') }}">
+            <a class="nav-link" href="{{ route ('SecurityProfiles.index', $deviceParam) }}">
               <i class="menu-icon mdi mdi-security-network"></i>
               <span class="menu-title">Security Profiles</span>
             </a>
           </li>
           <li class="nav-item {{ Route::currentRouteName() == 'Wireless.index' ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route ('Wireless.index') }}">
+            <a class="nav-link" href="{{ route ('Wireless.index', $deviceParam) }}">
               <i class="menu-icon mdi mdi-router-wireless"></i>
               <span class="menu-title">Wireless Interfaces</span>
             </a>
           </li>
           <li class="nav-item nav-category">Addressing & Routing</li>
           <li class="nav-item {{ Route::currentRouteName() == 'IPAddresses.index' ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route ('IPAddresses.index') }}">
+            <a class="nav-link" href="{{ route ('IPAddresses.index', $deviceParam) }}">
               <i class="menu-icon mdi mdi-swap-horizontal"></i>
               <span class="menu-title">Addresses</span>
             </a>
           </li>
           <li class="nav-item {{ Route::currentRouteName() == 'StaticRoutes.index' ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route ('StaticRoutes.index') }}">
+            <a class="nav-link" href="{{ route ('StaticRoutes.index', $deviceParam) }}">
               <i class="menu-icon mdi mdi-routes"></i>
               <span class="menu-title">Static Routing</span>
             </a>
@@ -131,8 +136,8 @@
             </a>
             <div class="collapse" id="dhcp">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item {{ Route::currentRouteName() == 'Dhcp.servers' ? 'active' : '' }}"> <a class="nav-link" href="{{ route ('dhcp_servers') }}">Servers</a></li>
-                <li class="nav-item {{ Route::currentRouteName() == 'Dhcp.clients' ? 'active' : '' }}"> <a class="nav-link" href="{{ route ('dhcp_client') }}">Clients</a></li>
+                <li class="nav-item {{ Route::currentRouteName() == 'Dhcp.servers' ? 'active' : '' }}"> <a class="nav-link" href="{{ route ('dhcp_servers', $deviceParam) }}">Servers</a></li>
+                <li class="nav-item {{ Route::currentRouteName() == 'Dhcp.clients' ? 'active' : '' }}"> <a class="nav-link" href="{{ route ('dhcp_client', $deviceParam) }}">Clients</a></li>
               </ul>
             </div>
           </li>
@@ -143,8 +148,8 @@
             </a>
             <div class="collapse" id="dns">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item {{ Route::currentRouteName() == 'Dns.server' ? 'active' : '' }}"> <a class="nav-link" href="{{ route ('dns_server') }}">Server</a></li>
-                <li class="nav-item {{ Route::currentRouteName() == 'Dns.records' ? 'active' : '' }}"> <a class="nav-link" href="{{ route ('dns_records') }}">Static Records</a></li>
+                <li class="nav-item {{ Route::currentRouteName() == 'Dns.server' ? 'active' : '' }}"> <a class="nav-link" href="{{ route ('dns_server', $deviceParam) }}">Server</a></li>
+                <li class="nav-item {{ Route::currentRouteName() == 'Dns.records' ? 'active' : '' }}"> <a class="nav-link" href="{{ route ('dns_records', $deviceParam) }}">Static Records</a></li>
               </ul>
             </div>
           </li>
@@ -155,8 +160,8 @@
             </a>
             <div class="collapse" id="wireguard">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item {{ Route::currentRouteName() == 'wireguard_servers' ? 'active' : '' }}"> <a class="nav-link" href="{{ route ('wireguard_servers') }}">Servers</a></li>
-                <li class="nav-item {{ Route::currentRouteName() == 'wireguard_clients' ? 'active' : '' }}"> <a class="nav-link" href="{{ route ('wireguard_clients') }}">Clients</a></li>
+                <li class="nav-item {{ Route::currentRouteName() == 'wireguard_servers' ? 'active' : '' }}"> <a class="nav-link" href="{{ route ('wireguard_servers', $deviceParam) }}">Servers</a></li>
+                <li class="nav-item {{ Route::currentRouteName() == 'wireguard_clients' ? 'active' : '' }}"> <a class="nav-link" href="{{ route ('wireguard_clients', $deviceParam) }}">Clients</a></li>
               </ul>
             </div>
           </li>

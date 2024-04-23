@@ -9,7 +9,7 @@
             <p class="card-description">
                 Here you can edit a Wireguard server
             </p>
-            <form method="POST" action="{{route('wireguard_updateServer',$wg['.id'])}}" enctype="multipart/form-data">
+            <form method="POST" action="{{route('wireguard_updateServer',[$deviceParam, $wg['.id']])}}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="form-group row">
@@ -59,7 +59,7 @@
                 <br>
                 Check the <a href="https://help.mikrotik.com/docs/display/ROS">Mikrotik Support</a> for the correct parameters
             </p>
-            <form method="POST" action="{{route('wg_updateServerCustom',$wg['.id'])}}" enctype="multipart/form-data">
+            <form method="POST" action="{{route('wg_updateServerCustom',[$deviceParam,$wg['.id']])}}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="form-group">

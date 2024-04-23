@@ -9,7 +9,7 @@
             <p class="card-description">
                 Here you can add a new Bridge interface
             </p>
-            <form method="POST" action="{{route('Bridges.update',$bridge['.id'])}}" enctype="multipart/form-data">
+            <form method="POST" action="{{route('Bridges.update',[$deviceParam, $bridge['.id']])}}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="form-group">
@@ -81,7 +81,7 @@
                 <br>
                 Check the <a href="https://help.mikrotik.com/docs/display/ROS">Mikrotik Support</a> for the correct parameters
             </p>
-            <form method="POST" action="{{route('bridge_updateCustom',$bridge['.id'])}}" enctype="multipart/form-data">
+            <form method="POST" action="{{route('bridge_updateCustom',[$deviceParam, $bridge['.id']])}}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="form-group">

@@ -9,7 +9,7 @@
             <p class="card-description">
                 Here you can add a new Wireless interface
             </p>
-            <form method="POST" action="{{route('Wireless.update',$wireless['.id'])}}"  enctype="multipart/form-data">
+            <form method="POST" action="{{route('Wireless.update', [$deviceParam, $wireless['.id']])}}"  enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="form-group">
@@ -101,7 +101,7 @@
                 <br>
                 Check the <a href="https://help.mikrotik.com/docs/display/ROS">Mikrotik Support</a> for the correct parameters
             </p>
-            <form method="POST" action="{{route('wireless_updateCustom',$wireless['.id'])}}" enctype="multipart/form-data">
+            <form method="POST" action="{{route('wireless_updateCustom',[$deviceParam, $wireless['.id']])}}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="form-group">

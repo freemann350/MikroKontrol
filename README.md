@@ -74,40 +74,19 @@ After downloading all files (git clone, manual download, ...), run the following
 
 ## ToDO (by order):
 
-  
-
-- Individual item info
-
-    - [ ] Bridges
-
-    - [ ] Security Profiles
-
-    - [ ] Wireless Interfaces
-
-    - [ ] Addresses
-
-    - [ ] Static Routing
-
-    - [ ] DHCP Server
-
-    - [ ] DHCP Client
-
-    - [ ] DNS Server
-
-    - [ ] DNS Static Records
-
-    - [ ] Wireguard Server
-
-    - [ ] Wireguard Client
-
-- Login & Users
-
-    - [ ] CRUD users
-
-    - [x] Login
-
-    - [ ] Gates
-
-- [ ] Device addition and selection (Dashboard)
-
+- Individual item info 
+    - [ ] Bridges
+    - [ ] Security Profiles
+    - [ ] Wireless Interfaces
+    - [ ] Addresses
+    - [ ] Static Routing
+    - [ ] DHCP Server
+    - [ ] DHCP Client
+    - [ ] DNS Server
+    - [ ] DNS Static Records
+    - [ ] Wireguard Server
+    - [ ] Wireguard Client
+- Users
+    - [ ] CRUD users
+    - [ ] Gates
 - [ ] Error fix (empty data, errors on data retrieval in creates,...)

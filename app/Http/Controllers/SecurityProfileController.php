@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CustomRequest;
 use App\Http\Requests\SecurityProfileRequest;
+use App\Models\Device;
 use GuzzleHttp\Client;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -12,14 +13,16 @@ use GuzzleHttp\Exception\RequestException;
 
 class SecurityProfileController extends Controller
 {
-    public function index(): View
+    public function index($deviceId): View
     {       
+        $device = Device::findOrFail($deviceId);
+
         try {
             $client = new Client();
     
-            $response = $client->get('http://192.168.88.1/rest/interface/wireless/security-profiles', [
-                'auth' => ['admin', '123456'],
-                'timeout' => 3
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/interface/wireless/security-profiles", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
             ]);
 
             $data = json_decode($response->getBody(), true);
@@ -27,18 +30,22 @@ class SecurityProfileController extends Controller
                 return $a['.id'] <=> $b['.id'];
             });
     
-            return view('security_profiles.index', ['security_profiles' => $data]);
+            return view('security_profiles.index', ['security_profiles' => $data, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('security_profiles.index', ['security_profiles' => null, 'conn_error' => $e->getMessage()]);
+            return view('security_profiles.index', ['security_profiles' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
-    public function create(): View {
-        return view("security_profiles.create");
+    public function create($deviceId): View {
+        $device = Device::findOrFail($deviceId);
+        
+        return view("security_profiles.create", ['deviceParam' => $device['id']]);
     }
 
-    public function store(SecurityProfileRequest $request): RedirectResponse
+    public function store(SecurityProfileRequest $request, $deviceId): RedirectResponse
     {
+        $device = Device::findOrFail($deviceId);
+
         $formData = $request->validated();
 
         if ($formData['wpa2-pre-shared-key'] == null)
@@ -98,14 +105,14 @@ class SecurityProfileController extends Controller
         $client = new Client();
 
         try {
-            $response = $client->request('PUT', 'http://192.168.88.1/rest/interface/wireless/security-profiles', [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PUT', $device['method'] . "://" . $device['endpoint'] . "/rest/interface/wireless/security-profiles", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $jsonData,
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
 
-            return redirect()->route('SecurityProfiles.index')->with('success-msg', "A Security Profile was added with success");
+            return redirect()->route('SecurityProfiles.index',$device['id'])->with('success-msg', "A Security Profile was added with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -117,21 +124,23 @@ class SecurityProfileController extends Controller
     }
     
     
-    public function storeCustom(CustomRequest $request): RedirectResponse
+    public function storeCustom(CustomRequest $request, $deviceId): RedirectResponse
     {
+        $device = Device::findOrFail($deviceId);
+
         $formData = $request->validated();
         
         $client = new Client();
         
         try {
-            $response = $client->request('PUT', 'http://192.168.88.1/rest/interface/wireless/security-profiles', [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PUT', $device['method'] . "://" . $device['endpoint'] . "/rest/interface/wireless/security-profiles", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $formData['custom'],
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
 
-            return redirect()->route('SecurityProfiles.index')->with('success-msg', "A Security Profile was added with success");
+            return redirect()->route('SecurityProfiles.index',$device['id'])->with('success-msg', "A Security Profile was added with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -142,25 +151,29 @@ class SecurityProfileController extends Controller
         }
     }
 
-    public function edit($id): View {
+    public function edit($deviceId, $id): View {
+        $device = Device::findOrFail($deviceId);
+
         try {
             $client = new Client();
     
-            $response = $client->get("http://192.168.88.1/rest/interface/wireless/security-profiles/$id", [
-                'auth' => ['admin', '123456'],
-                'timeout' => 3
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/interface/wireless/security-profiles/$id", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
             ]);
 
             $data = json_decode($response->getBody(), true);
     
-            return view('security_profiles.edit', ['security_profile' => $data]);
+            return view('security_profiles.edit', ['security_profile' => $data, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('security_profiles.index', ['security_profiles' => null, 'conn_error' => $e->getMessage()]);
+            return view('security_profiles.index', ['security_profiles' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
-    public function update(SecurityProfileRequest $request, $id): RedirectResponse
+    public function update(SecurityProfileRequest $request, $deviceId, $id): RedirectResponse
     {
+        $device = Device::findOrFail($deviceId);
+
         $formData = $request->validated();
 
         if ($formData['wpa2-pre-shared-key'] == null)
@@ -220,14 +233,14 @@ class SecurityProfileController extends Controller
         $client = new Client();
 
         try {
-            $response = $client->request('PATCH', "http://192.168.88.1/rest/interface/wireless/security-profiles/$id", [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PATCH', $device['method'] . "://" . $device['endpoint'] . "/rest/interface/wireless/security-profiles/$id", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $jsonData,
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
 
-            return redirect()->route('SecurityProfiles.index')->with('success-msg', "A Security Profile was updated with success");
+            return redirect()->route('SecurityProfiles.index', $device['id'])->with('success-msg', "A Security Profile was updated with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -238,21 +251,23 @@ class SecurityProfileController extends Controller
         }
     }
 
-    public function updateCustom(CustomRequest $request, $id): RedirectResponse
+    public function updateCustom(CustomRequest $request, $deviceId, $id): RedirectResponse
     {
+        $device = Device::findOrFail($deviceId);
+
         $formData = $request->validated();
         
         $client = new Client();
 
         try {
-            $response = $client->request('PATCH', "http://192.168.88.1/rest/interface/wireless/security-profiles/$id", [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PATCH', $device['method'] . "://" . $device['endpoint'] . "/rest/interface/wireless/security-profiles/$id", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $formData['custom'],
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
             
-            return redirect()->route('SecurityProfiles.index')->with('success-msg', "A Security Profile was updated with success");
+            return redirect()->route('SecurityProfiles.index', $device['id'])->with('success-msg', "A Security Profile was updated with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -263,18 +278,19 @@ class SecurityProfileController extends Controller
         }
     }
 
-    public function destroy($id) {
-        
+    public function destroy($deviceId, $id) {
+        $device = Device::findOrFail($deviceId);
+
         $client = new Client();
 
         try {
-            $response = $client->request('DELETE', "http://192.168.88.1/rest/interface/wireless/security-profiles/$id", [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('DELETE', $device['method'] . "://" . $device['endpoint'] . "/rest/interface/wireless/security-profiles/$id", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
             
-            return redirect()->route('SecurityProfiles.index')->with('success-msg', "A Security Profile was deleted with success");
+            return redirect()->route('SecurityProfiles.index', $device['id'])->with('success-msg', "A Security Profile was deleted with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 

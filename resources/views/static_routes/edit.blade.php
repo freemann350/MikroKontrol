@@ -9,7 +9,7 @@
             <p class="card-description">
                 Here you can add a new Static Route
             </p>
-            <form method="POST" action="{{route('StaticRoutes.update',$route['.id'])}}" enctype="multipart/form-data">
+            <form method="POST" action="{{route('StaticRoutes.update',[$deviceParam, $route['.id']])}}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="form-group">
@@ -110,7 +110,7 @@
                 <br>
                 Check the <a href="https://help.mikrotik.com/docs/display/ROS">Mikrotik Support</a> for the correct parameters
             </p>
-            <form method="POST" action="{{route('sr_updateCustom',$route['.id'])}}" enctype="multipart/form-data">
+            <form method="POST" action="{{route('sr_updateCustom',[$deviceParam, $route['.id']])}}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="form-group">

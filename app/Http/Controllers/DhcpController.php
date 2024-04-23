@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CustomRequest;
 use App\Http\Requests\DhcpClientRequest;
 use App\Http\Requests\DhcpServerRequest;
+use App\Models\Device;
 use GuzzleHttp\Client;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -13,32 +14,36 @@ use GuzzleHttp\Exception\RequestException;
 
 class DhcpController extends Controller
 {
-    public function servers(): View
+    public function servers($deviceId): View
     {
+        $device = Device::findOrFail($deviceId);
+
         try {
             $client = new Client();
     
-            $response = $client->get('http://192.168.88.1/rest/ip/dhcp-server', [
-                'auth' => ['admin', '123456'],
-                'timeout' => 3
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/ip/dhcp-server", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
             ]);
     
             $data = json_decode($response->getBody(), true);
            
-            return view('dhcp.servers', ['servers' => $data]);
+            return view('dhcp.servers', ['servers' => $data, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('dhcp.servers', ['servers' => null, 'conn_error' => $e->getMessage()]);
+            return view('dhcp.servers', ['servers' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
-    public function createDhcpServer(): View 
+    public function createDhcpServer($deviceId): View 
     {
+        $device = Device::findOrFail($deviceId);
+
         try {
             $client = new Client();
 
-            $response = $client->get('http://192.168.88.1/rest/interface', [
-                'auth' => ['admin', '123456'],
-                'timeout' => 3
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/interface", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
             ]);
 
             $interfaces = json_decode($response->getBody(), true);
@@ -47,14 +52,16 @@ class DhcpController extends Controller
                 return $a['.id'] <=> $b['.id'];
             });
 
-            return view("dhcp.create_server",['interfaces' => $interfaces]);
+            return view("dhcp.create_server",['interfaces' => $interfaces, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('dhcp.create_server', ['interfaces' => null, 'conn_error' => $e->getMessage()]);
+            return view('dhcp.create_server', ['interfaces' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
-    public function storeDhcpServer(DhcpServerRequest $request): RedirectResponse 
+    public function storeDhcpServer(DhcpServerRequest $request, $deviceId): RedirectResponse 
     {
+        $device = Device::findOrFail($deviceId);
+
         $formData = $request->validated();
         
         if ($formData['relay'] == null)
@@ -78,14 +85,14 @@ class DhcpController extends Controller
         $client = new Client();
 
         try {
-            $response = $client->request('PUT', 'http://192.168.88.1/rest/ip/dhcp-server', [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PUT', $device['method'] . "://" . $device['endpoint'] . "/rest/ip/dhcp-server", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $jsonData,
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
 
-            return redirect()->route('dhcp_servers')->with('success-msg', "A DHCP Server was added with success");
+            return redirect()->route('dhcp_servers', $device['id'])->with('success-msg', "A DHCP Server was added with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -96,21 +103,23 @@ class DhcpController extends Controller
         }
     }
 
-    public function storeServerCustom(CustomRequest $request): RedirectResponse
+    public function storeServerCustom(CustomRequest $request, $deviceId): RedirectResponse
     {
+        $device = Device::findOrFail($deviceId);
+
         $formData = $request->validated();
         
         $client = new Client();
         
         try {
-            $response = $client->request('PUT', 'http://192.168.88.1/rest/ip/dhcp-server', [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PUT', $device['method'] . "://" . $device['endpoint'] . "/rest/ip/dhcp-server", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $formData['custom'],
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
 
-            return redirect()->route('dhcp_servers')->with('success-msg', "A DHCP Server was added with success");
+            return redirect()->route('dhcp_servers', $device['id'])->with('success-msg', "A DHCP Server was added with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -121,14 +130,16 @@ class DhcpController extends Controller
         }
     }
 
-    public function editDhcpServer($id): View 
+    public function editDhcpServer($deviceId, $id): View 
     {
+        $device = Device::findOrFail($deviceId);
+
         try {
             $client = new Client();
 
-            $response = $client->get('http://192.168.88.1/rest/interface', [
-                'auth' => ['admin', '123456'],
-                'timeout' => 3
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/interface", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
             ]);
 
             $interfaces = json_decode($response->getBody(), true);
@@ -139,20 +150,22 @@ class DhcpController extends Controller
 
             $client = new Client();
     
-            $response = $client->get("http://192.168.88.1/rest/ip/dhcp-server/$id", [
-                'auth' => ['admin', '123456'],
-                'timeout' => 3
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/ip/dhcp-server/$id", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
             ]);
             $server = json_decode($response->getBody(), true);
 
-            return view("dhcp.edit_server",['server' => $server,'interfaces' => $interfaces]);
+            return view("dhcp.edit_server",['server' => $server,'interfaces' => $interfaces, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('dhcp.edit_server', ['interfaces' => null, 'conn_error' => $e->getMessage()]);
+            return view('dhcp.edit_server', ['interfaces' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
-    public function updateDhcpServer(DhcpServerRequest $request,$id): RedirectResponse 
+    public function updateDhcpServer(DhcpServerRequest $request, $deviceId, $id): RedirectResponse 
     {
+        $device = Device::findOrFail($deviceId);
+
         $formData = $request->validated();
         
         if ($formData['relay'] == null)
@@ -181,14 +194,14 @@ class DhcpController extends Controller
         $client = new Client();
 
         try {
-            $response = $client->request('PATCH', "http://192.168.88.1/rest/ip/dhcp-server/$id", [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PATCH', $device['method'] . "://" . $device['endpoint'] . "/rest/ip/dhcp-server/$id", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $jsonData,
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
 
-            return redirect()->route('dhcp_servers')->with('success-msg', "A DHCP Server was added with success");
+            return redirect()->route('dhcp_servers', $device['id'])->with('success-msg', "A DHCP Server was added with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -199,21 +212,23 @@ class DhcpController extends Controller
         }
     }
 
-    public function updateServerCustom(CustomRequest $request, $id): RedirectResponse
+    public function updateServerCustom(CustomRequest $request, $deviceId, $id): RedirectResponse
     {
+        $device = Device::findOrFail($deviceId);
+
         $formData = $request->validated();
         
         $client = new Client();
 
         try {
-            $response = $client->request('PATCH', "http://192.168.88.1/rest/ip/dhcp-server/$id", [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PATCH', $device['method'] . "://" . $device['endpoint'] . "/rest/ip/dhcp-server/$id", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $formData['custom'],
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
             
-            return redirect()->route('dhcp_servers')->with('success-msg', "A DHCP Server was added with success");
+            return redirect()->route('dhcp_servers', $device['id'])->with('success-msg', "A DHCP Server was added with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -223,18 +238,20 @@ class DhcpController extends Controller
             return redirect()->back()->withInput()->with('error-msg', $error);
         }
     }
-    public function destroyDhcpServer($id) 
+    public function destroyDhcpServer($deviceId, $id) 
     {
+        $device = Device::findOrFail($deviceId);
+
         $client = new Client();
 
         try {
-            $response = $client->request('DELETE', "http://192.168.88.1/rest/ip/dhcp-server/$id", [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('DELETE', $device['method'] . "://" . $device['endpoint'] . "/rest/ip/dhcp-server/$id", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
             
-            return redirect()->route('dhcp_servers')->with('success-msg', "A DHCP Server was deleted with success");
+            return redirect()->route('dhcp_servers', $device['id'])->with('success-msg', "A DHCP Server was deleted with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -245,32 +262,36 @@ class DhcpController extends Controller
         }
     }
 
-    public function client(): View
+    public function client($deviceId): View
     {
+        $device = Device::findOrFail($deviceId);
+
         try {
             $client = new Client();
     
-            $response = $client->get('http://192.168.88.1/rest/ip/dhcp-client', [
-                'auth' => ['admin', '123456'],
-                'timeout' => 3
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/ip/dhcp-client", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
             ]);
     
             $data = json_decode($response->getBody(), true);
 
-            return view('dhcp.clients', ['clients' => $data]);
+            return view('dhcp.clients', ['clients' => $data, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('dhcp.clients', ['clients' => null, 'conn_error' => $e->getMessage()]);
+            return view('dhcp.clients', ['clients' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
-    public function createDhcpClient(): View 
+    public function createDhcpClient($deviceId): View 
     {
+        $device = Device::findOrFail($deviceId);
+
         try {
             $client = new Client();
 
-            $response = $client->get('http://192.168.88.1/rest/interface', [
-                'auth' => ['admin', '123456'],
-                'timeout' => 3
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/interface", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
             ]);
 
             $interfaces = json_decode($response->getBody(), true);
@@ -279,14 +300,16 @@ class DhcpController extends Controller
                 return $a['.id'] <=> $b['.id'];
             });
 
-            return view("dhcp.create_client",['interfaces' => $interfaces]);
+            return view("dhcp.create_client",['interfaces' => $interfaces, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('dhcp.create_client', ['interfaces' => null, 'conn_error' => $e->getMessage()]);
+            return view('dhcp.create_client', ['interfaces' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
-    public function storeDhcpClient(DhcpClientRequest $request): RedirectResponse 
+    public function storeDhcpClient(DhcpClientRequest $request, $deviceId): RedirectResponse 
     {
+
+        $device = Device::findOrFail($deviceId);
 
         $formData = $request->validated();
         
@@ -303,14 +326,14 @@ class DhcpController extends Controller
         $client = new Client();
 
         try {
-            $response = $client->request('PUT', 'http://192.168.88.1/rest/ip/dhcp-client', [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PUT', $device['method'] . "://" . $device['endpoint'] . "/rest/ip/dhcp-client", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $jsonData,
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
 
-            return redirect()->route('dhcp_client')->with('success-msg', "A DHCP Client was added with success");
+            return redirect()->route('dhcp_client', $device['id'])->with('success-msg', "A DHCP Client was added with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -322,21 +345,23 @@ class DhcpController extends Controller
     }
 
     
-    public function storeClientCustom(CustomRequest $request): RedirectResponse
+    public function storeClientCustom(CustomRequest $request, $deviceId): RedirectResponse
     {
+        $device = Device::findOrFail($deviceId);
+
         $formData = $request->validated();
         
         $client = new Client();
         
         try {
-            $response = $client->request('PUT', 'http://192.168.88.1/rest/ip/dhcp-client', [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PUT', $device['method'] . "://" . $device['endpoint'] . "/rest/ip/dhcp-client", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $formData['custom'],
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
 
-            return redirect()->route('dhcp_client')->with('success-msg', "A DHCP Client was added with success");
+            return redirect()->route('dhcp_client', $device['id'])->with('success-msg', "A DHCP Client was added with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -347,14 +372,16 @@ class DhcpController extends Controller
         }
     }
 
-    public function editDhcpClient($id): View 
+    public function editDhcpClient($deviceId, $id): View 
     {
+        $device = Device::findOrFail($deviceId);
+
         try {
             $client = new Client();
 
-            $response = $client->get('http://192.168.88.1/rest/interface', [
-                'auth' => ['admin', '123456'],
-                'timeout' => 3
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/interface", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
             ]);
 
             $interfaces = json_decode($response->getBody(), true);
@@ -365,21 +392,22 @@ class DhcpController extends Controller
 
             $client = new Client();
     
-            $response = $client->get("http://192.168.88.1/rest/ip/dhcp-client/$id", [
-                'auth' => ['admin', '123456'],
-                'timeout' => 3
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/ip/dhcp-client/$id", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
             ]);
     
             $client = json_decode($response->getBody(), true);
 
-            return view('dhcp.edit_client', ['client' => $client,'interfaces' => $interfaces]);
+            return view('dhcp.edit_client', ['client' => $client,'interfaces' => $interfaces, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('dhcp.edit_client', ['interfaces' => null, 'conn_error' => $e->getMessage()]);
+            return view('dhcp.edit_client', ['interfaces' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
-    public function updateDhcpClient(DhcpClientRequest $request, $id): RedirectResponse 
+    public function updateDhcpClient(DhcpClientRequest $request, $deviceId, $id): RedirectResponse 
     {
+        $device = Device::findOrFail($deviceId);
 
         $formData = $request->validated();
         
@@ -397,14 +425,14 @@ class DhcpController extends Controller
         $client = new Client();
 
         try {
-            $response = $client->request('PATCH', "http://192.168.88.1/rest/ip/dhcp-client/$id", [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PATCH', $device['method'] . "://" . $device['endpoint'] . "/rest/ip/dhcp-client/$id", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $jsonData,
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
 
-            return redirect()->route('dhcp_client')->with('success-msg', "A DHCP Client was updated with success");
+            return redirect()->route('dhcp_client', $device['id'])->with('success-msg', "A DHCP Client was updated with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -415,21 +443,23 @@ class DhcpController extends Controller
         }
     }
 
-    public function updateClientCustom(CustomRequest $request, $id): RedirectResponse
+    public function updateClientCustom(CustomRequest $request, $deviceId, $id): RedirectResponse
     {
+        $device = Device::findOrFail($deviceId);
+
         $formData = $request->validated();
         
         $client = new Client();
 
         try {
-            $response = $client->request('PATCH', "http://192.168.88.1/rest/ip/dhcp-client/$id", [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PATCH', $device['method'] . "://" . $device['endpoint'] . "/rest/ip/dhcp-client/$id", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $formData['custom'],
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
             
-            return redirect()->route('dhcp_client')->with('success-msg', "A DHCP Client was updated with success");
+            return redirect()->route('dhcp_client', $device['id'])->with('success-msg', "A DHCP Client was updated with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -440,18 +470,20 @@ class DhcpController extends Controller
         }
     }
 
-    public function destroyDhcpClient($id) 
+    public function destroyDhcpClient($deviceId, $id) 
     {
+        $device = Device::findOrFail($deviceId);
+
         $client = new Client();
 
         try {
-            $response = $client->request('DELETE', "http://192.168.88.1/rest/ip/dhcp-client/$id", [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('DELETE', $device['method'] . "://" . $device['endpoint'] . "/rest/ip/dhcp-client/$id", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
             
-            return redirect()->route('dhcp_client')->with('success-msg', "A DHCP Client was deleted with success");
+            return redirect()->route('dhcp_client', $device['id'])->with('success-msg', "A DHCP Client was deleted with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 

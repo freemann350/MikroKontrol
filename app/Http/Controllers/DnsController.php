@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CustomRequest;
 use App\Http\Requests\DnsServerRequest;
+use App\Models\Device;
 use GuzzleHttp\Client;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -13,43 +14,49 @@ use App\Http\Requests\DnsRecordRequest;
 
 class DnsController extends Controller
 {
-    public function server(): View
+    public function server($deviceId): View
     {
+        $device = Device::findOrFail($deviceId);
+        
         try {
             $client = new Client();
     
-            $response = $client->get('http://192.168.88.1/rest/ip/dns', [
-                'auth' => ['admin', '123456'],
-                'timeout' => 3
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/ip/dns", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
             ]);
     
             $data = json_decode($response->getBody(), true);
 
-            return view('dns.server', ['server' => $data]);
+            return view('dns.server', ['server' => $data, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('dns.server', ['server' => null, 'conn_error' => $e->getMessage()]);
+            return view('dns.server', ['server' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
-    public function editDnsServer(): View {
+    public function editDnsServer($deviceId): View {
+        $device = Device::findOrFail($deviceId);
+        
         try {
             $client = new Client();
     
-            $response = $client->get('http://192.168.88.1/rest/ip/dns', [
-                'auth' => ['admin', '123456'],
-                'timeout' => 3
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/ip/dns", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
             ]);
     
             $data = json_decode($response->getBody(), true);
 
-            return view("dns.edit_server", ['server' => $data]);
+            return view("dns.edit_server", ['server' => $data, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('dns.server', ['server' => null, 'conn_error' => $e->getMessage()]);
+            return view('dns.server', ['server' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
-    public function storeDnsServer(DnsServerRequest $request) : RedirectResponse
+    public function storeDnsServer(DnsServerRequest $request, $deviceId) : RedirectResponse
     {
+        $device = Device::findOrFail($deviceId);
+        
         $formData = $request->validated();
         if ($formData['servers'] == null)
             $formData['servers'] = "";
@@ -61,14 +68,14 @@ class DnsController extends Controller
         
         $client = new Client();
         try {
-            $response = $client->request('POST', 'http://192.168.88.1/rest/ip/dns/set', [
-                'auth' => ['admin', '123456'], 
+            $response = $client->request('POST', $device['method'] . "://" . $device['endpoint'] . "/rest/ip/dns/set", [
+                'auth' => [$device['username'], $device['password']], 
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $jsonData,
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
 
-            return redirect()->route('dns_server')->with('success-msg', "The DNS Server was updated with success");
+            return redirect()->route('dns_server', $device['id'])->with('success-msg', "The DNS Server was updated with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -79,21 +86,23 @@ class DnsController extends Controller
         }
     }
 
-    public function storeServerCustom(CustomRequest $request): RedirectResponse
+    public function storeServerCustom(CustomRequest $request, $deviceId): RedirectResponse
     {
+        $device = Device::findOrFail($deviceId);
+        
         $formData = $request->validated();
         
         $client = new Client();
 
         try {
-            $response = $client->request('POST', 'http://192.168.88.1/rest/ip/dns/set', [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('POST', $device['method'] . "://" . $device['endpoint'] . "/rest/ip/dns/set", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $formData['custom'],
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
             
-            return redirect()->route('dns_server')->with('success-msg', "The DNS Server was updated with success");
+            return redirect()->route('dns_server', $device['id'])->with('success-msg', "The DNS Server was updated with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -103,14 +112,16 @@ class DnsController extends Controller
             return redirect()->back()->withInput()->with('error-msg', $error);
         }
     }
-    public function records(): View
+    public function records($deviceId): View
     {
+        $device = Device::findOrFail($deviceId);
+        
         try {
             $client = new Client();
     
-            $response = $client->get('http://192.168.88.1/rest/ip/dns/static', [
-                'auth' => ['admin', '123456'],
-                'timeout' => 3
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/ip/dns/static", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
             ]);
 
             $data = json_decode($response->getBody(), true);
@@ -118,32 +129,36 @@ class DnsController extends Controller
                 return $a['.id'] <=> $b['.id'];
             });
     
-            return view('dns.records', ['records' => $data]);
+            return view('dns.records', ['records' => $data, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('dns.records', ['records' => "-1", 'conn_error' => $e->getMessage()]);
+            return view('dns.records', ['records' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
-    public function createDnsRecord(): View {
-        return view("dns.create_record");
+    public function createDnsRecord($deviceId): View {
+        $device = Device::findOrFail($deviceId);
+        
+        return view("dns.create_record", ['deviceParam' => $device['id']]);
     }
 
-    public function storeDnsRecord(DnsRecordRequest $request) : RedirectResponse
+    public function storeDnsRecord(DnsRecordRequest $request, $deviceId) : RedirectResponse
     {
+        $device = Device::findOrFail($deviceId);
+        
         $formData = $request->validated();
         $formData["type"] = "A";
         $jsonData = json_encode($formData);
         
         $client = new Client();
         try {
-            $response = $client->request('PUT', 'http://192.168.88.1/rest/ip/dns/static', [
-                'auth' => ['admin', '123456'], 
+            $response = $client->request('PUT', $device['method'] . "://" . $device['endpoint'] . "/rest/ip/dns/static", [
+                'auth' => [$device['username'], $device['password']], 
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $jsonData,
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
 
-            return redirect()->route('dns_records')->with('success-msg', "A DNS Static Record was added with success");
+            return redirect()->route('dns_records', $device['id'])->with('success-msg', "A DNS Static Record was added with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -154,21 +169,23 @@ class DnsController extends Controller
         }
     }
 
-    public function storeRecordCustom(CustomRequest $request): RedirectResponse
+    public function storeRecordCustom(CustomRequest $request, $deviceId): RedirectResponse
     {
+        $device = Device::findOrFail($deviceId);
+        
         $formData = $request->validated();
         
         $client = new Client();
         
         try {
-            $response = $client->request('PUT', 'http://192.168.88.1/rest/ip/dns/static', [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PUT', $device['method'] . "://" . $device['endpoint'] . "/rest/ip/dns/static", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $formData['custom'],
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
 
-            return redirect()->route('dns_records')->with('success-msg', "A DNS Static Record was added with success");
+            return redirect()->route('dns_records', $device['id'])->with('success-msg', "A DNS Static Record was added with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -179,39 +196,43 @@ class DnsController extends Controller
         }
     }
 
-    public function editDnsRecord($id): View {
+    public function editDnsRecord($deviceId, $id): View {
+        $device = Device::findOrFail($deviceId);
+        
         try {
             $client = new Client();
     
-            $response = $client->get("http://192.168.88.1/rest/ip/dns/static/$id", [
-                'auth' => ['admin', '123456'],
-                'timeout' => 3
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/ip/dns/static/$id", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
             ]);
     
             $data = json_decode($response->getBody(), true);
 
-            return view("dns.edit_record", ['record' => $data]);
+            return view("dns.edit_record", ['record' => $data, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('dns.records', ['record' => null, 'conn_error' => $e->getMessage()]);
+            return view('dns.records', ['record' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
-    public function updateDnsRecord(DnsRecordRequest $request, $id): RedirectResponse 
+    public function updateDnsRecord(DnsRecordRequest $request, $deviceId, $id): RedirectResponse 
     {
+        $device = Device::findOrFail($deviceId);
+        
         $formData = $request->validated();
         $formData["type"] = "A";
         $jsonData = json_encode($formData);
         
         $client = new Client();
         try {
-            $response = $client->request('PUT', "http://192.168.88.1/rest/ip/dns/static/$id", [
-                'auth' => ['admin', '123456'], 
+            $response = $client->request('PUT', $device['method'] . "://" . $device['endpoint'] . "/rest/ip/dns/static/$id", [
+                'auth' => [$device['username'], $device['password']], 
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $jsonData,
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
 
-            return redirect()->route('dns_records')->with('success-msg', "A DNS Static Record was updated with success");
+            return redirect()->route('dns_records', $device['id'])->with('success-msg', "A DNS Static Record was updated with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -222,21 +243,23 @@ class DnsController extends Controller
         }
     }
 
-    public function updateRecordCustom(CustomRequest $request, $id): RedirectResponse
+    public function updateRecordCustom(CustomRequest $request, $deviceId, $id): RedirectResponse
     {
+        $device = Device::findOrFail($deviceId);
+        
         $formData = $request->validated();
         
         $client = new Client();
 
         try {
-            $response = $client->request('PUT', "http://192.168.88.1/rest/ip/dns/static/$id", [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PUT', $device['method'] . "://" . $device['endpoint'] . "/rest/ip/dns/static/$id", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $formData['custom'],
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
             
-            return redirect()->route('dns_records')->with('success-msg', "A DNS Static Record was updated with success");
+            return redirect()->route('dns_records', $device['id'])->with('success-msg', "A DNS Static Record was updated with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -247,18 +270,20 @@ class DnsController extends Controller
         }
     }
 
-    public function destroyDnsRecord($id) 
+    public function destroyDnsRecord($deviceId, $id) 
     {
+        $device = Device::findOrFail($deviceId);
+        
         $client = new Client();
 
         try {
-            $response = $client->request('DELETE', "http://192.168.88.1/rest/ip/dns/static/$id", [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('DELETE', $device['method'] . "://" . $device['endpoint'] . "/rest/ip/dns/static/$id", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
             
-            return redirect()->route('dns_records')->with('success-msg', "A Static DNS Record was deleted with success");
+            return redirect()->route('dns_records', $device['id'])->with('success-msg', "A Static DNS Record was deleted with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 

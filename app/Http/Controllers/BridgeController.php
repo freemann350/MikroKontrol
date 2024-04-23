@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CustomRequest;
+use App\Models\Device;
 use GuzzleHttp\Client;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -11,13 +12,15 @@ use GuzzleHttp\Exception\ConnectException;
 use App\Http\Requests\BridgeRequest;
 class BridgeController extends Controller
 {
-    public function index(): View
+    public function index($deviceId): View
     {
+        $device = Device::findOrFail($deviceId);
+
         try {
             $client = new Client();
-            $response = $client->get('http://192.168.88.1/rest/interface/bridge', [
-                'auth' => ['admin', '123456'],
-                'timeout' => 3
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/interface/bridge", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
             ]);
 
             $data = json_decode($response->getBody(), true);
@@ -25,20 +28,26 @@ class BridgeController extends Controller
                 return $a['.id'] <=> $b['.id'];
             });
             
-            return view('bridges.index', ['bridges' => $data]);
+            return view('bridges.index', ['bridges' => $data, 'deviceParam' => $device['id']]);
             
         } catch (\Exception $e) {
-            return view('bridges.index', ['bridges' => null, 'conn_error' => $e->getMessage()]);
+            return view('bridges.index', ['bridges' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
     
-    public function create(): View 
+    public function create($deviceId): View 
     {
-        return view("bridges.create");
+        $device = Device::findOrFail($deviceId);
+
+
+        return view("bridges.create", ['deviceParam' => $device['id']]);
     }
 
-    public function store(BridgeRequest $request): RedirectResponse
+    public function store($deviceId, BridgeRequest $request): RedirectResponse
     {
+        $device = Device::findOrFail($deviceId);
+
+
         $formData = $request->validated();
         if ($formData["admin-mac"] != null )
             $formData["auto-mac"] = "false";
@@ -60,14 +69,14 @@ class BridgeController extends Controller
         $client = new Client();
         
         try {
-            $response = $client->request('PUT', 'http://192.168.88.1/rest/interface/bridge', [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PUT', $device['method'] . "://" . $device['endpoint'] . "/rest/interface/bridge", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $jsonData,
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
 
-            return redirect()->route('Bridges.index')->with('success-msg', "A Bridge interface was added with success");
+            return redirect()->route('Bridges.index', $device['id'])->with('success-msg', "A Bridge interface was added with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -78,21 +87,24 @@ class BridgeController extends Controller
         }
     }
 
-    public function storeCustom(CustomRequest $request): RedirectResponse
+    public function storeCustom($deviceId, CustomRequest $request): RedirectResponse
     {
+        $device = Device::findOrFail($deviceId);
+
+
         $formData = $request->validated();
 
         $client = new Client();
         
         try {
-            $response = $client->request('PUT', 'http://192.168.88.1/rest/interface/bridge', [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PUT', $device['method'] . "://" . $device['endpoint'] . "/rest/interface/bridge", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $formData['custom'],
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
 
-            return redirect()->route('Bridges.index')->with('success-msg', "A Bridge interface was added with success");
+            return redirect()->route('Bridges.index', $device['id'])->with('success-msg', "A Bridge interface was added with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -103,27 +115,30 @@ class BridgeController extends Controller
         }
     }
 
-    public function edit($id): View
+    public function edit($deviceId, $id): View
     {
-        
+        $device = Device::findOrFail($deviceId);
+
         $client = new Client();
         
         try {
-            $response = $client->get("http://192.168.88.1/rest/interface/bridge/$id", [
-                'auth' => ['admin', '123456'],
-                'timeout' => 3
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/interface/bridge/$id", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
             ]);
 
             $data = json_decode($response->getBody(), true);
 
-            return view('bridges.edit', ['bridge' => $data]);
+            return view('bridges.edit', ['bridge' => $data, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('bridges.index', ['bridges' => null, 'conn_error' => $e->getMessage()]);
+            return view('bridges.index', ['bridges' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
-    public function update(BridgeRequest $request, $id): RedirectResponse
+    public function update(BridgeRequest $request, $deviceId, $id): RedirectResponse
     {
+        $device = Device::findOrFail($deviceId);
+
         $formData = $request->validated();
         
         if ($formData["admin-mac"] != null )
@@ -146,14 +161,14 @@ class BridgeController extends Controller
         $client = new Client();
 
         try {
-            $response = $client->request('PATCH', "http://192.168.88.1/rest/interface/bridge/$id", [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PATCH', $device['method'] . "://" . $device['endpoint'] . "/rest/interface/bridge/$id", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $jsonData,
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
             
-            return redirect()->route('Bridges.index')->with('success-msg', "A Bridge interface was updated with success");
+            return redirect()->route('Bridges.index', $device['id'])->with('success-msg', "A Bridge interface was updated with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -164,21 +179,23 @@ class BridgeController extends Controller
         }
     }
 
-    public function updateCustom(CustomRequest $request, $id): RedirectResponse
+    public function updateCustom(CustomRequest $request, $deviceId, $id): RedirectResponse
     {
+        $device = Device::findOrFail($deviceId);
+
         $formData = $request->validated();
         
         $client = new Client();
 
         try {
-            $response = $client->request('PATCH', "http://192.168.88.1/rest/interface/bridge/$id", [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PATCH', $device['method'] . "://" . $device['endpoint'] . "/rest/interface/bridge/$id", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $formData['custom'],
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
             
-            return redirect()->route('Bridges.index')->with('success-msg', "A Bridge interface was updated with success");
+            return redirect()->route('Bridges.index', $device['id'])->with('success-msg', "A Bridge interface was updated with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -189,18 +206,20 @@ class BridgeController extends Controller
         }
     }
 
-    public function destroy($id) 
+    public function destroy($deviceId, $id) 
     {
+        $device = Device::findOrFail($deviceId);
+
         $client = new Client();
 
         try {
-            $response = $client->request('DELETE', "http://192.168.88.1/rest/interface/bridge/$id", [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('DELETE', $device['method'] . "://" . $device['endpoint'] . "/rest/interface/bridge/$id", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
             
-            return redirect()->route('Bridges.index')->with('success-msg', "A Bridge interface was deleted with success");
+            return redirect()->route('Bridges.index', $device['id'])->with('success-msg', "A Bridge interface was deleted with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 

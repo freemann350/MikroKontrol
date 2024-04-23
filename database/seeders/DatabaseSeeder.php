@@ -32,7 +32,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('devices')->insert([
-            'device_name' => 'Default_Device',
+            'name' => 'Default_Device',
             'username' => 'admin',
             'user_id' => 1,
             'password' => '123456',

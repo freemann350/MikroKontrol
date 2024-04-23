@@ -9,7 +9,7 @@
             <p class="card-description">
                 Here you can add a new Wireless interface
             </p>
-            <form method="POST" action="{{route('Wireless.store')}}">
+            <form method="POST" action="{{route('Wireless.store', $deviceParam)}}">
             @csrf
             <div class="form-group">
                 <label class="col-sm-3 col-form-label">SSID</label>
@@ -100,7 +100,7 @@
                 <br>
                 Check the <a href="https://help.mikrotik.com/docs/display/ROS">Mikrotik Support</a> for the correct parameters
             </p>
-            <form method="POST" action="{{route('wireless_storeCustom')}}">
+            <form method="POST" action="{{route('wireless_storeCustom', $deviceParam)}}">
             @csrf
             <div class="form-group">
                 <textarea class="form-control" name="custom" id="custom">{{old('custom')}}</textarea>

@@ -45,9 +45,9 @@
                     @endif
                     <td>
                         <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-information-outline"></i></a>
-                        <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="{{route('Wireless.edit',$wireless['.id'])}}"><i class="mdi mdi-pencil"></i></a>
+                        <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="{{route('Wireless.edit',[$deviceParam,$wireless['.id']])}}"><i class="mdi mdi-pencil"></i></a>
                         @if (!isset($wireless['band']))
-                        <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm" href="#" onclick="_delete('Are you sure you want to delete the Wireless interface &quot;{{$wireless['name']}}&quot; ({{$wireless['ssid']}})' ,'{{ route("Wireless.destroy", $wireless[".id"]) }}')"><i class="mdi mdi-trash-can-outline"></i></a>
+                        <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm" href="#" onclick="_delete('Are you sure you want to delete the Wireless interface &quot;{{$wireless['name']}}&quot; ({{$wireless['ssid']}})' ,'{{ route("Wireless.destroy", [$deviceParam, $wireless[".id"]]) }}')"><i class="mdi mdi-trash-can-outline"></i></a>
                         @endif
                     </td>
                 </tr>
@@ -67,7 +67,7 @@
 </div>
 @if ($wireless != null)
 <div class="d-grid gap-2">
-  <a class="btn btn-success btn-lg btn-block" href="{{ route ('Wireless.create') }}"><i class="mdi mdi-plus-circle"></i> Add new wireless interface</a>
+  <a class="btn btn-success btn-lg btn-block" href="{{ route ('Wireless.create',$deviceParam) }}"><i class="mdi mdi-plus-circle"></i> Add new wireless interface</a>
 </div>
 @endif
 @endsection

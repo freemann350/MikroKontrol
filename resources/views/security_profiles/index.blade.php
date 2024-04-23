@@ -35,12 +35,12 @@
                     @endif
                     <td>
                         <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-information-outline"></i></a>
-                        <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="{{route('SecurityProfiles.edit',$security_profile['.id'])}}"><i class="mdi mdi-pencil"></i></a>
+                        <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="{{route('SecurityProfiles.edit',[$deviceParam, $security_profile['.id']])}}"><i class="mdi mdi-pencil"></i></a>
                         @if ($security_profile['wpa2-pre-shared-key'] !== "")
                         <a class="btn btn-outline-warning btn-fw btn-rounded btn-sm" href="#" onclick="sp_psk('{{$security_profile['wpa2-pre-shared-key']}}')"><i class="mdi mdi-key"></i></a>
                         @endif
                         @if ($security_profile['default']!="true")
-                        <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm" href="#" onclick="_delete('Are you sure you want to delete the Security Profile &quot;{{$security_profile["name"]}}&quot; ({{$security_profile[".id"]}})','{{ route("SecurityProfiles.destroy", $security_profile[".id"]) }}')"><i class="mdi mdi-trash-can-outline"></i></a>
+                        <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm" href="#" onclick="_delete('Are you sure you want to delete the Security Profile &quot;{{$security_profile["name"]}}&quot; ({{$security_profile[".id"]}})','{{ route("SecurityProfiles.destroy", [$deviceParam, $security_profile['.id']]) }}')"><i class="mdi mdi-trash-can-outline"></i></a>
                         @endif
                     </td>
                 </tr>
@@ -60,7 +60,7 @@
 </div>
 @if ($security_profiles != null)
 <div class="d-grid gap-2">
-  <a class="btn btn-success btn-lg btn-block" href="{{ route ('SecurityProfiles.create') }}"><i class="mdi mdi-plus-circle"></i> Add new security profile</a>
+  <a class="btn btn-success btn-lg btn-block" href="{{ route ('SecurityProfiles.create', [$deviceParam, $security_profile['.id']]) }}"><i class="mdi mdi-plus-circle"></i> Add new security profile</a>
 </div>
 @endif
 @endsection

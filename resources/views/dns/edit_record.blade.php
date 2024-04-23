@@ -9,7 +9,7 @@
             <p class="card-description">
                 Here you can add a new static DNS record (A Type)
             </p>
-            <form method="POST" action="{{route('updateDnsRecord',$record['.id'])}}" enctype="multipart/form-data">
+            <form method="POST" action="{{route('updateDnsRecord',[$deviceParam, $record['.id']])}}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="form-group row">
@@ -48,7 +48,7 @@
                 <br>
                 Check the <a href="https://help.mikrotik.com/docs/display/ROS">Mikrotik Support</a> for the correct parameters
             </p>
-            <form method="POST" action="{{route('dns_updateRecordCustom',$record['.id'])}}" enctype="multipart/form-data">
+            <form method="POST" action="{{route('dns_updateRecordCustom',[$deviceParam, $record['.id']])}}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="form-group">

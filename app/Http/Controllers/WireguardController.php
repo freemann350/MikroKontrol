@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CustomRequest;
 use App\Http\Requests\WireguardServerRequest;
 use App\Http\Requests\WireguardClientRequest;
+use App\Models\Device;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -13,14 +14,16 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class WireguardController extends Controller
 {
-    public function servers(): View
+    public function servers($deviceId): View
     {
+        $device = Device::findOrFail($deviceId);
+
         try {
             $client = new Client();
 
-            $response = $client->get('http://192.168.88.1/rest/interface/wireguard', [
-                'auth' => ['admin', '123456'],
-                'timeout' => 3
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/interface/wireguard", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
             ]);
 
             $data = json_decode($response->getBody(), true);
@@ -28,20 +31,24 @@ class WireguardController extends Controller
                 return $a['.id'] <=> $b['.id'];
             });
 
-            return view('wireguard.servers', ['wg' => $data]);
+            return view('wireguard.servers', ['wg' => $data, 'deviceParam' => $device['id']]);
             
         } catch (\Exception $e) {
-            return view('wireguard.servers', ['wg' => "-1", 'conn_error' => $e->getMessage()]);
+            return view('wireguard.servers', ['wg' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
-    public function createServer(): View 
+    public function createServer($deviceId): View 
     {
-        return view('wireguard.create_server');
+        $device = Device::findOrFail($deviceId);
+
+        return view('wireguard.create_server', ['deviceParam' => $device['id']]);
     }
 
-    public function storeServer(WireguardServerRequest $request): RedirectResponse
+    public function storeServer(WireguardServerRequest $request, $deviceId): RedirectResponse
     {
+        $device = Device::findOrFail($deviceId);
+
         $formData = $request->validated();
         
         if ($formData['mtu'] == null)
@@ -52,14 +59,14 @@ class WireguardController extends Controller
         $client = new Client();
         
         try {
-            $response = $client->request('PUT', 'http://192.168.88.1/rest/interface/wireguard', [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PUT', $device['method'] . "://" . $device['endpoint'] . "/rest/interface/wireguard", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $jsonData,
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
 
-            return redirect()->route('wireguard_servers')->with('success-msg', "A Wireguard Interface was added with success");
+            return redirect()->route('wireguard_servers', $device['id'])->with('success-msg', "A Wireguard Interface was added with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -71,21 +78,23 @@ class WireguardController extends Controller
     }
 
     
-    public function storeServerCustom(CustomRequest $request): RedirectResponse
+    public function storeServerCustom(CustomRequest $request, $deviceId): RedirectResponse
     {
+        $device = Device::findOrFail($deviceId);
+
         $formData = $request->validated();
         
         $client = new Client();
         
         try {
-            $response = $client->request('PUT', 'http://192.168.88.1/rest/interface/wireguard', [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PUT', $device['method'] . "://" . $device['endpoint'] . "/rest/interface/wireguard", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $formData['custom'],
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
 
-            return redirect()->route('wireguard_servers')->with('success-msg', "A Wireguard Interface was added with success");
+            return redirect()->route('wireguard_servers', $device['id'])->with('success-msg', "A Wireguard Interface was added with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -96,26 +105,30 @@ class WireguardController extends Controller
         }
     }
 
-    public function editServer($id): View 
+    public function editServer($deviceId, $id): View 
     {
+        $device = Device::findOrFail($deviceId);
+
         try {
             $client = new Client();
 
-            $response = $client->get("http://192.168.88.1/rest/interface/wireguard/$id", [
-                'auth' => ['admin', '123456'],
-                'timeout' => 3
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/interface/wireguard/$id", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
             ]);
 
             $wg = json_decode($response->getBody(), true);
 
-            return view('wireguard.edit_server',['wg' => $wg]);
+            return view('wireguard.edit_server',['wg' => $wg, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('wireguard.servers', ['wg' => "-1", 'conn_error' => $e->getMessage()]);
+            return view('wireguard.servers', ['wg' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
-    public function updateServer(WireguardServerRequest $request, $id): RedirectResponse
+    public function updateServer(WireguardServerRequest $request, $deviceId, $id): RedirectResponse
     {
+        $device = Device::findOrFail($deviceId);
+
         $formData = $request->validated();
         
         if ($formData['mtu'] == null)
@@ -126,14 +139,14 @@ class WireguardController extends Controller
         $client = new Client();
         
         try {
-            $response = $client->request('PATCH', "http://192.168.88.1/rest/interface/wireguard/$id", [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PATCH', $device['method'] . "://" . $device['endpoint'] . "/rest/interface/wireguard/$id", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $jsonData,
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
 
-            return redirect()->route('wireguard_servers')->with('success-msg', "A wireguard interface was updated with success");
+            return redirect()->route('wireguard_servers', $device['id'])->with('success-msg', "A wireguard interface was updated with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -144,21 +157,23 @@ class WireguardController extends Controller
         }
     }
 
-    public function updateServerCustom(CustomRequest $request, $id): RedirectResponse
+    public function updateServerCustom(CustomRequest $request, $deviceId, $id): RedirectResponse
     {
+        $device = Device::findOrFail($deviceId);
+
         $formData = $request->validated();
         
         $client = new Client();
 
         try {
-            $response = $client->request('PATCH', "http://192.168.88.1/rest/interface/wireguard/$id", [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PATCH',$device['method'] . "://" . $device['endpoint'] . "/rest/interface/wireguard/$id", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $formData['custom'],
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
             
-            return redirect()->route('wireguard_servers')->with('success-msg', "A wireguard interface was updated with success");
+            return redirect()->route('wireguard_servers', $device['id'])->with('success-msg', "A wireguard interface was updated with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -169,18 +184,20 @@ class WireguardController extends Controller
         }
     }
 
-    public function destroyServer($id) 
+    public function destroyServer($deviceId, $id) 
     {
+        $device = Device::findOrFail($deviceId);
+
         $client = new Client();
 
         try {
-            $response = $client->request('DELETE', "http://192.168.88.1/rest/interface/wireguard/$id", [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('DELETE', $device['method'] . "://" . $device['endpoint'] . "/rest/interface/wireguard/$id", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
             
-            return redirect()->route('wireguard_servers')->with('success-msg', "A Wireguard interface was deleted with success");
+            return redirect()->route('wireguard_servers', $device['id'])->with('success-msg', "A Wireguard interface was deleted with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -191,14 +208,16 @@ class WireguardController extends Controller
         }
     }
 
-    public function clients(): View
+    public function clients($deviceId): View
     {
+        $device = Device::findOrFail($deviceId);
+
         try {
             $client = new Client();
 
-            $response = $client->get('http://192.168.88.1/rest/interface/wireguard/peers', [
-                'auth' => ['admin', '123456'],
-                'timeout' => 3
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/interface/wireguard/peers", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
             ]);
 
             $data = json_decode($response->getBody(), true);
@@ -214,21 +233,23 @@ class WireguardController extends Controller
                 }
             }
             
-            return view('wireguard.clients', ['wg' => $data]);
+            return view('wireguard.clients', ['wg' => $data, 'deviceParam' => $device['id']]);
             
         } catch (\Exception $e) {
-            return view('wireguard.clients', ['wg' => "-1", 'conn_error' => $e->getMessage()]);
+            return view('wireguard.clients', ['wg' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
-    public function createClient(): View 
+    public function createClient($deviceId): View 
     {
+        $device = Device::findOrFail($deviceId);
+
         try {
             $client = new Client();
 
-            $response = $client->get('http://192.168.88.1/rest/interface', [
-                'auth' => ['admin', '123456'],
-                'timeout' => 3
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/interface", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
             ]);
 
             $interfaces = json_decode($response->getBody(), true);
@@ -237,15 +258,17 @@ class WireguardController extends Controller
                 return $a['.id'] <=> $b['.id'];
             });
 
-            return view("wireguard.create_client",['interfaces' => $interfaces]);
+            return view("wireguard.create_client",['interfaces' => $interfaces, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('wireguard.create_client', ['interfaces' => null, 'conn_error' => $e->getMessage()]);
+            return view('wireguard.create_client', ['interfaces' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
 
     }
 
-    public function storeClient(WireguardClientRequest $request): RedirectResponse
+    public function storeClient(WireguardClientRequest $request, $deviceId): RedirectResponse
     {
+        $device = Device::findOrFail($deviceId);
+
         $formData = $request->validated();
 
         if (!isset($formData['private-key']))
@@ -283,14 +306,14 @@ class WireguardController extends Controller
         $client = new Client();
         
         try {
-            $response = $client->request('PUT', 'http://192.168.88.1/rest/interface/wireguard/peers', [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PUT', $device['method'] . "://" . $device['endpoint'] . "/rest/interface/wireguard/peers", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $jsonData,
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
 
-            return redirect()->route('wireguard_clients')->with('success-msg', "A Wireguard Peer was added with success");
+            return redirect()->route('wireguard_clients', $device['id'])->with('success-msg', "A Wireguard Peer was added with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -302,21 +325,23 @@ class WireguardController extends Controller
     }
 
     
-    public function storeClientCustom(CustomRequest $request): RedirectResponse
+    public function storeClientCustom(CustomRequest $request, $deviceId): RedirectResponse
     {
+        $device = Device::findOrFail($deviceId);
+
         $formData = $request->validated();
         
         $client = new Client();
         
         try {
-            $response = $client->request('PUT', 'http://192.168.88.1/rest/interface/wireguard/peers', [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PUT', $device['method'] . "://" . $device['endpoint'] . "/rest/interface/wireguard/peers", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $formData['custom'],
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
 
-            return redirect()->route('wireguard_clients')->with('success-msg', "A Wireguard Peer was added with success");
+            return redirect()->route('wireguard_clients', $device['id'])->with('success-msg', "A Wireguard Peer was added with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -327,23 +352,25 @@ class WireguardController extends Controller
         }
     }
 
-    public function editClient($id): View 
+    public function editClient($deviceId, $id): View 
     {
+        $device = Device::findOrFail($deviceId);
+
         try {
             $client = new Client();
 
-            $response = $client->get("http://192.168.88.1/rest/interface/wireguard/peers/$id", [
-                'auth' => ['admin', '123456'],
-                'timeout' => 3
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/interface/wireguard/peers/$id", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
             ]);
 
             $wg = json_decode($response->getBody(), true);
 
             $client = new Client();
 
-            $response = $client->get('http://192.168.88.1/rest/interface', [
-                'auth' => ['admin', '123456'],
-                'timeout' => 3
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/interface", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
             ]);
 
             $interfaces = json_decode($response->getBody(), true);
@@ -352,14 +379,16 @@ class WireguardController extends Controller
                 return $a['.id'] <=> $b['.id'];
             });
 
-            return view("wireguard.edit_client",['wg' => $wg, 'interfaces' => $interfaces]);
+            return view("wireguard.edit_client",['wg' => $wg, 'interfaces' => $interfaces, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('wireguard.edit_client', ['interfaces' => null, 'conn_error' => $e->getMessage()]);
+            return view('wireguard.edit_client', ['interfaces' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
-    public function updateClient(WireguardClientRequest $request, $id): RedirectResponse
+    public function updateClient(WireguardClientRequest $request, $deviceId, $id): RedirectResponse
     {
+        $device = Device::findOrFail($deviceId);
+
         $formData = $request->validated();
         
         if (!isset($formData['private-key']))
@@ -397,14 +426,14 @@ class WireguardController extends Controller
         $client = new Client();
         
         try {
-            $response = $client->request('PATCH', "http://192.168.88.1/rest/interface/wireguard/peers/$id", [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PATCH', $device['method'] . "://" . $device['endpoint'] . "/rest/interface/wireguard/peers/$id", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $jsonData,
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
 
-            return redirect()->route('wireguard_clients')->with('success-msg', "A Wireguard Peer was updated with success");
+            return redirect()->route('wireguard_clients', $device['id'])->with('success-msg', "A Wireguard Peer was updated with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -415,21 +444,23 @@ class WireguardController extends Controller
         }
     }
 
-    public function updateClientCustom(CustomRequest $request, $id): RedirectResponse
+    public function updateClientCustom(CustomRequest $request, $deviceId, $id): RedirectResponse
     {
+        $device = Device::findOrFail($deviceId);
+
         $formData = $request->validated();
         
         $client = new Client();
 
         try {
-            $response = $client->request('PATCH', "http://192.168.88.1/rest/interface/wireguard/peers/$id", [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('PATCH', $device['method'] . "://" . $device['endpoint'] . "/rest/interface/wireguard/peers/$id", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
                 'body' => $formData['custom'],
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
             
-            return redirect()->route('wireguard_clients')->with('success-msg', "A Wireguard Peer was updated with success");
+            return redirect()->route('wireguard_clients', $device['id'])->with('success-msg', "A Wireguard Peer was updated with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 
@@ -440,18 +471,20 @@ class WireguardController extends Controller
         }
     }
 
-    public function destroyClient($id) 
+    public function destroyClient($deviceId, $id) 
     {
+        $device = Device::findOrFail($deviceId);
+
         $client = new Client();
 
         try {
-            $response = $client->request('DELETE', "http://192.168.88.1/rest/interface/wireguard/peers/$id", [
-                'auth' => ['admin', '123456'],
+            $response = $client->request('DELETE', $device['method'] . "://" . $device['endpoint'] . "/rest/interface/wireguard/peers/$id", [
+                'auth' => [$device['username'], $device['password']],
                 'headers' => ['Content-Type' => 'application/json'],
-                'timeout' => 3
+                'timeout' => $device['timeout']
             ]);
             
-            return redirect()->route('wireguard_clients')->with('success-msg', "A Wireguard Peer was deleted with success");
+            return redirect()->route('wireguard_clients', $device['id'])->with('success-msg', "A Wireguard Peer was deleted with success");
         } catch (\Exception $e) {
             $error = $this->treat_error($e->getMessage());
 

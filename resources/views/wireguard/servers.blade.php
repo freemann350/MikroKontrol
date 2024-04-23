@@ -41,9 +41,9 @@
                     @endif
                     <td>
                         <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-information-outline"></i></a>
-                        <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="{{ route("wireguard_editServer",$wg['.id']) }}"><i class="mdi mdi-pencil"></i></a>
+                        <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="{{ route("wireguard_editServer",[$deviceParam, $wg['.id']]) }}"><i class="mdi mdi-pencil"></i></a>
                         <a class="btn btn-outline-warning btn-fw btn-rounded btn-sm" href="#" onclick="wg_prk('{{$wg['private-key']}}')"><i class="mdi mdi-key"></i></a>
-                        <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm" href="#" onclick="_delete('Are you sure you want to delete the wireguard interface &quot;{{$wg["name"]}}&quot; ({{$wg[".id"]}})','{{ route("wireguard_destroyServer", $wg[".id"]) }}')"><i class="mdi mdi-trash-can-outline"></i></a>
+                        <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm" href="#" onclick="_delete('Are you sure you want to delete the wireguard interface &quot;{{$wg["name"]}}&quot; ({{$wg[".id"]}})','{{ route("wireguard_destroyServer", [$deviceParam, $wg[".id"]]) }}')"><i class="mdi mdi-trash-can-outline"></i></a>
                     </td>
                 </tr>
                 @endforeach
@@ -62,7 +62,7 @@
 </div>
 @if ($wg != "-1")
 <div class="d-grid gap-2">
-  <a class="btn btn-success btn-lg btn-block" href="{{ route ('wireguard_createServer') }}"><i class="mdi mdi-plus-circle"></i> Add new wireguard interface</a>
+  <a class="btn btn-success btn-lg btn-block" href="{{ route ('wireguard_createServer', $deviceParam) }}"><i class="mdi mdi-plus-circle"></i> Add new wireguard interface</a>
 </div>
 @endif
 @endsection
