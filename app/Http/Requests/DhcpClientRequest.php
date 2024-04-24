@@ -26,10 +26,6 @@ class DhcpClientRequest extends FormRequest
             'interface'=> [
                 'required'
             ],
-            'comment'=> [
-                'nullable',
-                'string'
-            ],
             'add-default-route'=> [
                 'required',
                 Rule::in('no','special-classless', 'yes')

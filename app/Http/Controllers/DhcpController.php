@@ -70,9 +70,6 @@ class DhcpController extends Controller
         if ($formData['lease-time'] == null)
             unset($formData['lease-time']);
 
-        if ($formData['comment'] == null)
-            unset($formData['comment']);
-
         if (!isset($formData['use-framed-as-classless']))
             $formData['use-framed-as-classless'] = "false";
 
@@ -173,9 +170,6 @@ class DhcpController extends Controller
 
         if ($formData['lease-time'] == null)
             unset($formData['lease-time']);
-
-        if ($formData['comment'] == null)
-            unset($formData['comment']);
 
         if (!isset($formData['always-broadcast']))
             $formData['always-broadcast'] = "false";
@@ -313,9 +307,6 @@ class DhcpController extends Controller
 
         $formData = $request->validated();
         
-        if ($formData['comment'] == null)
-            unset($formData['comment']);
-
         if (!isset($formData['use-peer-dns']))
             $formData['use-peer-dns'] = "false";
 
@@ -410,9 +401,6 @@ class DhcpController extends Controller
         $device = Device::findOrFail($deviceId);
 
         $formData = $request->validated();
-        
-        if ($formData['comment'] == null)
-            unset($formData['comment']);
 
         if (!isset($formData['use-peer-dns']))
             $formData['use-peer-dns'] = "false";

@@ -32,11 +32,7 @@ class IpAddressRequest extends FormRequest
             ],
             'interface' => [
                 'required'
-            ],
-            'comment' => [
-                'nullable',
-                'string'
-            ],
+            ]
         ];
     }
 
@@ -48,7 +44,6 @@ class IpAddressRequest extends FormRequest
             'network.required' => 'The network field is required.',
             'network.regex' => 'The network field must be a valid IP address in the format 0.0.0.0 .',
             'interface.required' => 'The interface field is required.',
-            'comment.string' => 'The comment field must be a string.',
         ];
     }
 }

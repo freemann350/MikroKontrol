@@ -48,17 +48,6 @@
                     @enderror
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-3 col-form-label">Comment (optional)</label>
-                <div class="col-sm-12">
-                    <input type="text" name="comment" class="form-control @error('comment') is-invalid @enderror" value="{{old('comment')}}" placeholder="My interface">
-                    @error('comment')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
-                </div>
-            </div>
             <button type="submit" class="btn btn-primary btn-fw">Submit</button>
             </form>
         </div>

@@ -46,10 +46,6 @@ class DhcpServerRequest extends FormRequest
                 'required',
                 Rule::in('yes','no','after-2sec-delay','after-10sec-delay')
             ],
-            'comment'=> [
-                'nullable',
-                'string'
-            ],
             'always-broadcast'=> [
                 'nullable',
                 Rule::in('true')

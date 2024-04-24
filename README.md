@@ -52,7 +52,7 @@ Login is based on [Finance Mobile Application-UX/UI Design Screen One login page
   
 ## Deployment (for testing)
 
-This deployment is for Debian 12 and Debian based systems and uses Laravel Sail for a containerized Web & MySQL Servers
+This deployment is for Debian 12/Debian based systems and uses Laravel Sail for a containerized Web & MySQL Servers
 
 1. **Docker**
 Install Docker Engine for use with Laravel Sail
@@ -122,11 +122,12 @@ chown -R <YOUR_USER> <MikroKontroller_FOLDER>
 ```
 Everything should up and running now. The credentials are as follows:
 
-Admin default account: admin@example.com
-- Contains one device, Default_Device admin:123456 via http://192.168.88.1
-User default account: user@example.com
+Admin default account: `admin@example.com`
+- Contains one device, Default_Device (`admin:123456`) via `http://192.168.88.1`
 
-All passwords are *password*
+User default account: `user@example.com`
+
+All passwords are `password`
 
 ## ToDO (by order):
 
