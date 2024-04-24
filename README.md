@@ -88,4 +88,3 @@ All passwords are *password*
     - [ ] DNS Static Records
     - [ ] Wireguard Server
     - [ ] Wireguard Client
-- [ ] Edit user password

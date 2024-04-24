@@ -21,10 +21,10 @@
   <!-- endinject -->
   <link rel="shortcut icon" href="{{ url('img/favicon.png') }}" />
 </head>
-<body>
+<body class="sidebar-dark">
   <div class="container-scroller"> 
     <!-- TOPBAR -->
-    <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row">
+    <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row navbar-dark">
       <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
         <div class="me-3">
           <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-bs-toggle="minimize">
@@ -33,10 +33,10 @@
         </div>
         <div>
           <a class="navbar-brand brand-logo" href="{{ route ('Dashboard.index') }}">
-            <img src="https://static.wixstatic.com/media/fb3f0e_b6f3cb9e385a47ca8cc59124cce1bc16~mv2.png/v1/fill/w_560,h_160,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/Mikrotik%20Logo.png" alt="logo" style="padding-bottom: 10px;"/>
+            <img src="{{url('img/mikrotik.png')}}" alt="logo"/>
           </a>
           <a class="navbar-brand brand-logo-mini" href="{{ route ('Dashboard.index') }}">
-            <img src="https://merch.mikrotik.com/cdn/shop/files/512.png?v=1657867177" alt="logo" />
+            <img src="https://merch.mikrotik.com/cdn/shop/files/512.png?v=1657867177" alt="logo"/>
           </a>
         </div>
       </div>
@@ -138,8 +138,8 @@
             </a>
             <div class="collapse" id="dhcp">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item {{ Route::currentRouteName() == 'Dhcp.servers' ? 'active' : '' }}"> <a class="nav-link" href="{{ route ('dhcp_servers', $deviceParam) }}">Servers</a></li>
-                <li class="nav-item {{ Route::currentRouteName() == 'Dhcp.clients' ? 'active' : '' }}"> <a class="nav-link" href="{{ route ('dhcp_client', $deviceParam) }}">Clients</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{ route ('dhcp_servers', $deviceParam) }}">Servers</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{ route ('dhcp_client', $deviceParam) }}">Clients</a></li>
               </ul>
             </div>
           </li>
@@ -150,8 +150,8 @@
             </a>
             <div class="collapse" id="dns">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item {{ Route::currentRouteName() == 'Dns.server' ? 'active' : '' }}"> <a class="nav-link" href="{{ route ('dns_server', $deviceParam) }}">Server</a></li>
-                <li class="nav-item {{ Route::currentRouteName() == 'Dns.records' ? 'active' : '' }}"> <a class="nav-link" href="{{ route ('dns_records', $deviceParam) }}">Static Records</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{ route ('dns_server', $deviceParam) }}">Server</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{ route ('dns_records', $deviceParam) }}">Static Records</a></li>
               </ul>
             </div>
           </li>
@@ -162,8 +162,8 @@
             </a>
             <div class="collapse" id="wireguard">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item {{ Route::currentRouteName() == 'wireguard_servers' ? 'active' : '' }}"> <a class="nav-link" href="{{ route ('wireguard_servers', $deviceParam) }}">Servers</a></li>
-                <li class="nav-item {{ Route::currentRouteName() == 'wireguard_clients' ? 'active' : '' }}"> <a class="nav-link" href="{{ route ('wireguard_clients', $deviceParam) }}">Clients</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{ route ('wireguard_servers', $deviceParam) }}">Servers</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{ route ('wireguard_clients', $deviceParam) }}">Peers</a></li>
               </ul>
             </div>
           </li>
@@ -233,8 +233,8 @@
             // Execute SweetAlert code
             Swal.fire({
                 title: "Are you sure you want to leave?",
-                text: "There's more networking to be donse",
-                icon: "warning",
+                text: "There's more networking to be done",
+                icon: "question",
                 showCancelButton: true,
                 confirmButtonColor: "#3085d6",
                 cancelButtonColor: "#d33",
@@ -280,9 +280,9 @@
 
     function _delete(msg, route) {
         Swal.fire({
-            title: "Deleting record",
+            title: "Delete",
             text: msg,
-            icon: "error",
+            icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",

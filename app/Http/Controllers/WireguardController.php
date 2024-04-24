@@ -293,7 +293,7 @@ class WireguardController extends Controller
 
         if (isset($formData['auto-psk']))
         {
-            $formData['private-key'] = 'auto';
+            $formData['preshared-key'] = 'auto';
             unset($formData['auto-psk']);
         }
 
@@ -527,11 +527,16 @@ class WireguardController extends Controller
             $QrEndpoint = null;
         }
 
-        if ($keepalive != null){
-            $QrPersistentKeepalive = "PersistentKeepalive = $keepalive";
-        } else {
-            $QrPersistentKeepalive = null;
-        }
+        $conf = "
+        [Interface]<br>
+        $QrPrivateKey<br>
+        
+        <br>[Peer]
+        $QrPublicKey<br>
+        $QrPresharedKey<br>
+        $QrAllowedIPs<br>
+        $QrEndpoint<br>
+        ";
 
         $qrCode = QrCode::size(150)->generate("
         [Interface]
@@ -542,10 +547,9 @@ class WireguardController extends Controller
         $QrPresharedKey
         $QrAllowedIPs
         $QrEndpoint
-        $QrPersistentKeepalive
         ");
 
-        return view('qrcode',['qrCode' => $qrCode]);
+        return view('qrcode',['qrCode' => $qrCode, 'conf' => $conf]);
     }
     private function treat_error($errorMessage) 
     {
