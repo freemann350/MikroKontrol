@@ -54,7 +54,7 @@
                 </div>
                 <br>
                 <div class="col-sm-12">
-                    <input class="form-check-input" type="checkbox" name="suppress-hw-offload" value="true" {{$route['suppress-hw-offload'] == true ? "checked" : ""}}>
+                    <input class="form-check-input" type="checkbox" name="suppress-hw-offload" value="true" {{$route['suppress-hw-offload'] == "true" ? "checked" : ""}}>
                     <label class="form-check-label"> &nbsp;Suppress hw offload</label>
                 </div>
                 @error('suppress-hw-offload')

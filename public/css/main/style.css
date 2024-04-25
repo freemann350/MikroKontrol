@@ -19399,7 +19399,8 @@ h6, .h6,
 }
 
 address p {
-  margin-bottom: 0;
+  margin-bottom: 10px;
+  font-size: 16px;
 }
 
 .blockquote-primary {
@@ -29763,10 +29764,9 @@ div.tagsinput span.tag a {
   .sidebar-icon-only .navbar .navbar-brand-wrapper {
     width: 70px;
     padding-left: 1.625rem;
-    background: #fff;
   }
   .sidebar-dark.sidebar-icon-only .navbar .navbar-brand-wrapper .navbar-toggler {
-    color: #484848;
+    color: #fff;
   }
   .sidebar-icon-only .navbar .navbar-brand-wrapper .brand-logo {
     display: none;
@@ -29779,7 +29779,8 @@ div.tagsinput span.tag a {
   }
   .sidebar-icon-only .sidebar {
     width: 70px;
-    background: #fff;
+    background: #293239;
+    color:red;
   }
   .sidebar-icon-only .sidebar .nav {
     overflow: visible;
@@ -29820,7 +29821,7 @@ div.tagsinput span.tag a {
     color: rgba(31, 59, 179, 0.7);
   }
   .sidebar-dark.sidebar-icon-only .sidebar .nav .nav-item .nav-link i.menu-icon {
-    color: rgba(31, 59, 179, 0.7);
+    color: #fff;
   }
   .sidebar-icon-only .sidebar .nav .nav-item .nav-link i.menu-arrow {
     display: none;
@@ -29905,10 +29906,10 @@ div.tagsinput span.tag a {
     height: 100%;
     top: 0;
     left: 0;
-    background: #1F3BB3;
+    background: #fff;
   }
   .sidebar-icon-only .sidebar .nav .nav-item.active .nav-link i.menu-icon {
-    color: #1F3BB3;
+    color: #fff;
   }
   .sidebar-icon-only .sidebar .nav:not(.sub-menu) .nav-item.active {
     border-radius: 0;
@@ -30433,3 +30434,22 @@ div.tagsinput span.tag a {
 /*
   REMOVE SWAL2 FROM THIS FILE IF POSSIBLE
 */
+
+pre {
+  white-space: pre;
+  font-family: Consolas, monospace;
+
+  .string {
+    color: maroon;
+  }
+  .number {
+    color: black;
+  }
+  .boolean,
+  .null {
+    color: blue;
+  }
+  .key {
+    color: orangered;
+  }
+}

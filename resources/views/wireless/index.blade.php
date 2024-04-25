@@ -44,7 +44,7 @@
                     <td><label class="badge badge-danger">Disabled</label></td>
                     @endif
                     <td>
-                        <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-information-outline"></i></a>
+                        <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href="{{route('Wireless.show',[$deviceParam, $wireless['.id']])}}"><i class="mdi mdi-information-outline"></i></a>
                         <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="{{route('Wireless.edit',[$deviceParam,$wireless['.id']])}}"><i class="mdi mdi-pencil"></i></a>
                         @if (!isset($wireless['band']))
                         <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm" href="#" onclick="_delete('Are you sure you want to delete the Wireless interface &quot;{{$wireless['name']}}&quot; ({{$wireless['ssid']}})' ,'{{ route("Wireless.destroy", [$deviceParam, $wireless[".id"]]) }}')"><i class="mdi mdi-trash-can-outline"></i></a>

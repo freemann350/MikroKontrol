@@ -38,7 +38,7 @@
                     <td><label class="badge badge-danger">Not estabilished</label></td>
                     @endif
                     <td>
-                        <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-information-outline"></i></a>
+                        <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href="{{route('StaticRoutes.show',[$deviceParam, $route['.id']])}}"><i class="mdi mdi-information-outline"></i></a>
                         <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="{{route('StaticRoutes.edit',[$deviceParam, $route['.id']])}}"><i class="mdi mdi-pencil"></i></a>
                         <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm" href="#" onclick="_delete('Are you sure you want to delete the Static Route &quot;{{$route["dst-address"]}}&quot; (via {{$route["gateway"]}})' ,'{{ route("StaticRoutes.destroy", [$deviceParam, $route[".id"]]) }}')"><i class="mdi mdi-trash-can-outline"></i></a>
                     </td>

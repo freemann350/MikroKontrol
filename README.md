@@ -55,10 +55,11 @@ Login is based on [Finance Mobile Application-UX/UI Design Screen One login page
 This deployment is for Debian 12/Debian based systems and uses Laravel Sail for a containerized Web & MySQL Servers
 
 1. **Docker**
+
 Install Docker Engine for use with Laravel Sail
 ```sh
-apt-get update
-apt-get install -y ca-certificates curl
+apt update
+apt install -y ca-certificates curl
 install -m 0755 -d /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
 chmod a+r /etc/apt/keyrings/docker.asc
@@ -67,7 +68,7 @@ echo \
 "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
 $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
 tee /etc/apt/sources.list.d/docker.list > /dev/null
-apt-get update
+apt update
 
 apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
@@ -93,7 +94,7 @@ git clone https://github.com/freemann350/MikroKontrol
 ```
 
 4. **Laravel Sail**
-- Install on with composer the laravel/sail package
+- Install with composer the laravel/sail package
 ```sh
 composer require laravel/sail --dev
 ```
@@ -128,18 +129,3 @@ Admin default account: `admin@example.com`
 User default account: `user@example.com`
 
 All passwords are `password`
-
-## ToDO (by order):
-
-- Individual item info 
-    - [ ] Bridges
-    - [ ] Security Profiles
-    - [ ] Wireless Interfaces
-    - [ ] Addresses
-    - [ ] Static Routing
-    - [ ] DHCP Server
-    - [ ] DHCP Client
-    - [ ] DNS Server
-    - [ ] DNS Static Records
-    - [ ] Wireguard Server
-    - [ ] Wireguard Client

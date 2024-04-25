@@ -86,6 +86,7 @@ Route::middleware('auth')->group(function () {
         Route::controller(DhcpController::class)->group(function () {
             Route::get('/{Device}/DHCPServers','servers')->name("dhcp_servers");
             Route::get('/{Device}/DHCPServers/New','createDhcpServer')->name("createDhcpServer");
+            Route::get('/{Device}/DHCPServers/{DHCPServer}','showDhcpServer')->name("showDhcpServer");
             Route::post('/{Device}/DHCPServers/New','storeDhcpServer')->name("storeDhcpServer");
             Route::post('/{Device}/DHCPServers/NewCustom','storeServerCustom')->name("dhcp_storeServerCustom");
             Route::get('/{Device}/DHCPServers/edit/{DHCPServer}','editDhcpServer')->name("editDhcpServer");
@@ -95,6 +96,7 @@ Route::middleware('auth')->group(function () {
             ////
             Route::get('/{Device}/DHCPClients','client')->name("dhcp_client");
             Route::get('/{Device}/DHCPClients/New','createDhcpClient')->name("createDhcpClient");
+            Route::get('/{Device}/DHCPClients/{DHCPClient}','showDhcpClient')->name("showDhcpClient");
             Route::post('/{Device}/DHCPClients/New','storeDhcpClient')->name("storeDhcpClient");
             Route::post('/{Device}/DHCPClients/NewCustom','storeClientCustom')->name("dhcp_storeClientCustom");
             Route::get('/{Device}/DHCPClients/edit/{DHCPClient}','editDhcpClient')->name("editDhcpClient");
@@ -111,6 +113,7 @@ Route::middleware('auth')->group(function () {
             ////
             Route::get('/{Device}/DNSStaticRecords','records')->name("dns_records");
             Route::get('/{Device}/DNSStaticRecords/New','createDnsRecord')->name("createDnsRecord");
+            Route::get('/{Device}/DNSStaticRecords/{DNSStaticRecord}','showDnsRecord')->name("showDnsRecord");
             Route::post('/{Device}/DNSStaticRecords/New','storeDnsRecord')->name("storeDnsRecord");
             Route::post('/{Device}/DNSStaticRecords/NewCustom','storeRecordCustom')->name("dns_storeRecordCustom");
             Route::get('/{Device}/DNSStaticRecords/edit/{DNSStaticRecord}','editDnsRecord')->name("editDnsRecord");
@@ -122,6 +125,7 @@ Route::middleware('auth')->group(function () {
         Route::controller(WireguardController::class)->group(function () {
             Route::get('/{Device}/WireguardServers','servers')->name('wireguard_servers');
             Route::get('/{Device}/WireguardServers/New','createServer')->name('wireguard_createServer');
+            Route::get('/{Device}/WireguardServers/{Server}','showServer')->name('wireguard_showServer');
             Route::post('/{Device}/WireguardServers/New','storeServer')->name('wireguard_storeServer');
             Route::post('/{Device}/WireguardServers/NewCustom','storeServerCustom')->name("wg_storeServerCustom");
             Route::get('/{Device}/WireguardServers/edit/{Server}','editServer')->name('wireguard_editServer');
@@ -131,6 +135,7 @@ Route::middleware('auth')->group(function () {
             ////
             Route::get('/{Device}/WireguardPeers','clients')->name('wireguard_clients');
             Route::get('/{Device}/WireguardPeers/New','createClient')->name('wireguard_createClient');
+            Route::get('/{Device}/WireguardPeers/{Client}','showClient')->name('wireguard_showClient');
             Route::post('/{Device}/WireguardPeers/New','storeClient')->name('wireguard_storeClient');
             Route::post('/{Device}/WireguardPeers/NewCustom','storeClientCustom')->name("wg_storeClientCustom");
             Route::get('/{Device}/WireguardPeers/edit/{Client}','editClient')->name('wireguard_editClient');

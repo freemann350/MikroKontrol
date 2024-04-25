@@ -135,6 +135,29 @@ class DnsController extends Controller
         }
     }
 
+    public function showDnsRecord($deviceId, $id): View
+    {
+        $device = Device::findOrFail($deviceId);
+        
+        try {
+            $client = new Client();
+    
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/ip/dns/static/$id", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
+            ]);
+
+            $data = json_decode($response->getBody(), true);
+            
+            $json = json_encode($data, JSON_PRETTY_PRINT);
+
+    
+            return view('dns.showRecord', ['record' => $data,'json' => $json, 'deviceParam' => $device['id']]);
+        } catch (\Exception $e) {
+            return view('dns.showRecord', ['record' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+        }
+    }
+
     public function createDnsRecord($deviceId): View {
         $device = Device::findOrFail($deviceId);
         

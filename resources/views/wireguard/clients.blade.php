@@ -33,7 +33,7 @@
                     <td><label class="badge badge-danger">Disabled</label></td>
                     @endif
                     <td>
-                        <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-information-outline"></i></a>
+                        <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href="{{route('wireguard_showClient',[$deviceParam, $wg1['.id']])}}"><i class="mdi mdi-information-outline"></i></a>
                         <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="{{ route("wireguard_editClient",[$deviceParam, $wg1['.id']]) }}"><i class="mdi mdi-pencil"></i></a>
                         @if ($wg1['private-key'] != "")
                         <a class="btn btn-outline-warning btn-fw btn-rounded btn-sm" href="#" onclick="wg_prk('{{$wg1['private-key']}}')"><i class="mdi mdi-key"></i></a>

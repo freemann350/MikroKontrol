@@ -34,7 +34,7 @@
                     <td><label class="badge badge-danger">False</label></td>
                     @endif
                     <td>
-                        <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-information-outline"></i></a>
+                        <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href="{{route('SecurityProfiles.show',[$deviceParam, $security_profile['.id']])}}"><i class="mdi mdi-information-outline"></i></a>
                         <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="{{route('SecurityProfiles.edit',[$deviceParam, $security_profile['.id']])}}"><i class="mdi mdi-pencil"></i></a>
                         @if ($security_profile['wpa2-pre-shared-key'] !== "")
                         <a class="btn btn-outline-warning btn-fw btn-rounded btn-sm" href="#" onclick="sp_psk('{{$security_profile['wpa2-pre-shared-key']}}')"><i class="mdi mdi-key"></i></a>

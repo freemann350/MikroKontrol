@@ -32,7 +32,7 @@
                     <td><label class="badge badge-danger">Disabled</label></td>
                     @endif
                     <td>
-                        <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-information-outline"></i></a>
+                        <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href="{{route('showDnsRecord',[$deviceParam, $record['.id']])}}"><i class="mdi mdi-information-outline"></i></a>
                         <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="{{route('editDnsRecord',[$deviceParam, $record[".id"]])}}"><i class="mdi mdi-pencil"></i></a>
                         <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm" href="#" onclick="_delete('Are you sure you want to delete the static DNS record &quot;{{$record["name"]}}&quot; ({{$record[".id"]}})','{{route("destroyDnsRecord", [$deviceParam, $record['.id']])}}')"><i class="mdi mdi-trash-can-outline"></i></a>
                     </td>

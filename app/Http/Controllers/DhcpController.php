@@ -34,6 +34,28 @@ class DhcpController extends Controller
         }
     }
 
+    public function showDhcpServer($deviceId, $id): View
+    {
+        $device = Device::findOrFail($deviceId);
+
+        try {
+            $client = new Client();
+    
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/ip/dhcp-server/$id", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
+            ]);
+    
+            $data = json_decode($response->getBody(), true);
+            
+            $json = json_encode($data, JSON_PRETTY_PRINT);
+           
+            return view('dhcp.showServer', ['server' => $data, 'json' => $json, 'deviceParam' => $device['id']]);
+        } catch (\Exception $e) {
+            return view('dhcp.showServer', ['server' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+        }
+    }
+
     public function createDhcpServer($deviceId): View 
     {
         $device = Device::findOrFail($deviceId);
@@ -273,6 +295,28 @@ class DhcpController extends Controller
             return view('dhcp.clients', ['clients' => $data, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
             return view('dhcp.clients', ['clients' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+        }
+    }
+
+    public function showDhcpClient($deviceId, $id): View
+    {
+        $device = Device::findOrFail($deviceId);
+
+        try {
+            $client = new Client();
+    
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/ip/dhcp-client/$id", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
+            ]);
+    
+            $data = json_decode($response->getBody(), true);
+            
+            $json = json_encode($data, JSON_PRETTY_PRINT);
+ 
+            return view('dhcp.showClient', ['client' => $data, 'json' => $json, 'deviceParam' => $device['id']]);
+        } catch (\Exception $e) {
+            return view('dhcp.showClient', ['client' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 

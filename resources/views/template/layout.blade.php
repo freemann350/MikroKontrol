@@ -70,7 +70,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{ Route::currentRouteName() == 'User.edit' ? 'active' : '' }}" href="{{route('User.edit', Auth::user()->id)}}">
+            <a class="nav-link {{ (Route::currentRouteName() == 'User.edit' && Auth::user()->id == request()->route('User')) ? 'active' : '' }}" href="{{route('User.edit', Auth::user()->id)}}">
               <i class="menu-icon mdi mdi-account-edit"></i>
               <span class="menu-title">My information</span>
             </a>
@@ -337,6 +337,42 @@
         var pretty = JSON.stringify(obj, undefined, 4);
         document.getElementById('custom').value = pretty;
     }
+  @if (isset($json)) 
+  function syntaxHighlight(json) {
+    if (typeof json != "string") {
+      json = JSON.stringify(json, null, "\t");
+    }
+    
+    json = json
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
+    
+    return json.replace(
+      /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
+      function(match) {
+        var cls = "number";
+        if (/^"/.test(match)) {
+          if (/:$/.test(match)) {
+            cls = "key";
+          } else if (/^"true"$|^"false"$|^""$/.test(match)) {
+            cls = "boolean";
+          } else {
+            cls = "string";
+          }
+        } else if (/true|false/.test(match)) {
+          cls = "boolean";
+        } else if (/null/.test(match)) {
+          cls = "null";
+        }
+        return '<span class="' + cls + '">' + match + "</span>";
+      }
+    );
+  }
+  
+  var json = {!!$json!!}
+  document.getElementsByTagName("pre")[0].innerHTML = syntaxHighlight(json);
+  @endif
   </script>
   <!-- endinject -->
 </body>

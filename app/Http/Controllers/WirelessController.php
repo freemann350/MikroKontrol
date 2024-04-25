@@ -36,6 +36,28 @@ class WirelessController extends Controller
         }
     }
 
+    public function show($deviceId, $id): View
+    {
+        $device = Device::findOrFail($deviceId);
+        
+        try {
+            $client = new Client();
+
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/interface/wireless/$id", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
+            ]);
+            
+            $data = json_decode($response->getBody(), true);
+            
+            $json = json_encode($data, JSON_PRETTY_PRINT);
+
+            return view('wireless.show', ['wireless' => $data, 'json' => $json, 'deviceParam' => $device['id']]);
+        } catch (\Exception $e) {
+            return view('wireless.show', ['wireless' => null, 'deviceParam' => $device['id'], 'conn_error' => $e->getMessage()]);
+        }
+    }
+
     public function create($deviceId): View {
         try {
             $device = Device::findOrFail($deviceId);

@@ -33,6 +33,28 @@ class StaticRouteController extends Controller
         }
     }
 
+    public function show($deviceId, $id): View
+    {
+        $device = Device::findOrFail($deviceId);
+
+        try {
+            $client = new Client();
+
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/ip/route/$id", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
+            ]);
+
+            $data = json_decode($response->getBody(), true);
+            
+            $json = json_encode($data, JSON_PRETTY_PRINT);
+            
+            return view('static_routes.show', ['route' => $data, 'json' => $json, 'deviceParam' => $device['id']]);
+        } catch (\Exception $e) {
+            return view('static_routes.show', ['route' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+        }
+    }
+
     public function create($deviceId): View {
         $device = Device::findOrFail($deviceId);
 
@@ -71,6 +93,9 @@ class StaticRouteController extends Controller
         if ($formData['target-scope'] == null)
             unset($formData['target-scope']);
         
+        if (isset($formData['suppress-he-offload']))
+            $formData['suppress-he-offload'] = "true";
+
         $jsonData = json_encode($formData);
 
         $client = new Client();
@@ -167,7 +192,9 @@ class StaticRouteController extends Controller
 
         if ($formData['target-scope'] == null)
             unset($formData['target-scope']);
-
+        
+        if (isset($formData['suppress-he-offload']))
+            $formData['suppress-he-offload'] = "true";
         $jsonData = json_encode($formData);
 
         $client = new Client();

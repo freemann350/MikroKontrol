@@ -42,7 +42,7 @@
                 <td><label class="badge badge-danger">Disabled</label></td>
                 @endif
                 <td>
-                    <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href="#"><i class="mdi mdi-information-outline"></i></a>
+                    <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href="{{route('Bridges.show',[$deviceParam, $bridge['.id']])}}"><i class="mdi mdi-information-outline"></i></a>
                     <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="{{route('Bridges.edit',[$deviceParam, $bridge['.id']])}}"><i class="mdi mdi-pencil"></i></a>
                     @if (!isset($bridge['comment']) || $bridge['comment'] != 'defconf')
                     <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm" href="#" onclick="_delete('Are you sure you want to delete the bridge &quot;{{$bridge["name"]}}&quot; ({{$bridge[".id"]}})','{{ route("Bridges.destroy",[$deviceParam, $bridge['.id']]) }}')"><i class="mdi mdi-trash-can-outline"></i></a>

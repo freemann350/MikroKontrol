@@ -42,7 +42,7 @@
                     <td><label class="badge badge-danger">Disabled</label></td>
                     @endif
                     <td>
-                        <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href=""><i class="mdi mdi-information-outline"></i></a>
+                        <a class="btn btn-outline-info btn-fw btn-rounded btn-sm"  href="{{route('showDhcpClient',[$deviceParam, $client['.id']])}}"><i class="mdi mdi-information-outline"></i></a>
                         <a class="btn btn-outline-dark btn-fw btn-rounded btn-sm"  href="{{route("editDhcpClient",[$deviceParam, $client['.id']])}}"><i class="mdi mdi-pencil"></i></a>
                         <a class="btn btn-outline-danger btn-fw btn-rounded btn-sm" href="#" onclick="_delete('Are you sure you want to delete the DHCP Client on the interface&quot;{{$client["interface"]}}&quot; ({{$client[".id"]}})','{{ route("destroyDhcpClient", [$deviceParam, $client['.id']]) }}')"><i class="mdi mdi-trash-can-outline"></i></a>
                     </td>

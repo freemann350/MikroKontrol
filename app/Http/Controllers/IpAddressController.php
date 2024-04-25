@@ -35,6 +35,28 @@ class IpAddressController extends Controller
         }
     }
 
+    public function show($deviceId, $id): View
+    {
+        $device = Device::findOrFail($deviceId);
+        
+        try {
+            $client = new Client();
+
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/ip/address/$id", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
+            ]);
+
+            $data = json_decode($response->getBody(), true);
+            
+            $json = json_encode($data, JSON_PRETTY_PRINT);
+
+            return view('ip_addresses.show', ['address' => $data, 'json' => $json, 'deviceParam' => $device['id']]);
+        } catch (\Exception $e) {
+            return view('ip_addresses.show', ['address' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+        }
+    }
+
     public function create($deviceId): View {
         $device = Device::findOrFail($deviceId);
         

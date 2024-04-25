@@ -36,6 +36,28 @@ class SecurityProfileController extends Controller
         }
     }
 
+    public function show($deviceId, $id): View
+    {       
+        $device = Device::findOrFail($deviceId);
+
+        try {
+            $client = new Client();
+    
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/interface/wireless/security-profiles/$id", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
+            ]);
+
+            $data = json_decode($response->getBody(), true);
+            
+            $json = json_encode($data, JSON_PRETTY_PRINT);
+    
+            return view('security_profiles.show', ['security_profile' => $data, 'json' => $json, 'deviceParam' => $device['id']]);
+        } catch (\Exception $e) {
+            return view('security_profiles.show', ['security_profile' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+        }
+    }
+
     public function create($deviceId): View {
         $device = Device::findOrFail($deviceId);
         

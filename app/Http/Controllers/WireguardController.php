@@ -38,6 +38,28 @@ class WireguardController extends Controller
         }
     }
 
+    public function showServer($deviceId, $id): View
+    {
+        $device = Device::findOrFail($deviceId);
+
+        try {
+            $client = new Client();
+
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/interface/wireguard/$id", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
+            ]);
+
+            $data = json_decode($response->getBody(), true);
+            
+            $json = json_encode($data, JSON_PRETTY_PRINT);
+
+            return view('wireguard.showServer', ['wg' => $data, 'json' => $json, 'deviceParam' => $device['id']]);
+        } catch (\Exception $e) {
+            return view('wireguard.showServer', ['wg' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+        }
+    }
+
     public function createServer($deviceId): View 
     {
         $device = Device::findOrFail($deviceId);
@@ -237,6 +259,28 @@ class WireguardController extends Controller
             
         } catch (\Exception $e) {
             return view('wireguard.clients', ['wg' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+        }
+    }
+
+    public function showClient($deviceId, $id): View
+    {
+        $device = Device::findOrFail($deviceId);
+
+        try {
+            $client = new Client();
+
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/interface/wireguard/peers/$id", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
+            ]);
+
+            $data = json_decode($response->getBody(), true);
+            
+            $json = json_encode($data, JSON_PRETTY_PRINT);
+
+            return view('wireguard.showClient', ['wg' => $data, 'json' => $json, 'deviceParam' => $device['id']]);
+        } catch (\Exception $e) {
+            return view('wireguard.showClient', ['wg' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
@@ -531,7 +575,7 @@ class WireguardController extends Controller
         [Interface]<br>
         $QrPrivateKey<br>
         
-        <br>[Peer]
+        <br>[Peer]<br>
         $QrPublicKey<br>
         $QrPresharedKey<br>
         $QrAllowedIPs<br>

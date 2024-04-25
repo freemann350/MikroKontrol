@@ -34,6 +34,27 @@ class BridgeController extends Controller
             return view('bridges.index', ['bridges' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
+
+    public function show($deviceId, $id): View
+    {
+        $device = Device::findOrFail($deviceId);
+
+        try {
+            $client = new Client();
+            $response = $client->get($device['method'] . "://" . $device['endpoint'] . "/rest/interface/bridge/$id", [
+                'auth' => [$device['username'], $device['password']],
+                'timeout' => $device['timeout']
+            ]);
+
+            $data = json_decode($response->getBody(), true);
+            
+            $json = json_encode($data, JSON_PRETTY_PRINT);
+
+            return view('bridges.show', ['bridge' => $data, 'json' => $json, 'deviceParam' => $device['id']]);
+        } catch (\Exception $e) {
+            return view('bridges.show', ['bridge' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+        }
+    }
     
     public function create($deviceId): View 
     {
