@@ -1,4 +1,4 @@
-![imagem](https://github.com/freemann350/MikroKontrol/assets/25934321/f0942058-a7fc-4cde-b333-070df130c74f)# MikroKontrol - Simple RouterOS SDN Controller
+# MikroKontrol - Simple RouterOS SDN Controller
 
 ![Mikrotik Logo](https://mikrotik.com/img/mtv2/logo_fb_2.png)
 
