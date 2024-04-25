@@ -30,7 +30,7 @@ class DnsController extends Controller
 
             return view('dns.server', ['server' => $data, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('dns.server', ['server' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+            return view('dns.server', ['server' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
@@ -49,7 +49,7 @@ class DnsController extends Controller
 
             return view("dns.edit_server", ['server' => $data, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('dns.server', ['server' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+            return view('dns.server', ['server' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
@@ -154,7 +154,7 @@ class DnsController extends Controller
     
             return view('dns.showRecord', ['record' => $data,'json' => $json, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('dns.showRecord', ['record' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+            return view('dns.records', ['records' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
@@ -234,7 +234,7 @@ class DnsController extends Controller
 
             return view("dns.edit_record", ['record' => $data, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('dns.records', ['record' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+            return view('dns.records', ['records' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 

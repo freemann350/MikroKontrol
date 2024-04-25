@@ -4,7 +4,7 @@
 <div class="col-lg-12 grid-margin stretch-card">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Wireguard</h4>
+            <h4 class="card-title">Wireguard Server</h4>
             <p class="card-description">
             List of all Wireguard servers on the device
             </p>

@@ -43,7 +43,7 @@ class InterfacesController extends Controller
             
             return view('interfaces.index', ['interfaces' => $data, 'wireless' => $data_wireless, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('interfaces.index', ['interfaces' => null, 'wireless' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+            return view('interfaces.index', ['interfaces' => "-1", 'wireless' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 }

@@ -7,9 +7,9 @@
             <div class="row">
                 <div class="col-md-6">
                     <address>
-                        <h4 class="card-title">DNS Static Record "{{$wg['name']}}" Form Info</h4>
+                        <h4 class="card-title">Wireguard Peer "{{$wg['name']}}" Form Info</h4>
                         <p class="card-description">
-                            Shows information of the DNS Static Record "{{$wg['name']}}"
+                            Shows information of the Wireguard Peer "{{$wg['name']}}"
                         </p>
                         <p class="fw-bold text-primary">Name</p>
                         <p>
@@ -41,7 +41,7 @@
                 <div class="col-md-6" >
                     <h4 class="card-title">{{$wg['name']}}'s JSON Data</h4>
                     <p class="card-description">
-                        Shows all information of the DNS Static Record "{{$wg['name']}}", in an unformatted manner
+                        Shows all information of the Wireguard Peer "{{$wg['name']}}", in an unformatted manner
                     </p>
                      <pre>{{$json}}</pre>
                 </div>

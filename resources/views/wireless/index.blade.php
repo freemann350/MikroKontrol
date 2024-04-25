@@ -8,7 +8,7 @@
             <p class="card-description">
             List of all wireless interfaces on the device
             </p>
-            @if ($wireless != null)
+            @if ($wireless != "-1")
             <div class="table-responsive">
             <table class="table table-hover table-striped"  style="text-align:center" id="dt">
                 <thead>
@@ -65,7 +65,7 @@
         </div>
     </div>
 </div>
-@if ($wireless != null)
+@if ($wireless != "-1")
 <div class="d-grid gap-2">
   <a class="btn btn-success btn-lg btn-block" href="{{ route ('Wireless.create',$deviceParam) }}"><i class="mdi mdi-plus-circle"></i> Add new wireless interface</a>
 </div>

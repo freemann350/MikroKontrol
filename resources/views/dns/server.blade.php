@@ -8,7 +8,7 @@
             <p class="card-description">
                 Shows all information of the router's DNS
             </p>
-            @if ($server != null)
+            @if ($server != "-1")
             <div class="row">
                 <div class="col-md-6">
                     <address>

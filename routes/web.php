@@ -32,6 +32,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::controller(UserController::class)->group(function () {
+        Route::get('/User/me','editMe')->name("User.me");
         Route::get('/Users','index')->name("users_all")->middleware(AdminMiddleware::class);
         Route::get('/User/{User}/edit','edit')->name("User.edit")->middleware(EditUserMiddleware::class);
         Route::put('/User/{User}','update')->name("User.update")->middleware(EditUserMiddleware::class);

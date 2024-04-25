@@ -8877,6 +8877,7 @@ pre {
   margin-bottom: 1rem;
   overflow: auto;
   font-size: 0.875em;
+  background-color: #eee;
 }
 
 pre code {

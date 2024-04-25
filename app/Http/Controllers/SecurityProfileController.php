@@ -32,7 +32,7 @@ class SecurityProfileController extends Controller
     
             return view('security_profiles.index', ['security_profiles' => $data, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('security_profiles.index', ['security_profiles' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+            return view('security_profiles.index', ['security_profiles' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
@@ -54,7 +54,7 @@ class SecurityProfileController extends Controller
     
             return view('security_profiles.show', ['security_profile' => $data, 'json' => $json, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('security_profiles.show', ['security_profile' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+            return view('security_profiles.index', ['security_profiles' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
@@ -188,7 +188,7 @@ class SecurityProfileController extends Controller
     
             return view('security_profiles.edit', ['security_profile' => $data, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('security_profiles.index', ['security_profiles' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+            return view('security_profiles.index', ['security_profiles' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 

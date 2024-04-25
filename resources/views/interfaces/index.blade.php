@@ -8,7 +8,7 @@
             <p class="card-description">
                 List of all interfaces on the device (physical/virtual)
             </p>
-            @if ($interfaces != null)
+            @if ($interfaces != "-1")
             <div class="table-responsive">
             <table class="table table-hover table-striped"  style="text-align:center" id="dt">
                 <thead>
@@ -64,7 +64,7 @@
             <p class="card-description">
                 List of all wireless interfaces on the device
             </p>
-            @if ($wireless != null)
+            @if ($wireless != "-1")
             <div class="table-responsive">
             <table class="table table-hover table-striped"  style="text-align:center" id="dt_wifi">
                 <thead>

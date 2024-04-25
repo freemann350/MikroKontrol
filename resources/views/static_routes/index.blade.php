@@ -8,7 +8,7 @@
             <p class="card-description">
             List of all static routes on the device
             </p>
-            @if ($routes != null)
+            @if ($routes != "-1")
             <div class="table-responsive">
             <table class="table table-hover table-striped"  style="text-align:center" id="dt">
                 <thead>
@@ -57,7 +57,7 @@
         </div>
     </div>
 </div>
-@if ($routes != null)
+@if ($routes != "-1")
 <div class="d-grid gap-2">
   <a class="btn btn-success btn-lg btn-block" href="{{ route('StaticRoutes.create', $deviceParam) }}"><i class="mdi mdi-plus-circle"></i> Add new static route</a>
 </div>

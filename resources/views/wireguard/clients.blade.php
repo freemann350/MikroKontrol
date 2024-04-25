@@ -4,7 +4,7 @@
 <div class="col-lg-12 grid-margin stretch-card">
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title">Wireguard</h4>
+            <h4 class="card-title">Wireguard Peers</h4>
             <p class="card-description">
             List of all Wireguard peers on the device
             </p>
@@ -60,8 +60,6 @@
 <div class="d-grid gap-2">
   <a class="btn btn-success btn-lg btn-block" href="{{ route('wireguard_createClient', $deviceParam) }}"><i class="mdi mdi-plus-circle"></i> Add new wireguard interface</a>
 </div>
-@endif
-
 @foreach ($wg as $key=>$wg2)
     @if (isset($wg2['qrcode']))
     <script>    
@@ -77,4 +75,6 @@
     </script>
     @endif
 @endforeach
+@endif
+
 @endsection

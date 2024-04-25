@@ -31,7 +31,7 @@ class BridgeController extends Controller
             return view('bridges.index', ['bridges' => $data, 'deviceParam' => $device['id']]);
             
         } catch (\Exception $e) {
-            return view('bridges.index', ['bridges' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+            return view('bridges.index', ['bridges' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
@@ -52,14 +52,13 @@ class BridgeController extends Controller
 
             return view('bridges.show', ['bridge' => $data, 'json' => $json, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('bridges.show', ['bridge' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+            return view('bridges.index', ['bridges' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
     
     public function create($deviceId): View 
     {
         $device = Device::findOrFail($deviceId);
-
 
         return view("bridges.create", ['deviceParam' => $device['id']]);
     }
@@ -152,7 +151,7 @@ class BridgeController extends Controller
 
             return view('bridges.edit', ['bridge' => $data, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('bridges.index', ['bridges' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+            return view('bridges.index', ['bridges' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 

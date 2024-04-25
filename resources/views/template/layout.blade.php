@@ -70,7 +70,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{ (Route::currentRouteName() == 'User.edit' && Auth::user()->id == request()->route('User')) ? 'active' : '' }}" href="{{route('User.edit', Auth::user()->id)}}">
+            <a class="nav-link {{ (Route::currentRouteName() == 'User.me' && Auth::user()->id == request()->route('User')) ? 'active' : '' }}" href="{{route('User.me')}}">
               <i class="menu-icon mdi mdi-account-edit"></i>
               <span class="menu-title">My information</span>
             </a>

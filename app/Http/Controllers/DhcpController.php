@@ -30,7 +30,7 @@ class DhcpController extends Controller
            
             return view('dhcp.servers', ['servers' => $data, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('dhcp.servers', ['servers' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+            return view('dhcp.servers', ['servers' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
@@ -52,7 +52,7 @@ class DhcpController extends Controller
            
             return view('dhcp.showServer', ['server' => $data, 'json' => $json, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('dhcp.showServer', ['server' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+            return view('dhcp.servers', ['servers' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
@@ -76,7 +76,7 @@ class DhcpController extends Controller
 
             return view("dhcp.create_server",['interfaces' => $interfaces, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('dhcp.create_server', ['interfaces' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+            return view('dhcp.servers', ['servers' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
@@ -177,7 +177,7 @@ class DhcpController extends Controller
 
             return view("dhcp.edit_server",['server' => $server,'interfaces' => $interfaces, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('dhcp.edit_server', ['interfaces' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+            return view('dhcp.servers', ['servers' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
@@ -294,7 +294,7 @@ class DhcpController extends Controller
 
             return view('dhcp.clients', ['clients' => $data, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('dhcp.clients', ['clients' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+            return view('dhcp.clients', ['clients' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
@@ -316,7 +316,7 @@ class DhcpController extends Controller
  
             return view('dhcp.showClient', ['client' => $data, 'json' => $json, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('dhcp.showClient', ['client' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+            return view('dhcp.clients', ['clients' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
@@ -340,7 +340,7 @@ class DhcpController extends Controller
 
             return view("dhcp.create_client",['interfaces' => $interfaces, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('dhcp.create_client', ['interfaces' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+            return view('dhcp.clients', ['clients' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
@@ -436,7 +436,7 @@ class DhcpController extends Controller
 
             return view('dhcp.edit_client', ['client' => $client,'interfaces' => $interfaces, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('dhcp.edit_client', ['interfaces' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+            return view('dhcp.clients', ['clients' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 

@@ -48,6 +48,12 @@ class UserController extends Controller
         return view('users.edit', ['user' => $user]);
     }
 
+    public function editMe(): View
+    {
+        $user = User::findOrFail(auth()->user()->id);
+        return view('users.edit', ['user' => $user]);
+    }
+
     public function update(UserUpdateRequest $request, $id)
     {
         $formData = $request->validated();

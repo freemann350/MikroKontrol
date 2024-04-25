@@ -32,7 +32,7 @@ class WirelessController extends Controller
 
             return view('wireless.index', ['wireless' => $data, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('wireless.index', ['wireless' => null, 'deviceParam' => $device['id'], 'conn_error' => $e->getMessage()]);
+            return view('wireless.index', ['wireless' => "-1", 'deviceParam' => $device['id'], 'conn_error' => $e->getMessage()]);
         }
     }
 
@@ -54,7 +54,7 @@ class WirelessController extends Controller
 
             return view('wireless.show', ['wireless' => $data, 'json' => $json, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('wireless.show', ['wireless' => null, 'deviceParam' => $device['id'], 'conn_error' => $e->getMessage()]);
+            return view('wireless.index', ['wireless' => "-1", 'deviceParam' => $device['id'], 'conn_error' => $e->getMessage()]);
         }
     }
 
@@ -90,7 +90,7 @@ class WirelessController extends Controller
 
             return view("wireless.create",['interfaces' => $interfaces, 'deviceParam' => $device['id'], 'security_profiles' => $security_profiles]);
         } catch (\Exception $e) {
-            return view('wireless.create', ['interfaces' => null, 'deviceParam' => $device['id'], 'conn_error' => $e->getMessage()]);
+            return view('wireless.index', ['wireless' => "-1", 'deviceParam' => $device['id'], 'conn_error' => $e->getMessage()]);
         }
     }
 
@@ -200,7 +200,7 @@ class WirelessController extends Controller
 
             return view('wireless.edit',['wireless' => $wireless, 'deviceParam' => $device['id'], 'interfaces' => $interfaces, 'security_profiles' => $security_profiles]);
         } catch (\Exception $e) {
-            return view('wireless.edit', ['wireless' => "-1", 'deviceParam' => $device['id'], 'conn_error' => $e->getMessage()]);
+            return view('wireless.index', ['wireless' => "-1", 'deviceParam' => $device['id'], 'conn_error' => $e->getMessage()]);
         }
     }
 

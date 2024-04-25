@@ -29,7 +29,7 @@ class StaticRouteController extends Controller
             });
             return view('static_routes.index', ['routes' => $data, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('static_routes.index', ['routes' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+            return view('static_routes.index', ['routes' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
@@ -51,7 +51,7 @@ class StaticRouteController extends Controller
             
             return view('static_routes.show', ['route' => $data, 'json' => $json, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('static_routes.show', ['route' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+            return view('static_routes.index', ['routes' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
@@ -74,7 +74,7 @@ class StaticRouteController extends Controller
 
             return view("static_routes.create",['interfaces' => $interfaces, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('static_routes.create', ['interfaces' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+            return view('static_routes.index', ['routes' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
@@ -174,7 +174,7 @@ class StaticRouteController extends Controller
 
             return view("static_routes.edit",['route' => $route,'interfaces' => $interfaces, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('static_routes.edit', ['interfaces' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+            return view('static_routes.index', ['routes' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 

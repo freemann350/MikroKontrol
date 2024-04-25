@@ -8,7 +8,7 @@
             <p class="card-description">
             List of all DHCP servers on the device
             </p>
-            @if ($servers != null)
+            @if ($servers != "-1")
             <div class="table-responsive">
             <table class="table table-hover table-striped"  style="text-align:center" id="dt">
                 <thead>
@@ -63,7 +63,7 @@
         </div>
     </div>
 </div>
-@if ($servers != null)
+@if ($servers != "-1")
 <div class="d-grid gap-2">
   <a class="btn btn-success btn-lg btn-block" href="{{ route ('createDhcpServer', $deviceParam) }}"><i class="mdi mdi-plus-circle"></i> Add new server</a>
 </div>

@@ -31,7 +31,7 @@ class IpAddressController extends Controller
             });
             return view('ip_addresses.index', ['addresses' => $data, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('ip_addresses.index', ['addresses' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+            return view('ip_addresses.index', ['addresses' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
@@ -53,7 +53,7 @@ class IpAddressController extends Controller
 
             return view('ip_addresses.show', ['address' => $data, 'json' => $json, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('ip_addresses.show', ['address' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+            return view('ip_addresses.index', ['addresses' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
@@ -76,7 +76,7 @@ class IpAddressController extends Controller
 
             return view("ip_addresses.create",['interfaces' => $interfaces, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('ip_addresses.create', ['interfaces' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+            return view('ip_addresses.index', ['addresses' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
@@ -164,7 +164,7 @@ class IpAddressController extends Controller
 
             return view("ip_addresses.edit",['address' => $address,'interfaces' => $interfaces, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('ip_addresses.edit', ['address' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+            return view('ip_addresses.index', ['addresses' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
     

@@ -56,7 +56,7 @@ class WireguardController extends Controller
 
             return view('wireguard.showServer', ['wg' => $data, 'json' => $json, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('wireguard.showServer', ['wg' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+            return view('wireguard.servers', ['wg' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
@@ -280,7 +280,7 @@ class WireguardController extends Controller
 
             return view('wireguard.showClient', ['wg' => $data, 'json' => $json, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('wireguard.showClient', ['wg' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+            return view('wireguard.clients', ['wg' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
@@ -304,7 +304,7 @@ class WireguardController extends Controller
 
             return view("wireguard.create_client",['interfaces' => $interfaces, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('wireguard.create_client', ['interfaces' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+            return view('wireguard.clients', ['wg' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
 
     }
@@ -425,7 +425,7 @@ class WireguardController extends Controller
 
             return view("wireguard.edit_client",['wg' => $wg, 'interfaces' => $interfaces, 'deviceParam' => $device['id']]);
         } catch (\Exception $e) {
-            return view('wireguard.edit_client', ['interfaces' => null, 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
+            return view('wireguard.clients', ['wg' => "-1", 'conn_error' => $e->getMessage(), 'deviceParam' => $device['id']]);
         }
     }
 
